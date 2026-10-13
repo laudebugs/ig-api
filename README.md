@@ -82,11 +82,18 @@ Full flows with responses: [INSTAGRAM_GRAPH_API.md](INSTAGRAM_GRAPH_API.md) and 
 ## Deploying the site (GitHub Pages)
 
 `site/index.html` deploys automatically via [.github/workflows/pages.yml](.github/workflows/pages.yml):
-push to `main` touching `README.md`, `INSTAGRAM_GRAPH_API.md`, `FORMATS.md`, or
-`scripts/build-site.py` rebuilds the site in CI and publishes it with the official
-`deploy-pages` action (or run the workflow manually from the Actions tab).
+push to `main` touching documentation sources rebuilds the site in CI and publishes it to GitHub Pages.
 
-One-time setup: in the GitHub repo go to **Settings → Pages → Source** and select
-**GitHub Actions**. The live URL is shown on the workflow run and in the
-`github-pages` environment. To preview locally instead: `python scripts/build-site.py`
-and open `site/index.html`.
+### Pull Request Previews
+
+Pull requests automatically build and deploy preview sites via [.github/workflows/pr-preview.yml](.github/workflows/pr-preview.yml):
+- Each PR is deployed to its own subpath: `https://<owner>.github.io/<repo>/pr-preview/pr-<number>/`
+- The workflow automatically leaves a comment on the PR with the live preview link and a QR code for mobile testing.
+- When the PR is closed or merged, its preview directory is automatically cleaned up.
+
+### One-Time Setup
+
+1. In GitHub: go to **Settings → Pages → Source** and select **Deploy from a branch** (Branch: `gh-pages`, folder: `/`).
+2. In GitHub: go to **Settings → Actions → General → Workflow permissions** and select **Read and write permissions** (needed for PR preview branch commits and comments).
+3. To preview locally: run `python scripts/build-site.py` and open `site/index.html`.
+

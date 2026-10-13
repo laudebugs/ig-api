@@ -1,8 +1,12 @@
 name: Deploy docs site to GitHub Pages
 
-# Builds site/index.html from the Markdown sources and deploys it.
-# One-time repo setup: Settings → Pages → Source → "GitHub Actions".
-# If your default branch is not `main`, update the branch filter below.
+# Builds and deploys the static documentation site to GitHub Pages.
+# Supports both:
+# 1. "Deploy from a branch" (branch: gh-pages, folder: /) - Required for PR previews
+# 2. "GitHub Actions" source
+#
+# When deploying to gh-pages branch, pr-preview directory is preserved so active PR
+# preview deployments are never overwritten.
 
 on:
   push:
@@ -11,12 +15,13 @@ on:
       - "README.md"
       - "INSTAGRAM_GRAPH_API.md"
       - "FORMATS.md"
+      - "docs/**"
       - "scripts/build-site.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -25,7 +30,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,14 +46,25 @@ jobs:
           python scripts/build-site.py
           test -s site/index.html
 
+      # Deploy to gh-pages branch, preserving any active PR previews
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: site
+          branch: gh-pages
+          clean-exclude: pr-preview
+
+      # Upload Pages artifact for environments using native GitHub Actions Pages
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
-  deploy:
-    needs: build
+  # Deploy via native GitHub Actions if the repo's Pages source is set to "GitHub Actions"
+  deploy-github-actions:
+    needs: build-and-deploy
     runs-on: ubuntu-latest
+    continue-on-error: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
