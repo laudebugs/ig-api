@@ -1,44 +1,78 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Media Publishing — Instagram Graph API — Instagram API Docs</title><style>
-:root{--fg:#1a1a1a;--bg:#fff;--muted:#666;--code:#f4f4f4;--accent:#0a58ca;--border:#e2e2e2}
-*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.55}
-.layout{display:flex;min-height:100vh}nav{width:300px;flex-shrink:0;border-right:1px solid var(--border);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto}
-nav input{width:100%;padding:.4rem;margin-bottom:.6rem}nav a{display:block;color:var(--fg);text-decoration:none;padding:.15rem 0;font-size:.9rem}
-nav a.h3{padding-left:1rem;color:var(--muted)}nav a:hover{color:var(--accent)}
-nav .group{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:.8rem 0 .2rem}
-nav a.current{font-weight:700;color:var(--accent)}
-main{max-width:900px;padding:2rem 2.5rem}pre{background:var(--code);padding:.8rem;overflow:auto;border-radius:6px}
-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}pre code{background:none}
-table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left;font-size:.9rem}
-blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.2rem 1rem;color:var(--muted)}
-h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding-bottom:.3rem}
-@media(max-width:800px){nav{display:none}main{padding:1rem}}
-</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="../index.html">Home</a><a href="../api-reference.html">API Reference</a><a href="../formats.html">Formats</a><a href="authentication.html">Authentication</a><a href="comments-moderation.html">Comments Moderation</a><a href="errors-and-rate-limits.html">Errors And Rate Limits</a><a href="faq.html">Faq</a><a href="getting-started.html">Getting Started</a><a href="insights.html">Insights</a><a href="media-publishing.html" class="current">Media Publishing</a><a href="messaging.html">Messaging</a><a href="webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#single-photo">Single photo</a><a class="h2" href="#reel-video">Reel (video)</a><a class="h2" href="#carousel">Carousel</a><a class="h2" href="#check-publishing-limit">Check publishing limit</a><a class="h2" href="#read-back-the-post">Read back the post</a><a class="h2" href="#agent-rules">Agent rules</a></nav><main><h1 id="media-publishing-instagram-graph-api">Media Publishing — Instagram Graph API</h1>
+:root{--fg:#293b38;--bg:#fffdf9;--muted:#586963;--code:#f3eadc;--accent:#24665c;--border:#dfdfd3;--tint:#e8f0e9}
+*{box-sizing:border-box}body{font-family:"Trebuchet MS","Segoe UI",sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.7}
+a{color:var(--accent);text-underline-offset:.2em}a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.skip-link{position:absolute;left:1rem;top:-5rem;background:var(--bg);padding:.6rem;z-index:2}.skip-link:focus{top:1rem}
+.layout{display:flex;min-height:100vh;max-width:1440px;margin:auto}
+.sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);background:#f5f5ee;padding:1.5rem;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:block;font-family:Georgia,serif;font-size:1.5rem;font-weight:bold;color:var(--fg);text-decoration:none}
+.tagline{margin:.25rem 0 1.5rem;color:var(--muted);font-size:.85rem}
+.navigation summary{display:none}.navigation nav{display:block}
+nav input{width:100%;padding:.7rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);font:inherit;font-size:.85rem}
+nav a{display:block;color:var(--fg);text-decoration:none;padding:.4rem .65rem;font-size:.9rem;border-radius:6px;margin:.15rem 0;overflow-wrap:anywhere}
+nav a[hidden]{display:none}
+nav a.h3{padding-left:1.3rem;color:var(--muted);font-size:.83rem}nav a:hover{color:var(--accent);background:var(--tint)}
+nav .group{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:1.5rem 0 .5rem;font-weight:bold}
+nav a.current{font-weight:bold;color:var(--accent);background:var(--tint);box-shadow:inset 3px 0 var(--accent)}
+main{width:100%;min-width:0;max-width:1000px;padding:3rem 4rem}
+.eyebrow{color:var(--accent);font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;font-weight:bold}
+h1,h2,h3{scroll-margin-top:1.5rem;line-height:1.25}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:normal;letter-spacing:-.025em}
+h1{font-size:clamp(2rem,4vw,3rem);margin:.8rem 0 1.5rem}h2{font-size:1.8rem;margin-top:2.5rem;border-bottom:1px solid var(--border);padding-bottom:.6rem}
+h3{font-size:1.15rem;margin-top:1.8rem}p,li{overflow-wrap:anywhere}li{margin:.3rem 0}
+.code-block{--syntax-fg:#293b38;--syntax-muted:#66553e;--syntax-keyword:#8b3e65;--syntax-string:#24665c;--syntax-function:#72502e;--syntax-number:#315f86;--syntax-highlight:#e4d3b4;--syntax-inserted:#dce9d5;--syntax-deleted:#f3d9d2;--syntax-border:#dfd0b8;margin:1.5rem 0;border:1px solid var(--syntax-border);border-radius:10px;overflow:hidden;background:var(--code)}
+.code-language{display:block;padding:.4rem 1rem;border-bottom:1px solid var(--syntax-border);color:var(--syntax-muted);font-size:.7rem;font-weight:bold;letter-spacing:.05em}
+pre{background:var(--code);color:var(--syntax-fg);margin:0;padding:1rem;overflow:auto;line-height:1.6}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86em;background:var(--code);padding:.15em .3em;border-radius:4px}
+pre code{background:none;padding:0;border-radius:0}
+.th-comment,.th-meta{color:var(--syntax-muted)}.th-keyword,.th-operator{color:var(--syntax-keyword)}
+.th-string{color:var(--syntax-string)}.th-function,.th-command{color:var(--syntax-function)}
+.th-number,.th-literal,.th-type{color:var(--syntax-number)}.th-property,.th-variable{color:var(--syntax-fg)}
+.th-line{display:inline-block;min-width:100%}.th-line--highlighted,.th-line--focused,.th-decoration{background:var(--syntax-highlight)}
+.th-line--inserted{background:var(--syntax-inserted)}.th-line--deleted,.th-line--error{background:var(--syntax-deleted)}
+.th-line--warning{background:var(--syntax-highlight)}
+.th-code--line-numbers .th-line::before{content:attr(data-line);display:inline-block;width:2.5em;margin-right:1em;color:var(--syntax-muted);text-align:right;user-select:none}
+@media(prefers-color-scheme:dark){.code-block{--code:#292720;--syntax-fg:#eee5d5;--syntax-muted:#c1b39e;--syntax-keyword:#e7a6bd;--syntax-string:#a3d1b0;--syntax-function:#e0bc8b;--syntax-number:#a8cbee;--syntax-highlight:#494030;--syntax-inserted:#344536;--syntax-deleted:#513833;--syntax-border:#534a3d}}
+.table-wrap{overflow:auto;margin:1.5rem 0;border:1px solid var(--border);border-radius:8px}
+table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid var(--border);padding:.7rem .8rem;text-align:left;font-size:.88rem}
+th{background:var(--tint)}tr:last-child td{border-bottom:0}
+blockquote{border-left:3px solid var(--accent);background:var(--tint);border-radius:0 8px 8px 0;margin:1.5rem 0;padding:.8rem 1.2rem;color:var(--muted)}
+hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
+.page-nav{display:flex;gap:1rem;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.page-nav a{flex:1;max-width:50%;padding:1rem;border:1px solid var(--border);border-radius:8px;text-decoration:none;overflow-wrap:anywhere}
+.page-nav a:hover{background:var(--tint)}.page-nav small{display:block;color:var(--muted)}.page-nav .next{margin-left:auto;text-align:right}
+@media(max-width:1050px){main{padding:2.5rem 2rem}.sidebar{width:250px}}
+@media(max-width:800px){.layout{display:block}.sidebar{position:static;width:100%;height:auto;padding:1rem 1.25rem;border-right:0;border-bottom:1px solid var(--border)}
+.tagline{margin-bottom:.75rem}.navigation summary{display:list-item;cursor:pointer;color:var(--accent);font-weight:bold;padding:.5rem 0}
+.navigation:not([open]) nav{display:none}main{padding:1.5rem 1.25rem}.page-nav{gap:.6rem}.page-nav a{padding:.75rem}}
+</style></head><body><a class="skip-link" href="#content">Skip to content</a><div class="layout"><aside class="sidebar"><a class="brand" href="../index.html">Instagram API</a><p class="tagline">A practical guide to building with Instagram.</p><details class="navigation" open><summary>Browse documentation</summary><nav id="page-navigation" aria-label="Documentation"><input id="q" type="search" aria-label="Filter pages and sections" placeholder="Find a page or section…" oninput="filterNav()"><div class="group">Pages</div><a href="../index.html">Home</a><a href="../api-reference.html">API Reference</a><a href="../formats.html">Formats</a><a href="authentication.html">Authentication</a><a href="comments-moderation.html">Comments Moderation</a><a href="errors-and-rate-limits.html">Errors And Rate Limits</a><a href="faq.html">Faq</a><a href="getting-started.html">Getting Started</a><a href="insights.html">Insights</a><a href="media-publishing.html" class="current" aria-current="page">Media Publishing</a><a href="messaging.html">Messaging</a><a href="webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#single-photo">Single photo</a><a class="h2" href="#reel-video">Reel (video)</a><a class="h2" href="#carousel">Carousel</a><a class="h2" href="#check-publishing-limit">Check publishing limit</a><a class="h2" href="#read-back-the-post">Read back the post</a><a class="h2" href="#agent-rules">Agent rules</a></nav></details></aside><main id="content" tabindex="-1"><div class="eyebrow">Documentation / Media Publishing</div><h1 id="media-publishing-instagram-graph-api">Media Publishing — Instagram Graph API</h1>
 <blockquote>Generated: 2026-10-13 · Base: <code>https://graph.facebook.com/v25.0</code> · Requires: <code>instagram_basic</code> + <code>instagram_content_publish</code></blockquote>
 <p>Publishing is always two steps: create a container, then publish it. Media must be hosted at a public HTTPS URL the Graph API can fetch (no localhost, no auth-walled URLs). Unpublished containers expire after about 24 hours.</p>
 <h2 id="single-photo">Single photo</h2>
 <p>Step 1 — create container:</p>
-<pre><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/17841400008460056/media&quot; \
-  -d &quot;image_url=https://example.com/photo.jpg&quot; \
-  -d &quot;caption=Hello from the API %23launch&quot; \
-  -d &quot;access_token=EAAB...&quot;</code></pre>
-<pre><code class="language-json">{ &quot;id&quot;: &quot;17901234567890123&quot; }</code></pre>
+<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> -X POST <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/17841400008460056/media&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;image_url=https://example.com/photo.jpg&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;caption=Hello from the API %23launch&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;access_token=EAAB...&quot;</span></code></pre></div>
+<div class="code-block"><span class="code-language">json</span><pre tabindex="0" data-highlighted="true" aria-label="json code example" class="th-code th-code--json" data-language="json"><code>{ <span class="th-token th-property">&quot;id&quot;</span>: <span class="th-token th-string">&quot;17901234567890123&quot;</span> }</code></pre></div>
 <p>Step 2 — publish:</p>
-<pre><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/17841400008460056/media_publish&quot; \
-  -d &quot;creation_id=17901234567890123&quot; \
-  -d &quot;access_token=EAAB...&quot;</code></pre>
-<pre><code class="language-json">{ &quot;id&quot;: &quot;17987654321098765&quot; }</code></pre>
+<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> -X POST <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/17841400008460056/media_publish&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;creation_id=17901234567890123&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;access_token=EAAB...&quot;</span></code></pre></div>
+<div class="code-block"><span class="code-language">json</span><pre tabindex="0" data-highlighted="true" aria-label="json code example" class="th-code th-code--json" data-language="json"><code>{ <span class="th-token th-property">&quot;id&quot;</span>: <span class="th-token th-string">&quot;17987654321098765&quot;</span> }</code></pre></div>
 <p>The returned <code>id</code> is the published media ID. Runnable code: <a href="../examples/publish-photo.ts">../examples/publish-photo.ts</a>.</p>
 <h2 id="reel-video">Reel (video)</h2>
 <p>Step 1 with <code>media_type=REELS</code> and <code>video_url</code>, then poll the container until <code>FINISHED</code> before publishing:</p>
-<pre><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/17841400008460056/media&quot; \
-  -d &quot;media_type=REELS&quot; \
-  -d &quot;video_url=https://example.com/reel.mp4&quot; \
-  -d &quot;caption=New reel&quot; \
-  -d &quot;share_to_feed=true&quot; \
-  -d &quot;access_token=EAAB...&quot;
+<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> -X POST <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/17841400008460056/media&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;media_type=REELS&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;video_url=https://example.com/reel.mp4&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;caption=New reel&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;share_to_feed=true&quot;</span> \
+  <span class="th-token th-command">-d</span> <span class="th-token th-string">&quot;access_token=EAAB...&quot;</span>
 
-curl &quot;https://graph.facebook.com/v25.0/17901234567890123?fields=status_code,status&amp;access_token=EAAB...&quot;</code></pre>
-<pre><code class="language-json">{ &quot;status_code&quot;: &quot;FINISHED&quot;, &quot;id&quot;: &quot;17901234567890123&quot; }</code></pre>
+<span class="th-token th-command">curl</span> <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/17901234567890123?fields=status_code,status&amp;access_token=EAAB...&quot;</span></code></pre></div>
+<div class="code-block"><span class="code-language">json</span><pre tabindex="0" data-highlighted="true" aria-label="json code example" class="th-code th-code--json" data-language="json"><code>{ <span class="th-token th-property">&quot;status_code&quot;</span>: <span class="th-token th-string">&quot;FINISHED&quot;</span>, <span class="th-token th-property">&quot;id&quot;</span>: <span class="th-token th-string">&quot;17901234567890123&quot;</span> }</code></pre></div>
 <p>Poll every 5–10 seconds; if <code>status_code</code> is <code>ERROR</code>, read <code>status</code> and fix the asset (format, size, URL reachability). Runnable code: <a href="../examples/publish-reel.ts">../examples/publish-reel.ts</a>.</p>
 <h2 id="carousel">Carousel</h2>
 <ul>
@@ -47,10 +81,10 @@ curl &quot;https://graph.facebook.com/v25.0/17901234567890123?fields=status_code
 <li>Publish the parent container ID with <code>media_publish</code>.</li>
 </ul>
 <h2 id="check-publishing-limit">Check publishing limit</h2>
-<pre><code class="language-bash">curl &quot;https://graph.facebook.com/v25.0/17841400008460056/content_publishing_limit?fields=quota_usage,rate_limit_settings&amp;access_token=EAAB...&quot;</code></pre>
+<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/17841400008460056/content_publishing_limit?fields=quota_usage,rate_limit_settings&amp;access_token=EAAB...&quot;</span></code></pre></div>
 <p>Accounts are limited to <strong>100 API-published posts per rolling 24 hours</strong> (carousels count as one) and 400 containers created per rolling 24 hours; read the response for live usage. Captions cannot be edited after publishing. Also see <a href="errors-and-rate-limits.html">errors-and-rate-limits.md</a>.</p>
 <h2 id="read-back-the-post">Read back the post</h2>
-<pre><code class="language-bash">curl &quot;https://graph.facebook.com/v25.0/17987654321098765?fields=id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count&amp;access_token=EAAB...&quot;</code></pre>
+<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/17987654321098765?fields=id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count&amp;access_token=EAAB...&quot;</span></code></pre></div>
 <h2 id="agent-rules">Agent rules</h2>
 <ul>
 <li>URL-encode <code>caption</code> (hashtags as <code>%23</code> in form posts, or use a proper form encoder).</li>
@@ -58,4 +92,4 @@ curl &quot;https://graph.facebook.com/v25.0/17901234567890123?fields=status_code
 <li>Store both container ID and media ID; only the media ID works for insights/comments.</li>
 <li>On container <code>EXPIRED</code>, recreate the container; do not retry publish.</li>
 </ul>
-<p>Next: <a href="insights.html">insights.md</a> · <a href="comments-moderation.html">comments-moderation.md</a></p></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('nav a').forEach(a=>{a.style.display=a.textContent.toLowerCase().includes(q)?'':'none';});}</script></body></html>
+<p>Next: <a href="insights.html">insights.md</a> · <a href="comments-moderation.html">comments-moderation.md</a></p><nav class="page-nav" aria-label="Previous and next pages"><a class="previous" href="insights.html" rel="prev"><small>Previous page</small>Insights</a><a class="next" href="messaging.html" rel="next"><small>Next page</small>Messaging</a></nav></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('#page-navigation a').forEach(a=>{a.hidden=!a.textContent.toLowerCase().includes(q);});}const mobile=window.matchMedia('(max-width:800px)');function updateNavigation(){document.querySelector('.navigation').open=!mobile.matches;}updateNavigation();mobile.addEventListener('change',updateNavigation);</script><script type="importmap">{"imports": {"@tanstack/highlight/core": "../assets/tanstack-highlight/core.js", "@tanstack/highlight/markdown": "../assets/tanstack-highlight/markdown.js", "@tanstack/highlight/languages/shell": "../assets/tanstack-highlight/languages/shell.js", "@tanstack/highlight/languages/ts": "../assets/tanstack-highlight/languages/ts.js", "@tanstack/highlight/languages/python": "../assets/tanstack-highlight/languages/python.js", "@tanstack/highlight/languages/json": "../assets/tanstack-highlight/languages/json.js"}}</script><script type="module" src="../assets/highlight-browser.mjs"></script></body></html>
