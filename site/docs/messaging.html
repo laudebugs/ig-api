@@ -1,52 +1,18 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Messaging — Instagram Graph API — Instagram API Docs</title><style>
-:root{--fg:#293b38;--bg:#fffdf9;--muted:#586963;--code:#f3eadc;--accent:#24665c;--border:#dfdfd3;--tint:#e8f0e9}
-*{box-sizing:border-box}body{font-family:"Trebuchet MS","Segoe UI",sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.7}
-a{color:var(--accent);text-underline-offset:.2em}a:hover{text-decoration-thickness:2px}
-:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
-.skip-link{position:absolute;left:1rem;top:-5rem;background:var(--bg);padding:.6rem;z-index:2}.skip-link:focus{top:1rem}
-.layout{display:flex;min-height:100vh;max-width:1440px;margin:auto}
-.sidebar{width:280px;flex-shrink:0;border-right:1px solid var(--border);background:#f5f5ee;padding:1.5rem;position:sticky;top:0;height:100vh;overflow:auto}
-.brand{display:block;font-family:Georgia,serif;font-size:1.5rem;font-weight:bold;color:var(--fg);text-decoration:none}
-.tagline{margin:.25rem 0 1.5rem;color:var(--muted);font-size:.85rem}
-.navigation summary{display:none}.navigation nav{display:block}
-nav input{width:100%;padding:.7rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);font:inherit;font-size:.85rem}
-nav a{display:block;color:var(--fg);text-decoration:none;padding:.4rem .65rem;font-size:.9rem;border-radius:6px;margin:.15rem 0;overflow-wrap:anywhere}
-nav a[hidden]{display:none}
-nav a.h3{padding-left:1.3rem;color:var(--muted);font-size:.83rem}nav a:hover{color:var(--accent);background:var(--tint)}
-nav .group{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:1.5rem 0 .5rem;font-weight:bold}
-nav a.current{font-weight:bold;color:var(--accent);background:var(--tint);box-shadow:inset 3px 0 var(--accent)}
-main{width:100%;min-width:0;max-width:1000px;padding:3rem 4rem}
-.eyebrow{color:var(--accent);font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;font-weight:bold}
-h1,h2,h3{scroll-margin-top:1.5rem;line-height:1.25}
-h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:normal;letter-spacing:-.025em}
-h1{font-size:clamp(2rem,4vw,3rem);margin:.8rem 0 1.5rem}h2{font-size:1.8rem;margin-top:2.5rem;border-bottom:1px solid var(--border);padding-bottom:.6rem}
-h3{font-size:1.15rem;margin-top:1.8rem}p,li{overflow-wrap:anywhere}li{margin:.3rem 0}
-.code-block{--syntax-fg:#293b38;--syntax-muted:#66553e;--syntax-keyword:#8b3e65;--syntax-string:#24665c;--syntax-function:#72502e;--syntax-number:#315f86;--syntax-highlight:#e4d3b4;--syntax-inserted:#dce9d5;--syntax-deleted:#f3d9d2;--syntax-border:#dfd0b8;margin:1.5rem 0;border:1px solid var(--syntax-border);border-radius:10px;overflow:hidden;background:var(--code)}
-.code-language{display:block;padding:.4rem 1rem;border-bottom:1px solid var(--syntax-border);color:var(--syntax-muted);font-size:.7rem;font-weight:bold;letter-spacing:.05em}
-pre{background:var(--code);color:var(--syntax-fg);margin:0;padding:1rem;overflow:auto;line-height:1.6}
-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86em;background:var(--code);padding:.15em .3em;border-radius:4px}
-pre code{background:none;padding:0;border-radius:0}
-.th-comment,.th-meta{color:var(--syntax-muted)}.th-keyword,.th-operator{color:var(--syntax-keyword)}
-.th-string{color:var(--syntax-string)}.th-function,.th-command{color:var(--syntax-function)}
-.th-number,.th-literal,.th-type{color:var(--syntax-number)}.th-property,.th-variable{color:var(--syntax-fg)}
-.th-line{display:inline-block;min-width:100%}.th-line--highlighted,.th-line--focused,.th-decoration{background:var(--syntax-highlight)}
-.th-line--inserted{background:var(--syntax-inserted)}.th-line--deleted,.th-line--error{background:var(--syntax-deleted)}
-.th-line--warning{background:var(--syntax-highlight)}
-.th-code--line-numbers .th-line::before{content:attr(data-line);display:inline-block;width:2.5em;margin-right:1em;color:var(--syntax-muted);text-align:right;user-select:none}
-@media(prefers-color-scheme:dark){.code-block{--code:#292720;--syntax-fg:#eee5d5;--syntax-muted:#c1b39e;--syntax-keyword:#e7a6bd;--syntax-string:#a3d1b0;--syntax-function:#e0bc8b;--syntax-number:#a8cbee;--syntax-highlight:#494030;--syntax-inserted:#344536;--syntax-deleted:#513833;--syntax-border:#534a3d}}
-.table-wrap{overflow:auto;margin:1.5rem 0;border:1px solid var(--border);border-radius:8px}
-table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid var(--border);padding:.7rem .8rem;text-align:left;font-size:.88rem}
-th{background:var(--tint)}tr:last-child td{border-bottom:0}
-blockquote{border-left:3px solid var(--accent);background:var(--tint);border-radius:0 8px 8px 0;margin:1.5rem 0;padding:.8rem 1.2rem;color:var(--muted)}
-hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
-.page-nav{display:flex;gap:1rem;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)}
-.page-nav a{flex:1;max-width:50%;padding:1rem;border:1px solid var(--border);border-radius:8px;text-decoration:none;overflow-wrap:anywhere}
-.page-nav a:hover{background:var(--tint)}.page-nav small{display:block;color:var(--muted)}.page-nav .next{margin-left:auto;text-align:right}
-@media(max-width:1050px){main{padding:2.5rem 2rem}.sidebar{width:250px}}
-@media(max-width:800px){.layout{display:block}.sidebar{position:static;width:100%;height:auto;padding:1rem 1.25rem;border-right:0;border-bottom:1px solid var(--border)}
-.tagline{margin-bottom:.75rem}.navigation summary{display:list-item;cursor:pointer;color:var(--accent);font-weight:bold;padding:.5rem 0}
-.navigation:not([open]) nav{display:none}main{padding:1.5rem 1.25rem}.page-nav{gap:.6rem}.page-nav a{padding:.75rem}}
-</style></head><body><a class="skip-link" href="#content">Skip to content</a><div class="layout"><aside class="sidebar"><a class="brand" href="../index.html">Instagram API</a><p class="tagline">A practical guide to building with Instagram.</p><details class="navigation" open><summary>Browse documentation</summary><nav id="page-navigation" aria-label="Documentation"><input id="q" type="search" aria-label="Filter pages and sections" placeholder="Find a page or section…" oninput="filterNav()"><div class="group">Pages</div><a href="../index.html">Home</a><a href="../api-reference.html">API Reference</a><a href="../formats.html">Formats</a><a href="authentication.html">Authentication</a><a href="comments-moderation.html">Comments Moderation</a><a href="errors-and-rate-limits.html">Errors And Rate Limits</a><a href="faq.html">Faq</a><a href="getting-started.html">Getting Started</a><a href="insights.html">Insights</a><a href="media-publishing.html">Media Publishing</a><a href="messaging.html" class="current" aria-current="page">Messaging</a><a href="webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#the-24-hour-window">The 24-hour window</a><a class="h2" href="#send-a-text-message">Send a text message</a><a class="h2" href="#receive-messages">Receive messages</a><a class="h2" href="#read-conversations-optional">Read conversations (optional)</a><a class="h2" href="#agent-rules">Agent rules</a></nav></details></aside><main id="content" tabindex="-1"><div class="eyebrow">Documentation / Messaging</div><h1 id="messaging-instagram-graph-api">Messaging — Instagram Graph API</h1>
+:root{--fg:#1a1a1a;--bg:#fff;--muted:#666;--code:#f4f4f4;--accent:#0a58ca;--border:#e2e2e2}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.55}
+.layout{display:flex;min-height:100vh}nav{width:300px;flex-shrink:0;border-right:1px solid var(--border);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto}
+nav input{width:100%;padding:.4rem;margin-bottom:.6rem}nav a{display:block;color:var(--fg);text-decoration:none;padding:.15rem 0;font-size:.9rem}
+nav a.h3{padding-left:1rem;color:var(--muted)}nav a:hover{color:var(--accent)}
+nav .group{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:.8rem 0 .2rem}
+nav a.current{font-weight:700;color:var(--accent)}
+main{max-width:900px;padding:2rem 2.5rem}pre{background:var(--code);padding:.8rem;overflow:auto;border-radius:6px}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}pre code{background:none}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left;font-size:.9rem}
+blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.2rem 1rem;color:var(--muted)}
+h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding-bottom:.3rem}
+@media(max-width:800px){nav{display:none}main{padding:1rem}}
+</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="../index.html">Home</a><a href="../api-reference.html">API Reference</a><a href="../formats.html">Formats</a><a href="authentication.html">Authentication</a><a href="comments-moderation.html">Comments Moderation</a><a href="errors-and-rate-limits.html">Errors And Rate Limits</a><a href="faq.html">Faq</a><a href="getting-started.html">Getting Started</a><a href="insights.html">Insights</a><a href="media-publishing.html">Media Publishing</a><a href="messaging.html" class="current">Messaging</a><a href="webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#the-24-hour-window">The 24-hour window</a><a class="h2" href="#send-a-text-message">Send a text message</a><a class="h2" href="#receive-messages">Receive messages</a><a class="h2" href="#read-conversations-optional">Read conversations (optional)</a><a class="h2" href="#agent-rules">Agent rules</a></nav><main><h1 id="messaging-instagram-graph-api">Messaging — Instagram Graph API</h1>
 <blockquote>Generated: 2026-10-13 · Base: <code>https://graph.facebook.com/v25.0</code> · Requires: <code>instagram_manage_messages</code> (+ <code>instagram_basic</code>, Page-linked account)</blockquote>
 <p>Instagram messaging lets your app send and receive Instagram DMs for a Business/Creator account. The recipient is identified by an IGSID (Instagram-scoped ID) delivered in webhook <code>messaging</code> events — you cannot message arbitrary usernames.</p>
 <h2 id="the-24-hour-window">The 24-hour window</h2>
@@ -56,20 +22,20 @@ hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
 </ul>
 <h2 id="send-a-text-message">Send a text message</h2>
 <p>With Facebook Login the Send API hangs off the <strong>Page</strong>, not the IG user ID — use the Page ID and Page access token (with Instagram Login it&#x27;s <code>/{ig-user-id}/messages</code> on <code>graph.instagram.com</code>):</p>
-<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> -X POST <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/{page-id}/messages&quot;</span> \
-  <span class="th-token th-command">-H</span> <span class="th-token th-string">&quot;Content-Type: application/json&quot;</span> \
-  <span class="th-token th-command">-H</span> <span class="th-token th-string">&quot;Authorization: Bearer EAAB...&quot;</span> \
-  <span class="th-token th-command">-d</span> <span class="th-token th-string">&#39;{
+<pre><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/{page-id}/messages&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer EAAB...&quot; \
+  -d &#x27;{
     &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID_FROM_WEBHOOK&quot; },
     &quot;messaging_type&quot;: &quot;RESPONSE&quot;,
     &quot;message&quot;: { &quot;text&quot;: &quot;Hi! Your order ships Friday.&quot; }
-  }&#39;</span></code></pre></div>
-<div class="code-block"><span class="code-language">json</span><pre tabindex="0" data-highlighted="true" aria-label="json code example" class="th-code th-code--json" data-language="json"><code>{ <span class="th-token th-property">&quot;recipient_id&quot;</span>: <span class="th-token th-string">&quot;IGSID_FROM_WEBHOOK&quot;</span>, <span class="th-token th-property">&quot;message_id&quot;</span>: <span class="th-token th-string">&quot;m_abc123&quot;</span> }</code></pre></div>
+  }&#x27;</code></pre>
+<pre><code class="language-json">{ &quot;recipient_id&quot;: &quot;IGSID_FROM_WEBHOOK&quot;, &quot;message_id&quot;: &quot;m_abc123&quot; }</code></pre>
 <h2 id="receive-messages">Receive messages</h2>
 <p>Subscribe to the <code>messages</code> webhook field (see <a href="webhooks.html">webhooks.md</a>). Each event gives <code>sender.id</code> (the IGSID to reply to), <code>message.text</code>, and <code>message.mid</code>.</p>
 <h2 id="read-conversations-optional">Read conversations (optional)</h2>
-<div class="code-block"><span class="code-language">bash</span><pre tabindex="0" data-highlighted="true" aria-label="shell code example" class="th-code th-code--shell" data-language="shell"><code><span class="th-token th-command">curl</span> <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/{page-id}/conversations?platform=instagram&amp;fields=id,participants,updated_time&amp;access_token=EAAB...&quot;</span>
-<span class="th-token th-command">curl</span> <span class="th-token th-string">&quot;https://graph.facebook.com/v25.0/{conversation-id}?fields=messages{id,message,from,created_time}&amp;access_token=EAAB...&quot;</span></code></pre></div>
+<pre><code class="language-bash">curl &quot;https://graph.facebook.com/v25.0/{page-id}/conversations?platform=instagram&amp;fields=id,participants,updated_time&amp;access_token=EAAB...&quot;
+curl &quot;https://graph.facebook.com/v25.0/{conversation-id}?fields=messages{id,message,from,created_time}&amp;access_token=EAAB...&quot;</code></pre>
 <h2 id="agent-rules">Agent rules</h2>
 <ul>
 <li>Always reply to the IGSID from the webhook, never to a username.</li>
@@ -77,4 +43,4 @@ hr{border:0;border-top:1px solid var(--border);margin:2rem 0}
 <li>Store <code>message_id</code> from the send response for support/debugging.</li>
 <li>Handle the <code>HUMAN_AGENT</code> tag only if your app is approved for it.</li>
 </ul>
-<p>Next: <a href="webhooks.html">webhooks.md</a> · <a href="errors-and-rate-limits.html">errors-and-rate-limits.md</a></p><nav class="page-nav" aria-label="Previous and next pages"><a class="previous" href="media-publishing.html" rel="prev"><small>Previous page</small>Media Publishing</a><a class="next" href="webhooks.html" rel="next"><small>Next page</small>Webhooks</a></nav></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('#page-navigation a').forEach(a=>{a.hidden=!a.textContent.toLowerCase().includes(q);});}const mobile=window.matchMedia('(max-width:800px)');function updateNavigation(){document.querySelector('.navigation').open=!mobile.matches;}updateNavigation();mobile.addEventListener('change',updateNavigation);</script><script type="importmap">{"imports": {"@tanstack/highlight/core": "../assets/tanstack-highlight/core.js", "@tanstack/highlight/markdown": "../assets/tanstack-highlight/markdown.js", "@tanstack/highlight/languages/shell": "../assets/tanstack-highlight/languages/shell.js", "@tanstack/highlight/languages/ts": "../assets/tanstack-highlight/languages/ts.js", "@tanstack/highlight/languages/python": "../assets/tanstack-highlight/languages/python.js", "@tanstack/highlight/languages/json": "../assets/tanstack-highlight/languages/json.js"}}</script><script type="module" src="../assets/highlight-browser.mjs"></script></body></html>
+<p>Next: <a href="webhooks.html">webhooks.md</a> · <a href="errors-and-rate-limits.html">errors-and-rate-limits.md</a></p></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('nav a').forEach(a=>{a.style.display=a.textContent.toLowerCase().includes(q)?'':'none';});}</script></body></html>
