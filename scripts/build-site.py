@@ -266,7 +266,7 @@ def render_page(label, title, body, toc, out_rel):
           "const mobile=window.matchMedia('(max-width:800px)');"
           "function updateNavigation(){document.querySelector('.navigation').open=!mobile.matches;}"
           "updateNavigation();mobile.addEventListener('change',updateNavigation);</script>")
-    assets = "../assets/" if depth else "assets/"
+    assets = "../assets/" if depth else "./assets/"
     imports = {
         f"@tanstack/highlight/{module}": f"{assets}tanstack-highlight/{module}.js"
         for module in HIGHLIGHT_MODULES
