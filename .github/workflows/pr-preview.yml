@@ -1,0 +1,69 @@
+name: Deploy PR Preview to GitHub Pages
+
+# Automatically creates and deploys live previews of pull requests to GitHub Pages.
+# When a PR is opened or updated, this workflow builds the static site and deploys
+# it to https://<owner>.github.io/<repo>/pr-preview/pr-<number>/, then leaves a sticky
+# comment on the pull request with a direct link and a QR code for mobile testing.
+# When the pull request is closed or merged, the preview is automatically cleaned up.
+#
+# Requirements:
+# 1. Repository Settings -> Pages -> Source: "Deploy from a branch" (branch: gh-pages, folder: /)
+# 2. Repository Settings -> Actions -> General -> Workflow permissions: "Read and write permissions"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    paths:
+      - "README.md"
+      - "INSTAGRAM_GRAPH_API.md"
+      - "FORMATS.md"
+      - "docs/**"
+      - "scripts/build-site.py"
+      - ".github/workflows/pr-preview.yml"
+
+concurrency:
+  group: pr-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: github.event.action != 'closed'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build static documentation
+        if: github.event.action != 'closed'
+        run: |
+          python scripts/build-site.py
+          test -s site/index.html
+
+      - name: Deploy preview to GitHub Pages
+        id: preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: site/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          comment: true
+
+      - name: Add preview URL to Job Summary
+        if: steps.preview.outputs.deployment-action == 'deploy'
+        run: |
+          echo "## 🚀 GitHub Pages PR Preview" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "A preview of this pull request has been deployed to GitHub Pages:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "👉 **[View Live Preview](${{ steps.preview.outputs.preview-url }})**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "URL: \`${{ steps.preview.outputs.preview-url }}\`" >> $GITHUB_STEP_SUMMARY

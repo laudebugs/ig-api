@@ -1,22 +1,902 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Formats — beyond Markdown — Instagram API Docs</title><style>
-:root{--fg:#1a1a1a;--bg:#fff;--muted:#666;--code:#f4f4f4;--accent:#0a58ca;--border:#e2e2e2}
-*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.55}
-.layout{display:flex;min-height:100vh}nav{width:300px;flex-shrink:0;border-right:1px solid var(--border);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto}
-nav input{width:100%;padding:.4rem;margin-bottom:.6rem}nav a{display:block;color:var(--fg);text-decoration:none;padding:.15rem 0;font-size:.9rem}
-nav a.h3{padding-left:1rem;color:var(--muted)}nav a:hover{color:var(--accent)}
-nav .group{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:.8rem 0 .2rem}
-nav a.current{font-weight:700;color:var(--accent)}
-main{max-width:900px;padding:2rem 2.5rem}pre{background:var(--code);padding:.8rem;overflow:auto;border-radius:6px}
-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}pre code{background:none}
-table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left;font-size:.9rem}
-blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.2rem 1rem;color:var(--muted)}
-h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding-bottom:.3rem}
-@media(max-width:800px){nav{display:none}main{padding:1rem}}
-</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="index.html">Home</a><a href="api-reference.html">API Reference</a><a href="formats.html" class="current">Formats</a><a href="docs/authentication.html">Authentication</a><a href="docs/comments-moderation.html">Comments Moderation</a><a href="docs/errors-and-rate-limits.html">Errors And Rate Limits</a><a href="docs/faq.html">Faq</a><a href="docs/getting-started.html">Getting Started</a><a href="docs/insights.html">Insights</a><a href="docs/media-publishing.html">Media Publishing</a><a href="docs/messaging.html">Messaging</a><a href="docs/webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#what-this-bundle-ships">What this bundle ships</a><a class="h2" href="#which-to-use-when">Which to use when</a><a class="h2" href="#suggested-next-formats-not-yet-built">Suggested next formats (not yet built)</a><a class="h2" href="#maintenance-rule">Maintenance rule</a></nav><main><h1 id="formats-beyond-markdown">Formats — beyond Markdown</h1>
-<blockquote>Markdown is the narrative layer: readable but not validatable or executable. For coding agents, keep Markdown and add machine-readable companions generated from one source (<code>openapi.yaml</code> + <code>INSTAGRAM_GRAPH_API.md</code>).</blockquote>
-<h2 id="what-this-bundle-ships">What this bundle ships</h2>
-<table><thead><tr><th>Format</th><th>File(s)</th><th>Consumer</th><th>Strength</th></tr></thead><tbody><tr><td>Comprehensive Markdown</td><td><code>INSTAGRAM_GRAPH_API.md</code></td><td>Agents, humans</td><td>Full narrative + curl/TS/Python per endpoint; recipes</td></tr><tr><td>Topic Markdown</td><td><code>docs/*.md</code></td><td>Humans, scoped reads</td><td>Short guides per flow</td></tr><tr><td>OpenAPI 3.1 YAML</td><td><code>openapi.yaml</code></td><td>Agents, codegen</td><td><strong>Source of truth</strong>: validatable paths, params, schemas, auth</td></tr><tr><td>TypeScript types</td><td><code>types/instagram-graph.d.ts</code></td><td>Agents writing TS</td><td>Typed requests/responses/errors</td></tr><tr><td>LLM index + full dump</td><td><code>llms.txt</code>, <code>llms-full.txt</code></td><td>LLM context loaders</td><td>Compact index; one-file whole-bundle context</td></tr><tr><td>RAG chunks</td><td><code>data/chunks.jsonl</code></td><td>Vector search / retrieval</td><td>One slice per endpoint (<code>id,title,path,method,content</code>)</td></tr><tr><td>Runnable examples</td><td><code>examples/*.ts</code>, <code>examples/*.py</code></td><td>Agents, humans</td><td>Copy-paste flows: publish, insights, replies, webhooks</td></tr><tr><td>Postman collection</td><td><code>postman/*.json</code></td><td>Agents, humans, QA</td><td>Runnable requests with variables + environments</td></tr><tr><td>Bruno collection</td><td><code>bruno/</code></td><td>Agents, humans (git-native)</td><td>Same as Postman, plain-text diffable files</td></tr><tr><td>Static HTML site</td><td><code>site/</code> (multi-page)</td><td>Humans</td><td>Searchable, linkable, zero-hosting reference</td></tr><tr><td>MCP starter</td><td><code>mcp/tools.json</code>, <code>mcp/server.py</code></td><td>Agents (MCP clients)</td><td>14 callable tools: agents *call* the API mid-session</td></tr></tbody></table>
-<h2 id="which-to-use-when">Which to use when</h2>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Formats — beyond Markdown — Instagram API Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+
+  --bg: #ffffff;
+  --bg-surface: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --bg-code: #f8fafc;
+  --bg-code-header: #f1f5f9;
+  --fg: #0f172a;
+  --fg-muted: #475569;
+  --fg-subtle: #94a3b8;
+  --border: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --accent: #2563eb;
+  --accent-subtle: #eff6ff;
+  --accent-fg: #1d4ed8;
+  --header-bg: rgba(255, 255, 255, 0.88);
+  --header-border: #e2e8f0;
+  --kbd-bg: #f1f5f9;
+  --kbd-border: #cbd5e1;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* TanStack Highlight tokens (light) */
+  --th-background: #f8fafc;
+  --th-token: #1e293b;
+  --th-attr: #0369a1;
+  --th-code-inline: #0f172a;
+  --th-command: #6d28d9;
+  --th-comment: #64748b;
+  --th-deleted: #b91c1c;
+  --th-function: #2563eb;
+  --th-heading: #0f172a;
+  --th-inserted: #15803d;
+  --th-keyword: #be185d;
+  --th-link: #2563eb;
+  --th-literal: #0369a1;
+  --th-meta: #64748b;
+  --th-number: #0284c7;
+  --th-operator: #64748b;
+  --th-property: #0369a1;
+  --th-selector: #15803d;
+  --th-string: #047857;
+  --th-tag: #2563eb;
+  --th-type: #be185d;
+  --th-variable: #c2410c;
+}
+
+[data-theme="dark"] {
+  --bg: #090d16;
+  --bg-surface: #0f172a;
+  --bg-subtle: #1e293b;
+  --bg-code: #0b1120;
+  --bg-code-header: #131c31;
+  --fg: #f1f5f9;
+  --fg-muted: #94a3b8;
+  --fg-subtle: #64748b;
+  --border: #1e293b;
+  --border-subtle: #172033;
+  --accent: #3b82f6;
+  --accent-subtle: #1e293b;
+  --accent-fg: #60a5fa;
+  --header-bg: rgba(9, 13, 22, 0.88);
+  --header-border: #1e293b;
+  --kbd-bg: #1e293b;
+  --kbd-border: #334155;
+
+  /* TanStack Highlight tokens (dark) */
+  --th-background: #0b1120;
+  --th-token: #e2e8f0;
+  --th-attr: #38bdf8;
+  --th-code-inline: #f1f5f9;
+  --th-command: #c084fc;
+  --th-comment: #64748b;
+  --th-deleted: #f87171;
+  --th-function: #60a5fa;
+  --th-heading: #f1f5f9;
+  --th-inserted: #4ade80;
+  --th-keyword: #f472b6;
+  --th-link: #60a5fa;
+  --th-literal: #38bdf8;
+  --th-meta: #94a3b8;
+  --th-number: #38bdf8;
+  --th-operator: #94a3b8;
+  --th-property: #38bdf8;
+  --th-selector: #4ade80;
+  --th-string: #34d399;
+  --th-tag: #60a5fa;
+  --th-type: #f472b6;
+  --th-variable: #fb923c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #090d16;
+    --bg-surface: #0f172a;
+    --bg-subtle: #1e293b;
+    --bg-code: #0b1120;
+    --bg-code-header: #131c31;
+    --fg: #f1f5f9;
+    --fg-muted: #94a3b8;
+    --fg-subtle: #64748b;
+    --border: #1e293b;
+    --border-subtle: #172033;
+    --accent: #3b82f6;
+    --accent-subtle: #1e293b;
+    --accent-fg: #60a5fa;
+    --header-bg: rgba(9, 13, 22, 0.88);
+    --header-border: #1e293b;
+    --kbd-bg: #1e293b;
+    --kbd-border: #334155;
+
+    --th-background: #0b1120;
+    --th-token: #e2e8f0;
+    --th-attr: #38bdf8;
+    --th-code-inline: #f1f5f9;
+    --th-command: #c084fc;
+    --th-comment: #64748b;
+    --th-deleted: #f87171;
+    --th-function: #60a5fa;
+    --th-heading: #f1f5f9;
+    --th-inserted: #4ade80;
+    --th-keyword: #f472b6;
+    --th-link: #60a5fa;
+    --th-literal: #38bdf8;
+    --th-meta: #94a3b8;
+    --th-number: #38bdf8;
+    --th-operator: #94a3b8;
+    --th-property: #38bdf8;
+    --th-selector: #4ade80;
+    --th-string: #34d399;
+    --th-tag: #60a5fa;
+    --th-type: #f472b6;
+    --th-variable: #fb923c;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header */
+header.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 56px;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--header-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+}
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.brand-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.header-nav a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background-color 0.15s;
+}
+.header-nav a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  color: var(--fg);
+  cursor: pointer;
+  line-height: 0;
+}
+.theme-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 0;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+.theme-btn:hover {
+  color: var(--fg);
+  border-color: var(--fg-muted);
+  background: var(--bg-subtle);
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 56px);
+}
+.backdrop {
+  display: none;
+}
+
+/* Sidebar */
+aside.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  padding: 1rem 0.85rem 2rem;
+  background: var(--bg);
+  scrollbar-width: thin;
+}
+aside.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+aside.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.drawer-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+.drawer-close {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 0;
+}
+.drawer-close:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.search-icon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-subtle);
+  pointer-events: none;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.45rem 1.8rem 0.45rem 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+.search-kbd {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fg-subtle);
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.sidebar .group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  margin: 1.1rem 0 0.4rem 0.5rem;
+}
+.sidebar .nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar .nav-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.12s, background-color 0.12s;
+  margin-bottom: 1px;
+}
+.sidebar .nav-list a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+.sidebar .nav-list a.current {
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+.sidebar .nav-list a.h3 {
+  padding-left: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--fg-subtle);
+}
+.sidebar .nav-list a.h3:hover {
+  color: var(--fg-muted);
+}
+.badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  background: var(--bg-subtle);
+  color: var(--fg-subtle);
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+/* Main Content */
+main.content {
+  flex: 1 1 0;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.25rem 3rem 4rem;
+  min-width: 0;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+  margin-bottom: 1rem;
+}
+.breadcrumbs a {
+  color: var(--fg-subtle);
+  text-decoration: none;
+}
+.breadcrumbs a:hover {
+  color: var(--accent);
+}
+.breadcrumbs span.sep {
+  color: var(--border);
+}
+
+/* Typography */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+  color: var(--fg);
+}
+h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  margin: 2.5rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 1.75rem 0 0.5rem;
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.35rem;
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+p {
+  margin: 0 0 1rem;
+  color: var(--fg);
+  line-height: 1.68;
+}
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--accent-fg);
+  text-decoration: underline;
+}
+
+.header-anchor {
+  float: left;
+  margin-left: -0.9em;
+  padding-right: 0.25em;
+  color: var(--fg-subtle);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  font-weight: 400;
+  user-select: none;
+}
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+  opacity: 0.6;
+}
+.header-anchor:hover {
+  opacity: 1 !important;
+  color: var(--accent) !important;
+  text-decoration: none !important;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin: 0 0 1.25rem;
+}
+li {
+  margin-bottom: 0.35rem;
+}
+li::marker {
+  color: var(--fg-subtle);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--bg-surface);
+  margin: 1.25rem 0;
+  padding: 0.85rem 1.15rem;
+  color: var(--fg-muted);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 0.92rem;
+}
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+:not(pre) > code {
+  background: var(--bg-subtle);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.38em;
+  word-break: break-word;
+}
+
+/* Code Blocks */
+.code-block {
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-code);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.85rem;
+  background: var(--bg-code-header);
+  border-bottom: 1px solid var(--border);
+}
+.code-lang {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.copy-btn:hover {
+  background: var(--bg-surface);
+  color: var(--fg);
+  border-color: var(--border);
+}
+.copy-btn.copied {
+  color: #16a34a;
+}
+pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: var(--bg-code);
+  color: var(--fg);
+  -webkit-overflow-scrolling: touch;
+}
+pre code {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* TanStack Highlight tokens */
+pre.th-code {
+  background: var(--th-background);
+  color: var(--th-token);
+}
+.th-token { color: var(--th-token); }
+.th-attr { color: var(--th-attr); }
+.th-code-inline { color: var(--th-code-inline); }
+.th-command { color: var(--th-command); font-weight: 500; }
+.th-comment { color: var(--th-comment); font-style: italic; }
+.th-deleted { color: var(--th-deleted); }
+.th-function { color: var(--th-function); }
+.th-heading { color: var(--th-heading); }
+.th-inserted { color: var(--th-inserted); }
+.th-keyword { color: var(--th-keyword); font-weight: 500; }
+.th-link { color: var(--th-link); }
+.th-literal { color: var(--th-literal); }
+.th-meta { color: var(--th-meta); }
+.th-number { color: var(--th-number); }
+.th-operator { color: var(--th-operator); }
+.th-property { color: var(--th-property); }
+.th-selector { color: var(--th-selector); }
+.th-string { color: var(--th-string); }
+.th-tag { color: var(--th-tag); }
+.th-type { color: var(--th-type); }
+.th-variable { color: var(--th-variable); }
+
+/* Tables */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+  font-size: 0.88rem;
+  text-align: left;
+}
+th {
+  background: var(--bg-surface);
+  color: var(--fg);
+  font-weight: 600;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+th:last-child {
+  border-right: none;
+}
+td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--fg);
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+td:last-child {
+  border-right: none;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: var(--bg-surface);
+}
+
+/* Pagination */
+.pagination-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.page-link {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.page-link:hover {
+  border-color: var(--accent);
+  background: var(--bg-surface);
+  text-decoration: none;
+}
+.page-link.next {
+  text-align: right;
+  grid-column: 2;
+}
+.page-link.prev {
+  grid-column: 1;
+}
+.page-direction {
+  font-size: 0.75rem;
+  color: var(--fg-subtle);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+.page-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Right TOC Rail (Desktop) */
+aside.toc-sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: 2.25rem 1rem 2rem 0.5rem;
+  font-size: 0.82rem;
+}
+.toc-header {
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  margin-bottom: 0.6rem;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--border);
+}
+.toc-list a {
+  display: block;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.25rem 0 0.25rem 0.85rem;
+  line-height: 1.45;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-list a:hover {
+  color: var(--fg);
+  border-left-color: var(--fg-subtle);
+}
+.toc-list a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.toc-list a.h3 {
+  padding-left: 1.5rem;
+  font-size: 0.78rem;
+}
+
+/* Footer */
+footer.doc-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Responsive & Mobile */
+@media (max-width: 1240px) {
+  aside.toc-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .mobile-toggle {
+    display: inline-flex;
+  }
+  .header-nav {
+    display: none;
+  }
+  .drawer-header {
+    display: flex;
+  }
+  aside.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 85vw;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none;
+    border-right: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  body.nav-open aside.sidebar {
+    transform: translateX(0);
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
+  }
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  body.nav-open .backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.nav-open {
+    overflow: hidden;
+  }
+  main.content {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+  h1 {
+    font-size: 1.65rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  .pagination-nav {
+    grid-template-columns: 1fr;
+  }
+  .page-link.next {
+    grid-column: 1;
+  }
+}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <button class="mobile-toggle" aria-label="Toggle navigation menu" onclick="toggleNav()" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a class="brand" href="index.html">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>Instagram API</span>
+        <span class="brand-badge">Docs</span>
+      </a>
+    </div>
+    <div class="header-right">
+      <nav class="header-nav">
+        <a href="api-reference.html">API Reference</a>
+        <a href="formats.html">Formats</a>
+        <a href="openapi.yaml" target="_blank">OpenAPI</a>
+        <a href="llms.txt" target="_blank">llms.txt</a>
+        <a href="https://github.com/laudebugs/ig-api" target="_blank" rel="noopener" aria-label="GitHub repository">GitHub</a>
+      </nav>
+      <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark mode" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </header>
+  <div class="backdrop" onclick="toggleNav(false)"></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="drawer-header"><div class="drawer-title">Navigation</div><button class="drawer-close" aria-label="Close navigation" onclick="toggleNav(false)" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="search-box"><svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="q" type="search" placeholder="Filter sections…" oninput="filterNav()" aria-label="Filter navigation"><span class="search-kbd">/</span></div><div class="group-title">Overview</div><ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="api-reference.html">API Reference</a></li><li><a href="formats.html" class="current">Formats</a></li></ul><div class="group-title">Guides</div><ul class="nav-list"><li><a href="docs/getting-started.html">Getting Started</a></li><li><a href="docs/authentication.html">Authentication</a></li><li><a href="docs/media-publishing.html">Media Publishing</a></li><li><a href="docs/insights.html">Insights</a></li><li><a href="docs/comments-moderation.html">Comments &amp; Moderation</a></li><li><a href="docs/messaging.html">Messaging</a></li><li><a href="docs/webhooks.html">Webhooks</a></li><li><a href="docs/errors-and-rate-limits.html">Errors &amp; Rate Limits</a></li><li><a href="docs/faq.html">FAQ</a></li></ul><div class="group-title">Resources</div><ul class="nav-list"><li><a href="openapi.yaml" target="_blank" rel="noopener">OpenAPI Spec (3.1)<span class="badge-tag">contract</span></a></li><li><a href="types/instagram-graph.d.ts" target="_blank" rel="noopener">TypeScript Types<span class="badge-tag">types</span></a></li><li><a href="llms.txt" target="_blank" rel="noopener">llms.txt (Fast Index)<span class="badge-tag">llm</span></a></li><li><a href="llms-full.txt" target="_blank" rel="noopener">llms-full.txt (Full Bundle)<span class="badge-tag">llm</span></a></li><li><a href="data/chunks.jsonl" target="_blank" rel="noopener">RAG Chunks (JSONL)<span class="badge-tag">data</span></a></li><li><a href="examples/" target="_blank" rel="noopener">Code Examples<span class="badge-tag">code</span></a></li><li><a href="bruno/" target="_blank" rel="noopener">Bruno Collection<span class="badge-tag">api</span></a></li><li><a href="postman/" target="_blank" rel="noopener">Postman Collection<span class="badge-tag">api</span></a></li></ul><div class="group-title on-this-page-sidebar">On This Page</div><ul class="nav-list on-this-page-list"><li><a class="h2" href="#what-this-bundle-ships">What this bundle ships</a></li><li><a class="h2" href="#which-to-use-when">Which to use when</a></li><li><a class="h2" href="#suggested-next-formats-not-yet-built">Suggested next formats (not yet built)</a></li><li><a class="h2" href="#maintenance-rule">Maintenance rule</a></li></ul>
+    </aside>
+    <main class="content">
+      <div class="breadcrumbs"><a href="index.html">Docs</a><span class="sep">/</span><span>Overview</span><span class="sep">/</span><span>Formats</span></div>
+      <h1 id="formats-beyond-markdown"><a class="header-anchor" href="#formats-beyond-markdown" aria-label="Permalink to this section">#</a>Formats — beyond Markdown</h1>
+<blockquote><p>Markdown is the narrative layer: readable but not validatable or executable. For coding agents, keep Markdown and add machine-readable companions generated from one source (<code>openapi.yaml</code> + <code>INSTAGRAM_GRAPH_API.md</code>).</p></blockquote>
+<h2 id="what-this-bundle-ships"><a class="header-anchor" href="#what-this-bundle-ships" aria-label="Permalink to this section">#</a>What this bundle ships</h2>
+<div class="table-wrap"><table><thead><tr><th>Format</th><th>File(s)</th><th>Consumer</th><th>Strength</th></tr></thead><tbody><tr><td>Comprehensive Markdown</td><td><code>INSTAGRAM_GRAPH_API.md</code></td><td>Agents, humans</td><td>Full narrative + curl/TS/Python per endpoint; recipes</td></tr><tr><td>Topic Markdown</td><td><code>docs/*.md</code></td><td>Humans, scoped reads</td><td>Short guides per flow</td></tr><tr><td>OpenAPI 3.1 YAML</td><td><code>openapi.yaml</code></td><td>Agents, codegen</td><td><strong>Source of truth</strong>: validatable paths, params, schemas, auth</td></tr><tr><td>TypeScript types</td><td><code>types/instagram-graph.d.ts</code></td><td>Agents writing TS</td><td>Typed requests/responses/errors</td></tr><tr><td>LLM index + full dump</td><td><code>llms.txt</code>, <code>llms-full.txt</code></td><td>LLM context loaders</td><td>Compact index; one-file whole-bundle context</td></tr><tr><td>RAG chunks</td><td><code>data/chunks.jsonl</code></td><td>Vector search / retrieval</td><td>One slice per endpoint (<code>id,title,path,method,content</code>)</td></tr><tr><td>Runnable examples</td><td><code>examples/<em>.ts</code>, <code>examples/</em>.py</code></td><td>Agents, humans</td><td>Copy-paste flows: publish, insights, replies, webhooks</td></tr><tr><td>Postman collection</td><td><code>postman/*.json</code></td><td>Agents, humans, QA</td><td>Runnable requests with variables + environments</td></tr><tr><td>Bruno collection</td><td><code>bruno/</code></td><td>Agents, humans (git-native)</td><td>Same as Postman, plain-text diffable files</td></tr><tr><td>Static HTML site</td><td><code>site/</code> (multi-page)</td><td>Humans</td><td>Searchable, linkable, zero-hosting reference</td></tr><tr><td>MCP starter</td><td><code>mcp/tools.json</code>, <code>mcp/server.py</code></td><td>Agents (MCP clients)</td><td>14 callable tools: agents <em>call</em> the API mid-session</td></tr></tbody></table></div>
+<h2 id="which-to-use-when"><a class="header-anchor" href="#which-to-use-when" aria-label="Permalink to this section">#</a>Which to use when</h2>
 <ul>
 <li><strong>Agent building a feature</strong>: read <code>llms.txt</code> → pull <code>data/chunks.jsonl</code> slices for the</li>
 </ul>
@@ -37,11 +917,179 @@ h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding
 <li><strong>RAG pipeline</strong>: embed <code>data/chunks.jsonl</code> (30 chunks); re-chunk <code>INSTAGRAM_GRAPH_API.md</code></li>
 </ul>
 <p>by <code>##</code> section for long-form retrieval.</p>
-<h2 id="suggested-next-formats-not-yet-built">Suggested next formats (not yet built)</h2>
-<table><thead><tr><th>Format</th><th>Why</th><th>Effort</th></tr></thead><tbody><tr><td>MCP server (full)</td><td>Extend <code>mcp/</code> starter: carousel/story flows, block, conversations, webhook intake, evals</td><td>Medium — starter exists, add tools + tests</td></tr><tr><td>AsyncAPI for webhooks</td><td>Machine-readable event catalog (comment/message/mention payloads) mirroring <code>openapi.yaml</code></td><td>Small — derive from §13 payloads</td></tr><tr><td>JSON Schema files</td><td>Standalone request/response validation without the full OpenAPI toolchain</td><td>Small — extract from <code>openapi.yaml</code> components</td></tr><tr><td>Python type stubs (<code>.pyi</code>) / mini-SDK</td><td>Typed Python equivalent of the <code>.d.ts</code> for agents writing Python</td><td>Small — type <code>examples/lib.py</code></td></tr><tr><td>SDK packages (npm/PyPI)</td><td>Versioned client both agents and apps can depend on</td><td>Large — needs tests + CI + publishing</td></tr><tr><td>CLI (<code>ig</code> command)</td><td>Human/agent shell access: <code>ig publish photo.jpg --caption …</code></td><td>Medium — wraps the SDK</td></tr><tr><td>SQLite/Parquet snapshot</td><td>Frozen, queryable dataset of endpoints + metrics for offline evals</td><td>Small — export chunks + metric tables</td></tr><tr><td>Evals (<code>evals/</code>)</td><td>Ground-truth Q/A + fixture-backed tests proving an agent can use the docs</td><td>Medium — highest value for doc-quality measurement</td></tr></tbody></table>
+<h2 id="suggested-next-formats-not-yet-built"><a class="header-anchor" href="#suggested-next-formats-not-yet-built" aria-label="Permalink to this section">#</a>Suggested next formats (not yet built)</h2>
+<div class="table-wrap"><table><thead><tr><th>Format</th><th>Why</th><th>Effort</th></tr></thead><tbody><tr><td>MCP server (full)</td><td>Extend <code>mcp/</code> starter: carousel/story flows, block, conversations, webhook intake, evals</td><td>Medium — starter exists, add tools + tests</td></tr><tr><td>AsyncAPI for webhooks</td><td>Machine-readable event catalog (comment/message/mention payloads) mirroring <code>openapi.yaml</code></td><td>Small — derive from §13 payloads</td></tr><tr><td>JSON Schema files</td><td>Standalone request/response validation without the full OpenAPI toolchain</td><td>Small — extract from <code>openapi.yaml</code> components</td></tr><tr><td>Python type stubs (<code>.pyi</code>) / mini-SDK</td><td>Typed Python equivalent of the <code>.d.ts</code> for agents writing Python</td><td>Small — type <code>examples/lib.py</code></td></tr><tr><td>SDK packages (npm/PyPI)</td><td>Versioned client both agents and apps can depend on</td><td>Large — needs tests + CI + publishing</td></tr><tr><td>CLI (<code>ig</code> command)</td><td>Human/agent shell access: <code>ig publish photo.jpg --caption …</code></td><td>Medium — wraps the SDK</td></tr><tr><td>SQLite/Parquet snapshot</td><td>Frozen, queryable dataset of endpoints + metrics for offline evals</td><td>Small — export chunks + metric tables</td></tr><tr><td>Evals (<code>evals/</code>)</td><td>Ground-truth Q/A + fixture-backed tests proving an agent can use the docs</td><td>Medium — highest value for doc-quality measurement</td></tr></tbody></table></div>
 <p>Recommendation: finish the <strong>MCP server</strong> (extend the starter) and add <strong>AsyncAPI webhooks</strong> next — they close the loop from &quot;read the docs&quot; to &quot;call the API and handle its events&quot; for agents.</p>
-<h2 id="maintenance-rule">Maintenance rule</h2>
+<h2 id="maintenance-rule"><a class="header-anchor" href="#maintenance-rule" aria-label="Permalink to this section">#</a>Maintenance rule</h2>
 <p><code>openapi.yaml</code> is the source of truth for paths/params/schemas; <code>INSTAGRAM_GRAPH_API.md</code> is the source of truth for narrative/examples. After editing either, regenerate derivatives:</p>
-<pre><code class="language-bash">python scripts/build-llms-full.py   # rebuilds llms-full.txt
-python scripts/build-site.py        # rebuilds site/index.html</code></pre>
-<p><code>data/chunks.jsonl</code>, <code>postman/</code>, and <code>bruno/</code> are hand-synced for now — update the matching entries when endpoints change (a generator from <code>openapi.yaml</code> is a good follow-up task).</p></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('nav a').forEach(a=>{a.style.display=a.textContent.toLowerCase().includes(q)?'':'none';});}</script></body></html>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">python scripts/build-llms-full.py   # rebuilds llms-full.txt
+python scripts/build-site.py        # rebuilds site/index.html</code></pre></div>
+<p><code>data/chunks.jsonl</code>, <code>postman/</code>, and <code>bruno/</code> are hand-synced for now — update the matching entries when endpoints change (a generator from <code>openapi.yaml</code> is a good follow-up task).</p>
+      <nav class="pagination-nav" aria-label="Documentation navigation"><a class="page-link prev" href="api-reference.html"><span class="page-direction">← Previous</span><span class="page-title">API Reference</span></a><a class="page-link next" href="docs/getting-started.html"><span class="page-direction">Next →</span><span class="page-title">Getting Started</span></a></nav>
+      <footer class="doc-footer"><span>Instagram Graph API Documentation · Target Meta v25.0 / v26.0</span><span>Deployed to GitHub Pages</span></footer>
+    </main>
+    <aside class="toc-sidebar" aria-label="Table of contents"><div class="toc-header">On this page</div><ul class="toc-list"><li><a class="h2" href="#what-this-bundle-ships">What this bundle ships</a></li><li><a class="h2" href="#which-to-use-when">Which to use when</a></li><li><a class="h2" href="#suggested-next-formats-not-yet-built">Suggested next formats (not yet built)</a></li><li><a class="h2" href="#maintenance-rule">Maintenance rule</a></li></ul></aside>
+  </div>
+  <script>
+// Mobile navigation toggle
+function toggleNav(force) {
+  const body = document.body;
+  const isOpen = typeof force === 'boolean' ? force : !body.classList.contains('nav-open');
+  body.classList.toggle('nav-open', isOpen);
+  const btn = document.querySelector('.mobile-toggle');
+  if (btn) btn.setAttribute('aria-expanded', String(isOpen));
+}
+
+// Close mobile navigation when clicking links
+document.querySelectorAll('aside.sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (document.body.classList.contains('nav-open')) toggleNav(false);
+  });
+});
+
+// Escape key closes mobile nav
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+    toggleNav(false);
+  }
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    const q = document.getElementById('q');
+    if (q) { q.focus(); q.select(); }
+  }
+});
+
+// Sidebar search / filter
+function filterNav() {
+  const q = (document.getElementById('q').value || '').toLowerCase().trim();
+  document.querySelectorAll('aside.sidebar .nav-list li').forEach(li => {
+    const text = li.textContent.toLowerCase();
+    li.style.display = !q || text.includes(q) ? '' : 'none';
+  });
+  // Hide empty group headers when searching
+  document.querySelectorAll('aside.sidebar .group-title').forEach(title => {
+    let next = title.nextElementSibling;
+    let anyVisible = false;
+    if (next && next.classList.contains('nav-list')) {
+      next.querySelectorAll('li').forEach(li => {
+        if (li.style.display !== 'none') anyVisible = true;
+      });
+      title.style.display = anyVisible ? '' : 'none';
+      next.style.display = anyVisible ? '' : 'none';
+    }
+  });
+}
+
+// Dark / Light Mode Toggle
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+initTheme();
+
+// Copy Code Button
+function copyCode(btn) {
+  const block = btn.closest('.code-block');
+  const code = block ? block.querySelector('pre code') : null;
+  if (!code) return;
+  const text = code.innerText || code.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Copied!</span>`;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {});
+}
+
+// Active TOC Scrollspy
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        document.querySelectorAll('aside.toc-sidebar a').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '0px 0px -70% 0px' });
+  document.querySelectorAll('h2[id], h3[id]').forEach(h => observer.observe(h));
+}
+</script>
+  <script type="module">
+import { highlightToHtml } from 'https://cdn.jsdelivr.net/npm/@tanstack/highlight@1.1.0/+esm';
+
+const LANG_MAP = {
+  bash: 'shell', sh: 'shell', zsh: 'shell', curl: 'shell', console: 'shell',
+  py: 'python', python: 'python',
+  ts: 'ts', typescript: 'ts',
+  js: 'js', javascript: 'js',
+  json: 'json', jsonc: 'json',
+  yaml: 'yaml', yml: 'yaml',
+  http: 'http', https: 'http',
+  html: 'html', xml: 'html',
+  sql: 'sql',
+  md: 'markdown', markdown: 'markdown',
+  text: 'plaintext', txt: 'plaintext'
+};
+
+function highlightAll() {
+  document.querySelectorAll('.code-block pre').forEach((pre) => {
+    if (pre.dataset.highlighted) return;
+    const code = pre.querySelector('code');
+    if (!code) return;
+    const block = pre.closest('.code-block');
+    let rawLang = (block ? block.dataset.lang : '') || '';
+    if (!rawLang) {
+      const cls = code.className || '';
+      const m = cls.match(/language-([a-zA-Z0-9_-]+)/);
+      if (m) rawLang = m[1];
+    }
+    rawLang = rawLang.toLowerCase().trim();
+    const text = code.textContent || '';
+    let targetLang = LANG_MAP[rawLang] || rawLang;
+    if (!targetLang || targetLang === 'code') {
+      if (/^(GET|POST|DELETE|PUT|PATCH|HTTP\/)\s/m.test(text)) {
+        targetLang = 'http';
+      } else {
+        targetLang = 'plaintext';
+      }
+    }
+    try {
+      const resHtml = highlightToHtml(text, { lang: targetLang });
+      if (resHtml) {
+        const temp = document.createElement('template');
+        temp.innerHTML = resHtml;
+        const newPre = temp.content.querySelector('pre');
+        if (newPre) {
+          newPre.tabIndex = 0;
+          newPre.dataset.highlighted = 'true';
+          pre.replaceWith(newPre);
+        }
+      }
+    } catch (e) {
+      console.warn('TanStack Highlight error:', targetLang, e);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', highlightAll);
+} else {
+  highlightAll();
+}
+</script>
+</body>
+</html>
