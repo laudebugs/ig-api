@@ -1,6 +1,6 @@
 # Messaging — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0` · Requires: `instagram_manage_messages` (+ `instagram_basic`, Page-linked account)
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0` · Requires: `instagram_manage_messages` (+ `instagram_basic`, Page-linked account)
 
 Instagram messaging lets your app send and receive Instagram DMs for a Business/Creator account. The recipient is identified by an IGSID (Instagram-scoped ID) delivered in webhook `messaging` events — you cannot message arbitrary usernames.
 
@@ -11,8 +11,12 @@ Instagram messaging lets your app send and receive Instagram DMs for a Business/
 
 ## Send a text message
 
+With Facebook Login the Send API hangs off the **Page**, not the IG user ID — use the
+Page ID and Page access token (with Instagram Login it's `/{ig-user-id}/messages` on
+`graph.instagram.com`):
+
 ```bash
-curl -X POST "https://graph.facebook.com/v21.0/17841400008460056/messages" \
+curl -X POST "https://graph.facebook.com/v25.0/{page-id}/messages" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer EAAB..." \
   -d '{
@@ -33,8 +37,8 @@ Subscribe to the `messages` webhook field (see [webhooks.md](webhooks.md)). Each
 ## Read conversations (optional)
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056/conversations?platform=instagram&fields=id,participants,updated_time&access_token=EAAB..."
-curl "https://graph.facebook.com/v21.0/{conversation-id}?fields=messages{id,message,from,created_time}&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/{page-id}/conversations?platform=instagram&fields=id,participants,updated_time&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/{conversation-id}?fields=messages{id,message,from,created_time}&access_token=EAAB..."
 ```
 
 ## Agent rules

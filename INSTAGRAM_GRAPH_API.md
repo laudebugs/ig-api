@@ -278,19 +278,24 @@ If `instagram_business_account` is absent, the Page↔IG link is missing (§3.1 
 
 Same shape, different hosts/scopes — do not mix with §4.1 values:
 
-1. Redirect the creator to the Instagram authorize URL configured for your Instagram app
-   with `instagram_business_basic`, `instagram_business_content_publish`, etc. (§16).
-2. Exchange `code` at the Instagram token endpoint for a short-lived IG user token.
-3. Exchange for a long-lived IG token (~60 days); refresh with a still-valid token via
-   the refresh endpoint (`grant_type=ig_refresh_token` style refresh — check current
-   Instagram Platform docs for exact params, they differ from `fb_exchange_token`).
-4. The token owner is the IG account: use `IG_USER_ID=me` or the numeric IG ID.
-5. Verify with `GET /me?fields=user_id,username` on `graph.instagram.com`.
+1. Redirect the creator to the Instagram authorize URL
+   (`https://api.instagram.com/oauth/authorize?client_id={instagram-app-id}&redirect_uri={redirect-uri}&scope=instagram_business_basic,instagram_business_content_publish&response_type=code`).
+   The redirect appends `#_` after the code — strip it before exchanging.
+2. Exchange `code` for a short-lived IG user token (~1h):
+   `POST https://api.instagram.com/oauth/access_token` with `client_id`, `client_secret`,
+   `grant_type=authorization_code`, `redirect_uri`, and `code`.
+3. Exchange for a long-lived IG token (~60 days):
+   `GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret={instagram-app-secret}&access_token={short-lived-token}`.
+4. Refresh a still-valid long-lived token (no app secret needed):
+   `GET https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token={long-lived-token}`.
+   Tokens not refreshed within 60 days expire and can no longer be refreshed.
+5. The token owner is the IG account: use `IG_USER_ID=me` or the numeric IG ID.
+6. Verify with `GET /me?fields=user_id,username` on `graph.instagram.com`.
 
 ```bash
 # Instagram Login flavor: who am I?
 curl -G "https://graph.instagram.com/v25.0/me" \
-  --data-urlencode "fields=user_id,username,account_type" \
+  --data-urlencode "fields=user_id,username" \
   --data-urlencode "access_token=${IG_TOKEN}"
 ```
 
@@ -404,29 +409,30 @@ Requires: `instagram_basic` (FB Login) / `instagram_business_basic` (IG Login).
 
 ```bash
 curl -G "${BASE}/${IG_USER_ID}" \
-  --data-urlencode "fields=id,username,name,biography,account_type,media_count,followers_count,follows_count,profile_picture_url,website" \
+  --data-urlencode "fields=id,username,name,biography,media_count,followers_count,follows_count,profile_picture_url,website" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
 ```
 
 ```json
-{ "id": "17841400008460056", "username": "examplebrand", "account_type": "BUSINESS",
+{ "id": "17841400008460056", "username": "examplebrand",
   "media_count": 42, "followers_count": 120400, "follows_count": 312 }
 ```
 
 TypeScript / Python (helpers from §0):
 
 ```ts
-const me = await gget<IgUser>(`/${process.env.IG_USER_ID}?fields=id,username,account_type,media_count,followers_count`);
+const me = await gget<IgUser>(`/${process.env.IG_USER_ID}?fields=id,username,media_count,followers_count`);
 ```
 
 ```python
 me = gget(f"/{os.environ['IG_USER_ID']}",
-          {"fields": "id,username,account_type,media_count,followers_count"})
+          {"fields": "id,username,media_count,followers_count"})
 ```
 
-Useful fields: `id,username,name,biography,account_type,media_count,followers_count,
-follows_count,profile_picture_url,website`. Shopping-enabled accounts may expose
-`shopping_review_status` and related fields — check your version's User reference.
+Useful fields: `id,username,name,biography,media_count,followers_count,follows_count,
+profile_picture_url,website,has_profile_pic,is_published,shopping_product_tag_eligibility`.
+Note: the IG User object has **no `account_type` field** on current versions — do not
+request it (error 100). Business-vs-Creator cannot be distinguished via this object.
 
 ### 6.2 Resolve IG User ID from a Page — `GET /{page-id}`
 
@@ -439,13 +445,11 @@ curl -G "${BASE}/${PAGE_ID}" \
 
 Missing `instagram_business_account` ⇒ Page↔IG link absent. Re-link in Page Settings.
 
-### 6.3 Linked Facebook Page (reverse lookup)
+### 6.3 Linked Facebook Page
 
-```bash
-curl -G "${BASE}/${IG_USER_ID}" \
-  --data-urlencode "fields=id,username,connected_facebook_page" \
-  -H "Authorization: Bearer ${ACCESS_TOKEN}"
-```
+There is no `connected_facebook_page` field on the IG User object. Resolve the link in
+the other direction: from the Page via `instagram_business_account` (§6.2), or list a
+user's Pages with `GET /me/accounts` (§4.1, Step 4).
 
 ## 7. Reading media (feed, Reels, Stories, albums)
 
@@ -461,7 +465,9 @@ curl -G "${BASE}/${IG_USER_ID}/media" \
 ```
 
 - `media_type`: `IMAGE` | `VIDEO` | `CAROUSEL_ALBUM`.
-- `media_product_type`: `FEED` | `REELS` | `STORY`.
+- `media_product_type`: `FEED` | `REELS` | `STORY` (also `AD`). On current references
+  this field is documented for the Facebook Login flavor only — do not rely on it with
+  Instagram Login tokens.
 - Paginate with `paging.next` (§5.3). Filter client-side by `media_product_type` for
   Reels-only views — there is no server-side product-type filter on this edge.
 
@@ -483,7 +489,7 @@ curl -G "${BASE}/${MEDIA_ID}/children" \
 
 ```bash
 curl -G "${BASE}/${IG_USER_ID}/stories" \
-  --data-urlencode "fields=id,media_type,media_url,timestamp,expiry_time" \
+  --data-urlencode "fields=id,media_type,media_url,timestamp" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
 ```
 
@@ -531,7 +537,9 @@ Rules that apply to **every** publish:
    auth walls, no expiring signed URLs that die mid-processing).
 2. **Two steps always**: create container → (video: poll to `FINISHED`) → `media_publish`.
 3. Containers expire ~24h unpublished (`EXPIRED` ⇒ recreate, don't retry publish).
-4. Quota: capped API publishes per 24h (commonly 25 — read `content_publishing_limit`, §8.8).
+   Accounts can create at most **400 containers per rolling 24h**.
+4. Quota: **100 API-published posts per rolling 24h** (carousels count as one post),
+   enforced on `media_publish` — read `content_publishing_limit` (§8.8) for live usage.
 5. Only the returned **media ID** works for insights/comments — store both IDs.
 
 ### 8.1 Photo (single image)
@@ -678,49 +686,48 @@ Video stories use `video_url` + `media_type=STORIES` and need `FINISHED` first.
 Interactive stickers (polls/links) are generally **not** settable via API — publish the
 flat asset.
 
-### 8.5 Update published media (caption)
+### 8.5 What you can change after publishing
 
-```bash
-# Update caption / alt text on a PUBLISHED media id (not a container id)
-curl -X POST "${BASE}/${MEDIA_ID}" \
-  -d "caption=Edited caption #update" \
-  -d "access_token=${ACCESS_TOKEN}"
-# → {"success": true}
-```
+Almost nothing. **Captions cannot be edited via the API** — plan copy before publishing
+(delete + republish to change it, §8.6). The only supported update on a published media
+object is toggling comments (§8.7).
 
-Only whitelisted fields are mutable (caption, alt text where supported). Media bytes,
-product type, and timestamps are immutable — delete + republish to change those.
-
-### 8.6 Delete published media
+### 8.6 Delete published media (Facebook Login only)
 
 ```bash
 curl -X DELETE "${BASE}/${MEDIA_ID}?access_token=${ACCESS_TOKEN}"
-# → {"success": true}
+# → {"success": true, "deleted_id": "17987654321098765"}
 ```
 
-Deletion is permanent and immediate. There is no trash/restore via API — confirm UX-side.
+Requires `instagram_basic` + `instagram_manage_contents` on the **Facebook Login
+flavor only** (not available with Instagram Login). Non-ad posts, Stories, and Reels
+are supported; a carousel must be deleted as a whole album — individual children
+cannot be deleted. Permanent — confirm UX-side; no trash/restore.
 
 ### 8.7 Enable/disable comments on media
 
+Requires `instagram_manage_comments` (+ basic):
+
 ```bash
-curl -X POST "${BASE}/${MEDIA_ID}" \
-  -d "comment_enabled=false" -d "access_token=${ACCESS_TOKEN}"
+curl -X POST "${BASE}/${MEDIA_ID}?comment_enabled=false&access_token=${ACCESS_TOKEN}"
+# → {"success": true}
 ```
 
 ### 8.8 Check publishing quota — `GET /{ig-user-id}/content_publishing_limit`
 
 ```bash
 curl -G "${BASE}/${IG_USER_ID}/content_publishing_limit" \
-  --data-urlencode "fields=quota_usage,rate_limit_settings,config" \
+  --data-urlencode "fields=quota_usage,rate_limit_settings" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
 ```
 
 ```json
-{ "data": [{ "quota_usage": 7, "rate_limit_settings": [{"limit": 25, "time_duration": 86400}],
-  "config": { "quota_total": 25, "quota_duration": 86400 } }] }
+{ "data": [{ "quota_usage": 7,
+  "rate_limit_settings": [{ "limit": 100, "time_duration": 86400 }] }] }
 ```
 
-Check before queueing scheduled posts; surface `quota_total - quota_usage` in scheduler UIs.
+`quota_usage` counts API publishes in the current rolling 24h window (limit 100).
+Check before queueing scheduled posts; surface remaining headroom in scheduler UIs.
 
 ### 8.9 Agent rules for publishing
 
@@ -737,7 +744,9 @@ Requires: `instagram_basic` (+ `instagram_manage_insights` for discovered-media 
 
 ### 9.1 Hashtag search — `GET /ig_hashtag_search`
 
-Resolve a tag name to a hashtag ID (scoped to the querying user):
+Resolve a tag name to a hashtag ID. Hashtag IDs are **static and global** (the same for
+every app/user). You may query at most **30 unique hashtags per account per rolling
+7 days** — every `ig_hashtag_search`, `top_media`, and `recent_media` call counts:
 
 ```bash
 curl -G "${BASE}/ig_hashtag_search" \
@@ -768,9 +777,11 @@ curl -G "${BASE}/${HASHTAG_ID}/recent_media" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
 ```
 
-`top_media` needs no extra params beyond `user_id`+`fields`. Only public media on
-Business/Creator accounts is returned. Paginate via `paging.next`. Use for UGC discovery,
-contest entries, and trend boards (§17).
+`top_media` needs no extra params beyond `user_id`+`fields`. Only public media is
+returned; **`recent_media` only returns media published within the last 24 hours**.
+The `username` field cannot be requested on hashtag media, results may not be
+chronological, and only an `after` cursor is returned (max `limit` 50). Use for UGC
+discovery, contest entries, and trend boards (§17) — budget the 30-tag/7-day limit.
 
 ### 9.3 Business Discovery — `GET /{ig-user-id}?fields=business_discovery…`
 
@@ -845,16 +856,25 @@ curl -X DELETE "${BASE}/${COMMENT_ID}?access_token=${ACCESS_TOKEN}"
 
 Only comments the authorized account can moderate (e.g. on its own media). Permanent.
 
-### 10.5 Block / unblock an account — `POST /{ig-user-id}/block`
+### 10.5 Block / unblock a user (Moderate Conversations API)
+
+Blocking is a **messaging** action, not an IG-user edge. Requires a Page access token,
+`instagram_manage_messages` + `instagram_basic` + `business_management`, and an existing
+conversation with the user. Gate behind human approval in automation.
 
 ```bash
-curl -X POST "${BASE}/${IG_USER_ID}/block" \
-  -d "block_user_id=${OFFENDING_IGSID_OR_ID}" -d "access_token=${ACCESS_TOKEN}"
-# unblock: POST /{ig-user-id}/unblock with the same param
+curl -X POST "https://graph.facebook.com/v25.0/${PAGE_ID}/moderate_conversations" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_ids": [{ "id": "IGSID_FROM_WEBHOOK" }],
+    "actions": ["block_user"],
+    "access_token": "PAGE_ACCESS_TOKEN"
+  }'
+# unblock: "actions": ["unblock_user"]  (never combine block+unblock in one call)
+# → {"success": "true"}
 ```
 
-Confirm the exact param name (`block_user_id` vs `user_id`) against your version's
-reference — it has varied. Gate this behind human approval in automation.
+Up to 10 IGSIDs and 2 actions per request; `move_to_spam` is the third supported action.
 
 ### 10.6 Moderation patterns for agents
 
@@ -872,13 +892,18 @@ Requires: `instagram_manage_insights` (IG Login: `instagram_business_manage_insi
 Metric names are **versioned** — a metric valid on v25 may not exist on v26 and vice
 versa. **One invalid metric fails the whole call** (error 100): on failure, bisect the
 metric list. `values[].value` may be a number **or an object** (breakdown) — parse
-defensively. Cache daily rows; history rarely changes after ~48h.
+defensively. Cache daily rows; insights data may be delayed up to ~48h.
+Deprecated (do not use in new code): account `impressions` (dropped for v22+; use
+`views`) and `profile_views`/`website_clicks` (removed — current replacements are
+`views` and `profile_links_taps`); media `impressions` for media created after
+2024-07-02 and media `plays` (use `views`, `ig_reels_avg_watch_time`,
+`ig_reels_video_view_total_time`).
 
 ### 11.1 Account insights — `GET /{ig-user-id}/insights`
 
 ```bash
 curl -G "${BASE}/${IG_USER_ID}/insights" \
-  --data-urlencode "metric=reach,impressions,profile_views,website_clicks,accounts_engaged,total_interactions" \
+  --data-urlencode "metric=reach,views,profile_links_taps,accounts_engaged,total_interactions" \
   --data-urlencode "period=day" \
   --data-urlencode "since=1759276800" \
   --data-urlencode "until=1759968000" \
@@ -891,21 +916,23 @@ curl -G "${BASE}/${IG_USER_ID}/insights" \
     "values": [{ "value": 1204, "end_time": "2026-10-13T07:00:00+0000" }] } ] }
 ```
 
-Periods: `day`, `week`, `days_28` depending on metric; `follower_count`-style metrics use
-their own period semantics — request them separately. `since`/`until` are Unix seconds,
-aligned to full days.
+Current account interaction metrics use `period=day` (demographic metrics use
+`period=lifetime` + `timeframe`, no `since`/`until`). Pass `metric_type=total_value`
+for current-style summed responses with `breakdown` support, or omit it for the classic
+time-series shape. `since`/`until` are Unix seconds, aligned to full days.
 
 ### 11.2 Media insights — `GET /{media-id}/insights`
 
 ```bash
 curl -G "${BASE}/${MEDIA_ID}/insights" \
-  --data-urlencode "metric=reach,impressions,engagement,saved,shares,total_interactions,likes,comments" \
+  --data-urlencode "metric=views,reach,saved,shares,total_interactions,likes,comments" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
 ```
 
-Valid metrics depend on `media_product_type` (feed vs Reels vs Story). Reels add
-plays/watch-time style metrics where supported (e.g. `plays`, average-watch-time variants
-— confirm names on your version). No `period` param on media insights.
+Valid metrics depend on `media_product_type` (feed vs Reels vs Story). There is no
+`engagement` metric. Media responses use `period=lifetime` (not changeable). Insights
+are **not available for media inside a carousel album** — query the album-level object.
+Reels add `ig_reels_avg_watch_time` and `ig_reels_video_view_total_time`.
 
 Runnable: `examples/fetch-insights.ts`, `examples/fetch-insights.py`.
 
@@ -913,16 +940,17 @@ Runnable: `examples/fetch-insights.ts`, `examples/fetch-insights.py`.
 
 | Surface | Metrics to try first |
 |---|---|
-| Account | `impressions`, `reach`, `profile_views`, `website_clicks`, `accounts_engaged`, `total_interactions`, `follower_count` |
-| Feed media | `impressions`, `reach`, `engagement`, `saved`, `shares`, `total_interactions`, `likes`, `comments` |
-| Reels | feed metrics + `plays` and watch-time metrics where exposed |
-| Stories | `reach`, `replies`, `taps_forward`, `taps_back`, `exits`, `impressions` |
+| Account | `views`, `reach`, `accounts_engaged`, `total_interactions`, `likes`, `comments`, `shares`, `saves`, `profile_links_taps`, `follows_and_unfollows` |
+| Feed media | `views`, `reach`, `saved`, `shares`, `total_interactions`, `likes`, `comments`, `profile_visits` |
+| Reels | feed metrics + `ig_reels_avg_watch_time`, `ig_reels_video_view_total_time`, `reels_skip_rate` |
+| Stories | `views`, `reach`, `replies`, `navigation`, `shares`, `total_interactions` |
 
 ### 11.4 Story insights
 
 Stories expire in 24h — pipeline: `GET /{ig-user-id}/stories` → for each id
-`GET /{story-id}/insights?metric=reach,replies,taps_forward,taps_back,exits` → persist
-immediately. There is no backfill after expiry.
+`GET /{story-id}/insights?metric=views,reach,replies,navigation` → persist
+immediately. Story metrics are only available for 24 hours; values under 5 viewers
+return error 10. There is no backfill after expiry.
 
 ### 11.5 Audience / demographic breakdowns
 
@@ -933,13 +961,13 @@ normalize downstream — key sets shift between versions.
 TypeScript / Python:
 
 ```ts
-const resp = await gget<InsightsResponse>(`/${process.env.IG_USER_ID}/insights?metric=reach,impressions,profile_views&period=day&since=${since}&until=${until}`);
+const resp = await gget<InsightsResponse>(`/${process.env.IG_USER_ID}/insights?metric=reach,views,accounts_engaged&period=day&since=${since}&until=${until}`);
 for (const m of resp.data) for (const v of m.values) console.log(m.name, v.end_time, JSON.stringify(v.value));
 ```
 
 ```python
 resp = gget(f"/{os.environ['IG_USER_ID']}/insights",
-            {"metric": "reach,impressions,profile_views", "period": "day",
+            {"metric": "reach,views,accounts_engaged", "period": "day",
              "since": str(since), "until": str(until)})
 for m in resp["data"]:
     for v in m["values"]:
@@ -948,10 +976,19 @@ for m in resp["data"]:
 
 ## 12. Messaging (DMs)
 
-Requires: `instagram_manage_messages` (+ `instagram_basic`, Page-linked account for FB Login flavor).
+Requires: `instagram_manage_messages` (FB Login) / `instagram_business_manage_messages`
+(IG Login). FB Login additionally requires the user to enable **Allow Access to Messages**
+(Instagram → Settings → Messages and story replies → Message controls → Connected Tools).
 
 Mental model: the IG account can **reply** to users who messaged it. Recipients are
 **IGSIDs from webhooks** (§13) — there is no username→IGSID lookup and no cold outreach.
+
+**Endpoints differ by flavor** (this trips up many integrations):
+
+- **Instagram Login**: `POST /{ig-user-id}/messages` on `graph.instagram.com` (or `/me/messages`).
+- **Facebook Login**: `POST /{page-id}/messages` on `graph.facebook.com` with the **Page
+  access token** (same Send API as Messenger) — *not* the IG user ID. `/me/messages`
+  with the Page token also works.
 
 ### 12.1 The 24-hour window
 
@@ -961,7 +998,9 @@ Mental model: the IG account can **reply** to users who messaged it. Recipients 
   within 7 days). Misuse restricts the account — when in doubt, wait for the user.
 - `messaging_type: UPDATE` covers proactive policy-approved updates where Meta allows them.
 
-### 12.2 Send text — `POST /{ig-user-id}/messages`
+### 12.2 Send text
+
+Instagram Login (`graph.instagram.com`, IG user token):
 
 ```bash
 curl -X POST "${BASE}/${IG_USER_ID}/messages" \
@@ -975,7 +1014,22 @@ curl -X POST "${BASE}/${IG_USER_ID}/messages" \
 # → {"recipient_id":"IGSID…","message_id":"m_abc123"}
 ```
 
-TypeScript / Python:
+Facebook Login (`graph.facebook.com`, **Page token, Page ID**):
+
+```bash
+curl -X POST "https://graph.facebook.com/v25.0/${PAGE_ID}/messages" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recipient": { "id": "IGSID_FROM_WEBHOOK" },
+    "messaging_type": "RESPONSE",
+    "message": { "text": "Hi! Your order ships Friday." },
+    "access_token": "PAGE_ACCESS_TOKEN"
+  }'
+```
+
+Text must be UTF-8, ≤1000 bytes.
+
+TypeScript / Python (Instagram Login shown; swap path/token for FB Login):
 
 ```ts
 const res = await fetch(`${BASE}/${process.env.IG_USER_ID}/messages`, {
@@ -1014,13 +1068,24 @@ mid = r.json()["message_id"]
 
 Only with approval for that tag; log every tagged send for audit.
 
-### 12.5 Conversations — `GET /{ig-user-id}/conversations`
+### 12.5 Conversations
+
+- **Instagram Login**: `GET /{ig-user-id}/conversations` (or `/me/conversations`) on
+  `graph.instagram.com`; find one conversation with `?user_id={IGSID}`.
+- **Facebook Login**: `GET /{page-id}/conversations?platform=instagram` on
+  `graph.facebook.com` with the Page token.
 
 ```bash
+# Instagram Login flavor:
 curl -G "${BASE}/${IG_USER_ID}/conversations" \
-  --data-urlencode "platform=instagram" \
   --data-urlencode "fields=id,participants,updated_time" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
+
+# Facebook Login flavor:
+curl -G "https://graph.facebook.com/v25.0/${PAGE_ID}/conversations" \
+  --data-urlencode "platform=instagram" \
+  --data-urlencode "fields=id,participants,updated_time" \
+  --data-urlencode "access_token=${PAGE_TOKEN}"
 
 # Messages in one conversation:
 curl -G "${BASE}/${CONVERSATION_ID}" \
@@ -1045,9 +1110,12 @@ Prefer them over polling everywhere.
 
 1. Meta app dashboard → **Webhooks** product → Callback URL
    (`https://<host>/webhooks/instagram`) + Verify Token (a secret you invent).
-2. Subscribe the app to Instagram object fields:
-   `comments`, `messages`, `messaging_postbacks`, `messaging_seen`, `messaging_referrals`,
-   `mentions`, `story_insights`, `live_comments` (pick what you consume).
+2. Subscribe the app to Instagram object fields (availability depends on flavor):
+   content — `comments`, `live_comments`, `mentions`, `story_insights`;
+   messaging — `messages`, `messaging_postbacks`, `messaging_seen`, `messaging_referral`
+   (singular), `message_reactions`, `messaging_handover`, `standby`.
+   Notes: with Instagram Login, `mentions` arrives inside the `comments` notification and
+   `story_insights` is not available; `story_insights` requires `instagram_manage_insights`.
 3. Subscribe each account: `POST /{page-id}/subscribed_apps?subscribed_fields=…`
    with a Page token (FB Login flavor), or the dashboard per-object subscription.
    Re-subscribe after token/app changes; when events stop, check subscription state first.
@@ -1143,9 +1211,8 @@ Message event (`messaging[]` — `sender.id` is the IGSID to reply to):
 ```
 
 Mention/tag events use the `changes[]` shape with `field: "mentions"` (or `live_comments`
-for Live). IG Login flavor: content events are flat `field`/`value`; DMs still arrive as
-`messaging[]`. Normalize both shapes in one parser keyed on `entry[].changes` vs
-`entry[].messaging`.
+for Live). Normalize in one parser keyed on `entry[].changes` (content events) vs
+`entry[].messaging` (DMs) — both shapes appear across flavors.
 
 ### 13.5 Subscription management
 
@@ -1190,10 +1257,10 @@ curl -G "${BASE}/${IG_USER_ID}/tags" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}"
 ```
 
-Note: `/tags` behavior differs between flavors — the Facebook Login flavor is the
-reliable one for tagged-media access; verify the Instagram Login behavior on your
-version before building UGC flows on it. Pair with `mentions` webhooks (§13) for
-real-time capture, and see the UGC repost recipe (§17.4).
+Note: `mentioned_media` requires `instagram_manage_comments` in addition to basic on
+current references; `/tags` is documented against the Facebook Login flavor — verify
+Instagram Login behavior on your version before building UGC flows on it. Pair with
+`mentions` webhooks (§13) for real-time capture, and see the UGC repost recipe (§17.4).
 
 ## 15. Errors, rate limits, retries
 
@@ -1272,11 +1339,15 @@ def with_retry(fn, tries=5):
 
 | Capability | FB Login scope | IG Login scope |
 |---|---|---|
-| Profile + media read | `instagram_basic` | `instagram_business_basic` |
-| Publish / update / delete media | `instagram_content_publish` | `instagram_business_content_publish` |
+| Profile + media read | `instagram_basic` (+ `pages_read_engagement`) | `instagram_business_basic` |
+| Publish media | `instagram_content_publish` | `instagram_business_content_publish` |
+| Delete media | `instagram_manage_contents` (FB Login only) | — (not available) |
+| Toggle comments on media | `instagram_manage_comments` | `instagram_business_manage_comments` |
 | Comments read/reply/hide/delete | `instagram_manage_comments` | `instagram_business_manage_comments` |
 | Account + media insights | `instagram_manage_insights` | `instagram_business_manage_insights` |
 | Messaging | `instagram_manage_messages` | `instagram_business_manage_messages` |
+| Block/unblock (Moderate Conversations) | `instagram_manage_messages` + `business_management` | — (Page-based) |
+| Mentions/tags/webhook mgmt | + `pages_manage_metadata` | (per-field, see §13) |
 | List user's Pages | `pages_show_list` | — (no Pages) |
 | Read Page / linked IG | `pages_read_engagement` | — |
 | Business assets | `business_management` | — |
@@ -1311,15 +1382,16 @@ read path → write path → scheduler/queue → UI.
 ### 17.1 Scheduled-post manager
 
 - Endpoints: `content_publishing_limit`, `POST /media`, `GET /{container-id}`,
-  `POST /media_publish`, `GET /{media-id}`, `POST /{media-id}` (caption fix).
+  `POST /media_publish`, `GET /{media-id}`.
 - Flow: drag-drop calendar → asset upload to public HTTPS → queue row
   `{fire_at, asset_url, caption, status}` → worker fires (§8.9) → permalink recorded.
-- Gotchas: quota (25/24h), container expiry, video `FINISHED` gate, timezone-aware `fire_at`.
+- Gotchas: quota (100 publishes/24h, 400 containers/24h), container expiry, captions
+  are immutable after publish, video `FINISHED` gate, timezone-aware `fire_at`.
 
 ### 17.2 Comment auto-moderator
 
 - Endpoints: webhook `comments`, `GET /{media-id}/comments`, `POST /{comment-id}`
-  (`hide`), `DELETE /{comment-id}`, `POST /{ig-user-id}/block`.
+  (`hide`), `DELETE /{comment-id}`, `POST /{page-id}/moderate_conversations` (block).
 - Flow: webhook → blocklist/LLM score → `hide=true` + mod queue → human approves
   delete/block. Keep allowlist + unhide path; log every action with actor + reason.
 
@@ -1395,8 +1467,8 @@ Decision tree for a failing call: **190?** → re-auth · **10/200?** → scope/
 | POST | `/{ig-user-id}/media` | Create container (§8) | content_publish |
 | GET | `/{container-id}?fields=status_code` | Poll container | content_publish |
 | POST | `/{ig-user-id}/media_publish` | Publish | content_publish |
-| POST | `/{media-id}` | Update caption / comment_enabled | content_publish |
-| DELETE | `/{media-id}` | Delete media | content_publish |
+| POST | `/{media-id}?comment_enabled=` | Enable/disable comments | manage_comments |
+| DELETE | `/{media-id}` | Delete media (FB Login only) | instagram_manage_contents |
 | GET | `/{ig-user-id}/content_publishing_limit` | Quota | content_publish |
 | GET | `/ig_hashtag_search?user_id&q` | Hashtag ID | basic |
 | GET | `/{hashtag-id}/top_media`, `/recent_media` | Hashtag media | basic |
@@ -1405,12 +1477,14 @@ Decision tree for a failing call: **190?** → re-auth · **10/200?** → scope/
 | POST | `/{comment-id}/replies` | Reply | manage_comments |
 | POST | `/{comment-id}` (`hide`) | Hide/unhide | manage_comments |
 | DELETE | `/{comment-id}` | Delete comment | manage_comments |
-| POST | `/{ig-user-id}/block`, `/unblock` | Block/unblock | manage_comments* |
+| POST | `/{page-id}/moderate_conversations` | Block/unblock/move-to-spam | manage_messages + business_management |
 | GET | `/{ig-user-id}/insights` | Account insights | manage_insights |
 | GET | `/{media-id}/insights` | Media insights | manage_insights |
-| POST | `/{ig-user-id}/messages` | Send DM | manage_messages |
-| GET | `/{ig-user-id}/conversations` | List conversations | manage_messages |
-| GET | `/{ig-user-id}/mentioned_media` | Caption mentions | basic* |
+| POST | `/{ig-user-id}/messages` (IG Login) | Send DM | manage_messages |
+| POST | `/{page-id}/messages` (FB Login) | Send DM | manage_messages |
+| GET | `/{ig-user-id}/conversations` (IG Login) | List conversations | manage_messages |
+| GET | `/{page-id}/conversations?platform=instagram` (FB) | List conversations | manage_messages |
+| GET | `/{ig-user-id}/mentioned_media` | Caption mentions | manage_comments |
 | GET | `/{ig-user-id}/tags` | Tagged media | basic* |
 | GET/POST | your `/webhooks/instagram` | Verify + events (§13) | — (app secret) |
 | POST | `/{page-id}/subscribed_apps` | Subscribe webhooks | pages_* |

@@ -1,7 +1,7 @@
 /**
  * Instagram Graph API — TypeScript types
  * Generated: 2026-10-13
- * Base: https://graph.facebook.com/{version} (examples use v21.0)
+ * Base: https://graph.facebook.com/{version} (examples use v25.0)
  * Companion to openapi.yaml in this bundle. Verify against Meta docs before shipping.
  */
 
@@ -23,7 +23,7 @@ export interface Paging {
 export interface IgUser {
   id: string;
   username: string;
-  account_type: "BUSINESS" | "CREATOR" | "MEDIA_CREATOR";
+  // Note: no account_type field exists on the IG User object (current versions).
   media_count: number;
 }
 
@@ -165,9 +165,9 @@ export interface ConversationList {
   paging?: Paging;
 }
 
+/** The only supported update on published media. Captions cannot be edited via the API. */
 export interface UpdateMediaRequest {
-  caption?: string;
-  comment_enabled?: boolean;
+  comment_enabled: boolean;
 }
 
 export interface SuccessResponse {

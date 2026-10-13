@@ -67,7 +67,7 @@ export ACCESS_TOKEN=EAAB...
 
 # Who am I?
 curl -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-  "${GRAPH_HOST}/${GRAPH_VERSION}/${IG_USER_ID}?fields=id,username,account_type,media_count"
+  "${GRAPH_HOST}/${GRAPH_VERSION}/${IG_USER_ID}?fields=id,username,media_count"
 ```
 
 Full flows with responses: [INSTAGRAM_GRAPH_API.md](INSTAGRAM_GRAPH_API.md) and [examples/publish-photo.ts](examples/publish-photo.ts).

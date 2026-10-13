@@ -1,6 +1,6 @@
 # Errors & Rate Limits — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0`
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0`
 
 Every error has the same shape; always log `code`, `error_subcode`, and `fbtrace_id`:
 

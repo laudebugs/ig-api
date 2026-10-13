@@ -13,13 +13,13 @@ from lib import IG_USER_ID, gget
 
 def main():
     account = gget(f"/{IG_USER_ID}/insights",
-                   {"metric": "reach,impressions,profile_views", "period": "day"})
+                   {"metric": "reach,views,accounts_engaged", "period": "day"})
     print("Account insights:", json.dumps(account["data"], indent=2))
 
     media_id = os.environ.get("MEDIA_ID")
     if media_id:
         media = gget(f"/{media_id}/insights",
-                     {"metric": "reach,impressions,engagement,saved"})
+                     {"metric": "views,reach,saved,shares"})
         print("Media insights:", json.dumps(media["data"], indent=2))
 
 

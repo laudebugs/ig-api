@@ -1,6 +1,6 @@
 # Getting Started — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0`
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0`
 
 ## Prerequisites
 
@@ -16,18 +16,18 @@ Follow [authentication.md](authentication.md): OAuth → short-lived user token 
 ## Step 2 — First request
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056?fields=id,username,account_type,media_count&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17841400008460056?fields=id,username,media_count&access_token=EAAB..."
 ```
 
 ```json
-{ "id": "17841400008460056", "username": "examplebrand", "account_type": "BUSINESS", "media_count": 42 }
+{ "id": "17841400008460056", "username": "examplebrand", "media_count": 42 }
 ```
 
 TypeScript:
 
 ```ts
 const res = await fetch(
-  `https://graph.facebook.com/v21.0/${process.env.IG_USER_ID}?fields=id,username,account_type,media_count`,
+  `https://graph.facebook.com/v25.0/${process.env.IG_USER_ID}?fields=id,username,media_count`,
   { headers: { Authorization: `Bearer ${process.env.ACCESS_TOKEN}` } },
 );
 if (!res.ok) throw new Error(await res.text());
@@ -37,7 +37,7 @@ console.log(await res.json());
 ## Step 3 — List recent media
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056/media?fields=id,caption,media_type,permalink,timestamp&limit=5&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17841400008460056/media?fields=id,caption,media_type,permalink,timestamp&limit=5&access_token=EAAB..."
 ```
 
 Paginate with `paging.cursors.after` → `&after=<cursor>` until no `paging.next`.

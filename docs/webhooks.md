@@ -1,6 +1,6 @@
 # Webhooks — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0`
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0`
 
 Webhooks push Instagram events to your HTTPS endpoint. Use them instead of polling for comments, messages, mentions, and story insights.
 

@@ -12,7 +12,7 @@ table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid v
 blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.2rem 1rem;color:var(--muted)}
 h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding-bottom:.3rem}
 @media(max-width:800px){nav{display:none}main{padding:1rem}}
-</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="index.html">Home</a><a href="api-reference.html" class="current">API Reference</a><a href="formats.html">Formats</a><a href="docs/authentication.html">Authentication</a><a href="docs/comments-moderation.html">Comments Moderation</a><a href="docs/errors-and-rate-limits.html">Errors And Rate Limits</a><a href="docs/faq.html">Faq</a><a href="docs/getting-started.html">Getting Started</a><a href="docs/insights.html">Insights</a><a href="docs/media-publishing.html">Media Publishing</a><a href="docs/messaging.html">Messaging</a><a href="docs/webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#contents">Contents</a><a class="h2" href="#0-how-coding-agents-should-use-this-doc">0. How coding agents should use this doc</a><a class="h2" href="#1-api-landscape-two-flavors">1. API landscape: two flavors</a><a class="h2" href="#2-concepts-and-mental-model">2. Concepts and mental model</a><a class="h2" href="#3-app-setup">3. App setup</a><a class="h3" href="#3-1-facebook-login-flavor-graph-facebook-com">3.1 Facebook Login flavor (graph.facebook.com)</a><a class="h3" href="#3-2-instagram-login-flavor-graph-instagram-com">3.2 Instagram Login flavor (graph.instagram.com)</a><a class="h3" href="#3-3-environment-checklist">3.3 Environment checklist</a><a class="h2" href="#4-authentication">4. Authentication</a><a class="h3" href="#4-1-facebook-login-flow-full">4.1 Facebook Login flow (full)</a><a class="h3" href="#4-2-instagram-login-flow-full">4.2 Instagram Login flow (full)</a><a class="h3" href="#4-3-token-storage-and-rotation-rules">4.3 Token storage and rotation rules</a><a class="h3" href="#4-4-verify-a-token-debug-token">4.4 Verify a token (debug_token)</a><a class="h2" href="#5-core-conventions">5. Core conventions</a><a class="h3" href="#5-1-auth-header-vs-query-param">5.1 Auth header vs query param</a><a class="h3" href="#5-2-field-selection-and-expansion">5.2 Field selection and expansion</a><a class="h3" href="#5-3-pagination-cursor-based">5.3 Pagination (cursor-based)</a><a class="h3" href="#5-4-timestamps">5.4 Timestamps</a><a class="h3" href="#5-5-reading-rate-limit-headers">5.5 Reading rate-limit headers</a><a class="h2" href="#6-identity-and-accounts">6. Identity and accounts</a><a class="h3" href="#6-1-get-ig-user-profile-get-ig-user-id">6.1 Get IG user profile — GET /{ig-user-id}</a><a class="h3" href="#6-2-resolve-ig-user-id-from-a-page-get-page-id">6.2 Resolve IG User ID from a Page — GET /{page-id}</a><a class="h3" href="#6-3-linked-facebook-page-reverse-lookup">6.3 Linked Facebook Page (reverse lookup)</a><a class="h2" href="#7-reading-media-feed-reels-stories-albums">7. Reading media (feed, Reels, Stories, albums)</a><a class="h3" href="#7-1-list-media-get-ig-user-id-media">7.1 List media — GET /{ig-user-id}/media</a><a class="h3" href="#7-2-get-one-media-object-get-media-id">7.2 Get one media object — GET /{media-id}</a><a class="h3" href="#7-3-carousel-children-get-media-id-children">7.3 Carousel children — GET /{media-id}/children</a><a class="h3" href="#7-4-stories-get-ig-user-id-stories-then-get-story-media-id">7.4 Stories — GET /{ig-user-id}/stories then GET /{story-media-id}</a><a class="h3" href="#7-5-oembed-public-posts-no-token">7.5 oEmbed (public posts, no token)</a><a class="h2" href="#8-publishing">8. Publishing</a><a class="h3" href="#8-1-photo-single-image">8.1 Photo (single image)</a><a class="h3" href="#8-2-reels-video-with-status-polling">8.2 Reels (video) — with status polling</a><a class="h3" href="#8-3-carousel-album">8.3 Carousel (album)</a><a class="h3" href="#8-4-stories-image-video">8.4 Stories (image/video)</a><a class="h3" href="#8-5-update-published-media-caption">8.5 Update published media (caption)</a><a class="h3" href="#8-6-delete-published-media">8.6 Delete published media</a><a class="h3" href="#8-7-enable-disable-comments-on-media">8.7 Enable/disable comments on media</a><a class="h3" href="#8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit">8.8 Check publishing quota — GET /{ig-user-id}/content_publishing_limit</a><a class="h3" href="#8-9-agent-rules-for-publishing">8.9 Agent rules for publishing</a><a class="h2" href="#9-hashtags-and-business-discovery">9. Hashtags and Business Discovery</a><a class="h3" href="#9-1-hashtag-search-get-ig-hashtag-search">9.1 Hashtag search — GET /ig_hashtag_search</a><a class="h3" href="#9-2-top-recent-hashtag-media-get-hashtag-id-top-media-recent-media">9.2 Top / recent hashtag media — GET /{hashtag-id}/{top_media|recent_media}</a><a class="h3" href="#9-3-business-discovery-get-ig-user-id-fields-business-discovery">9.3 Business Discovery — GET /{ig-user-id}?fields=business_discovery…</a><a class="h2" href="#10-comments-and-moderation">10. Comments and moderation</a><a class="h3" href="#10-1-list-comments-get-media-id-comments">10.1 List comments — GET /{media-id}/comments</a><a class="h3" href="#10-2-reply-post-comment-id-replies">10.2 Reply — POST /{comment-id}/replies</a><a class="h3" href="#10-3-hide-unhide-post-comment-id-with-hide">10.3 Hide / unhide — POST /{comment-id} with hide</a><a class="h3" href="#10-4-delete-delete-comment-id">10.4 Delete — DELETE /{comment-id}</a><a class="h3" href="#10-5-block-unblock-an-account-post-ig-user-id-block">10.5 Block / unblock an account — POST /{ig-user-id}/block</a><a class="h3" href="#10-6-moderation-patterns-for-agents">10.6 Moderation patterns for agents</a><a class="h2" href="#11-insights-and-analytics">11. Insights and analytics</a><a class="h3" href="#11-1-account-insights-get-ig-user-id-insights">11.1 Account insights — GET /{ig-user-id}/insights</a><a class="h3" href="#11-2-media-insights-get-media-id-insights">11.2 Media insights — GET /{media-id}/insights</a><a class="h3" href="#11-3-common-metrics-verify-per-version">11.3 Common metrics (verify per version)</a><a class="h3" href="#11-4-story-insights">11.4 Story insights</a><a class="h3" href="#11-5-audience-demographic-breakdowns">11.5 Audience / demographic breakdowns</a><a class="h2" href="#12-messaging-dms">12. Messaging (DMs)</a><a class="h3" href="#12-1-the-24-hour-window">12.1 The 24-hour window</a><a class="h3" href="#12-2-send-text-post-ig-user-id-messages">12.2 Send text — POST /{ig-user-id}/messages</a><a class="h3" href="#12-3-send-media-attachment">12.3 Send media / attachment</a><a class="h3" href="#12-4-message-tags-outside-the-window">12.4 Message tags (outside the window)</a><a class="h3" href="#12-5-conversations-get-ig-user-id-conversations">12.5 Conversations — GET /{ig-user-id}/conversations</a><a class="h3" href="#12-6-agent-rules-for-messaging">12.6 Agent rules for messaging</a><a class="h2" href="#13-webhooks">13. Webhooks</a><a class="h3" href="#13-1-setup">13.1 Setup</a><a class="h3" href="#13-2-verification-get-return-hub-challenge-verbatim">13.2 Verification (GET — return hub.challenge verbatim)</a><a class="h3" href="#13-3-signature-validation-post-every-event">13.3 Signature validation (POST — every event)</a><a class="h3" href="#13-4-event-payload-catalog">13.4 Event payload catalog</a><a class="h3" href="#13-5-subscription-management">13.5 Subscription management</a><a class="h3" href="#13-6-agent-rules-for-webhooks">13.6 Agent rules for webhooks</a><a class="h2" href="#14-mentions-and-tags">14. Mentions and tags</a><a class="h3" href="#14-1-caption-mentions-get-ig-user-id-mentioned-media">14.1 Caption mentions — GET /{ig-user-id}/mentioned_media</a><a class="h3" href="#14-2-tags-get-ig-user-id-tags">14.2 Tags — GET /{ig-user-id}/tags</a><a class="h2" href="#15-errors-rate-limits-retries">15. Errors, rate limits, retries</a><a class="h3" href="#15-1-error-shape-always-the-same">15.1 Error shape (always the same)</a><a class="h3" href="#15-2-code-table-agent-action">15.2 Code table → agent action</a><a class="h3" href="#15-3-retry-policy-implement-once-use-everywhere">15.3 Retry policy (implement once, use everywhere)</a><a class="h2" href="#16-permissions-app-review-going-live">16. Permissions, App Review, going live</a><a class="h3" href="#16-1-permission-matrix-both-flavors">16.1 Permission matrix (both flavors)</a><a class="h3" href="#16-2-app-review-checklist">16.2 App Review checklist</a><a class="h3" href="#16-3-going-live">16.3 Going live</a><a class="h2" href="#17-agent-build-recipes-extend-instagram">17. Agent build recipes (extend Instagram)</a><a class="h3" href="#17-1-scheduled-post-manager">17.1 Scheduled-post manager</a><a class="h3" href="#17-2-comment-auto-moderator">17.2 Comment auto-moderator</a><a class="h3" href="#17-3-analytics-dashboard-reports">17.3 Analytics dashboard + reports</a><a class="h3" href="#17-4-ugc-repost-pipeline-rights-safe">17.4 UGC repost pipeline (rights-safe)</a><a class="h3" href="#17-5-dm-support-chatbot-human-handoff">17.5 DM support chatbot + human handoff</a><a class="h3" href="#17-6-contest-giveaway-engine">17.6 Contest / giveaway engine</a><a class="h3" href="#17-7-cross-posting-bridge">17.7 Cross-posting bridge</a><a class="h2" href="#18-faq-and-troubleshooting">18. FAQ and troubleshooting</a><a class="h2" href="#appendix-a-endpoint-quick-reference">Appendix A: Endpoint quick reference</a><a class="h2" href="#appendix-b-companion-files-in-this-bundle">Appendix B: Companion files in this bundle</a></nav><main><h1 id="instagram-api-comprehensive-agent-documentation">Instagram API — Comprehensive Agent Documentation</h1>
+</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="index.html">Home</a><a href="api-reference.html" class="current">API Reference</a><a href="formats.html">Formats</a><a href="docs/authentication.html">Authentication</a><a href="docs/comments-moderation.html">Comments Moderation</a><a href="docs/errors-and-rate-limits.html">Errors And Rate Limits</a><a href="docs/faq.html">Faq</a><a href="docs/getting-started.html">Getting Started</a><a href="docs/insights.html">Insights</a><a href="docs/media-publishing.html">Media Publishing</a><a href="docs/messaging.html">Messaging</a><a href="docs/webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#contents">Contents</a><a class="h2" href="#0-how-coding-agents-should-use-this-doc">0. How coding agents should use this doc</a><a class="h2" href="#1-api-landscape-two-flavors">1. API landscape: two flavors</a><a class="h2" href="#2-concepts-and-mental-model">2. Concepts and mental model</a><a class="h2" href="#3-app-setup">3. App setup</a><a class="h3" href="#3-1-facebook-login-flavor-graph-facebook-com">3.1 Facebook Login flavor (graph.facebook.com)</a><a class="h3" href="#3-2-instagram-login-flavor-graph-instagram-com">3.2 Instagram Login flavor (graph.instagram.com)</a><a class="h3" href="#3-3-environment-checklist">3.3 Environment checklist</a><a class="h2" href="#4-authentication">4. Authentication</a><a class="h3" href="#4-1-facebook-login-flow-full">4.1 Facebook Login flow (full)</a><a class="h3" href="#4-2-instagram-login-flow-full">4.2 Instagram Login flow (full)</a><a class="h3" href="#4-3-token-storage-and-rotation-rules">4.3 Token storage and rotation rules</a><a class="h3" href="#4-4-verify-a-token-debug-token">4.4 Verify a token (debug_token)</a><a class="h2" href="#5-core-conventions">5. Core conventions</a><a class="h3" href="#5-1-auth-header-vs-query-param">5.1 Auth header vs query param</a><a class="h3" href="#5-2-field-selection-and-expansion">5.2 Field selection and expansion</a><a class="h3" href="#5-3-pagination-cursor-based">5.3 Pagination (cursor-based)</a><a class="h3" href="#5-4-timestamps">5.4 Timestamps</a><a class="h3" href="#5-5-reading-rate-limit-headers">5.5 Reading rate-limit headers</a><a class="h2" href="#6-identity-and-accounts">6. Identity and accounts</a><a class="h3" href="#6-1-get-ig-user-profile-get-ig-user-id">6.1 Get IG user profile — GET /{ig-user-id}</a><a class="h3" href="#6-2-resolve-ig-user-id-from-a-page-get-page-id">6.2 Resolve IG User ID from a Page — GET /{page-id}</a><a class="h3" href="#6-3-linked-facebook-page">6.3 Linked Facebook Page</a><a class="h2" href="#7-reading-media-feed-reels-stories-albums">7. Reading media (feed, Reels, Stories, albums)</a><a class="h3" href="#7-1-list-media-get-ig-user-id-media">7.1 List media — GET /{ig-user-id}/media</a><a class="h3" href="#7-2-get-one-media-object-get-media-id">7.2 Get one media object — GET /{media-id}</a><a class="h3" href="#7-3-carousel-children-get-media-id-children">7.3 Carousel children — GET /{media-id}/children</a><a class="h3" href="#7-4-stories-get-ig-user-id-stories-then-get-story-media-id">7.4 Stories — GET /{ig-user-id}/stories then GET /{story-media-id}</a><a class="h3" href="#7-5-oembed-public-posts-no-token">7.5 oEmbed (public posts, no token)</a><a class="h2" href="#8-publishing">8. Publishing</a><a class="h3" href="#8-1-photo-single-image">8.1 Photo (single image)</a><a class="h3" href="#8-2-reels-video-with-status-polling">8.2 Reels (video) — with status polling</a><a class="h3" href="#8-3-carousel-album">8.3 Carousel (album)</a><a class="h3" href="#8-4-stories-image-video">8.4 Stories (image/video)</a><a class="h3" href="#8-5-what-you-can-change-after-publishing">8.5 What you can change after publishing</a><a class="h3" href="#8-6-delete-published-media-facebook-login-only">8.6 Delete published media (Facebook Login only)</a><a class="h3" href="#8-7-enable-disable-comments-on-media">8.7 Enable/disable comments on media</a><a class="h3" href="#8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit">8.8 Check publishing quota — GET /{ig-user-id}/content_publishing_limit</a><a class="h3" href="#8-9-agent-rules-for-publishing">8.9 Agent rules for publishing</a><a class="h2" href="#9-hashtags-and-business-discovery">9. Hashtags and Business Discovery</a><a class="h3" href="#9-1-hashtag-search-get-ig-hashtag-search">9.1 Hashtag search — GET /ig_hashtag_search</a><a class="h3" href="#9-2-top-recent-hashtag-media-get-hashtag-id-top-media-recent-media">9.2 Top / recent hashtag media — GET /{hashtag-id}/{top_media|recent_media}</a><a class="h3" href="#9-3-business-discovery-get-ig-user-id-fields-business-discovery">9.3 Business Discovery — GET /{ig-user-id}?fields=business_discovery…</a><a class="h2" href="#10-comments-and-moderation">10. Comments and moderation</a><a class="h3" href="#10-1-list-comments-get-media-id-comments">10.1 List comments — GET /{media-id}/comments</a><a class="h3" href="#10-2-reply-post-comment-id-replies">10.2 Reply — POST /{comment-id}/replies</a><a class="h3" href="#10-3-hide-unhide-post-comment-id-with-hide">10.3 Hide / unhide — POST /{comment-id} with hide</a><a class="h3" href="#10-4-delete-delete-comment-id">10.4 Delete — DELETE /{comment-id}</a><a class="h3" href="#10-5-block-unblock-a-user-moderate-conversations-api">10.5 Block / unblock a user (Moderate Conversations API)</a><a class="h3" href="#10-6-moderation-patterns-for-agents">10.6 Moderation patterns for agents</a><a class="h2" href="#11-insights-and-analytics">11. Insights and analytics</a><a class="h3" href="#11-1-account-insights-get-ig-user-id-insights">11.1 Account insights — GET /{ig-user-id}/insights</a><a class="h3" href="#11-2-media-insights-get-media-id-insights">11.2 Media insights — GET /{media-id}/insights</a><a class="h3" href="#11-3-common-metrics-verify-per-version">11.3 Common metrics (verify per version)</a><a class="h3" href="#11-4-story-insights">11.4 Story insights</a><a class="h3" href="#11-5-audience-demographic-breakdowns">11.5 Audience / demographic breakdowns</a><a class="h2" href="#12-messaging-dms">12. Messaging (DMs)</a><a class="h3" href="#12-1-the-24-hour-window">12.1 The 24-hour window</a><a class="h3" href="#12-2-send-text">12.2 Send text</a><a class="h3" href="#12-3-send-media-attachment">12.3 Send media / attachment</a><a class="h3" href="#12-4-message-tags-outside-the-window">12.4 Message tags (outside the window)</a><a class="h3" href="#12-5-conversations">12.5 Conversations</a><a class="h3" href="#12-6-agent-rules-for-messaging">12.6 Agent rules for messaging</a><a class="h2" href="#13-webhooks">13. Webhooks</a><a class="h3" href="#13-1-setup">13.1 Setup</a><a class="h3" href="#13-2-verification-get-return-hub-challenge-verbatim">13.2 Verification (GET — return hub.challenge verbatim)</a><a class="h3" href="#13-3-signature-validation-post-every-event">13.3 Signature validation (POST — every event)</a><a class="h3" href="#13-4-event-payload-catalog">13.4 Event payload catalog</a><a class="h3" href="#13-5-subscription-management">13.5 Subscription management</a><a class="h3" href="#13-6-agent-rules-for-webhooks">13.6 Agent rules for webhooks</a><a class="h2" href="#14-mentions-and-tags">14. Mentions and tags</a><a class="h3" href="#14-1-caption-mentions-get-ig-user-id-mentioned-media">14.1 Caption mentions — GET /{ig-user-id}/mentioned_media</a><a class="h3" href="#14-2-tags-get-ig-user-id-tags">14.2 Tags — GET /{ig-user-id}/tags</a><a class="h2" href="#15-errors-rate-limits-retries">15. Errors, rate limits, retries</a><a class="h3" href="#15-1-error-shape-always-the-same">15.1 Error shape (always the same)</a><a class="h3" href="#15-2-code-table-agent-action">15.2 Code table → agent action</a><a class="h3" href="#15-3-retry-policy-implement-once-use-everywhere">15.3 Retry policy (implement once, use everywhere)</a><a class="h2" href="#16-permissions-app-review-going-live">16. Permissions, App Review, going live</a><a class="h3" href="#16-1-permission-matrix-both-flavors">16.1 Permission matrix (both flavors)</a><a class="h3" href="#16-2-app-review-checklist">16.2 App Review checklist</a><a class="h3" href="#16-3-going-live">16.3 Going live</a><a class="h2" href="#17-agent-build-recipes-extend-instagram">17. Agent build recipes (extend Instagram)</a><a class="h3" href="#17-1-scheduled-post-manager">17.1 Scheduled-post manager</a><a class="h3" href="#17-2-comment-auto-moderator">17.2 Comment auto-moderator</a><a class="h3" href="#17-3-analytics-dashboard-reports">17.3 Analytics dashboard + reports</a><a class="h3" href="#17-4-ugc-repost-pipeline-rights-safe">17.4 UGC repost pipeline (rights-safe)</a><a class="h3" href="#17-5-dm-support-chatbot-human-handoff">17.5 DM support chatbot + human handoff</a><a class="h3" href="#17-6-contest-giveaway-engine">17.6 Contest / giveaway engine</a><a class="h3" href="#17-7-cross-posting-bridge">17.7 Cross-posting bridge</a><a class="h2" href="#18-faq-and-troubleshooting">18. FAQ and troubleshooting</a><a class="h2" href="#appendix-a-endpoint-quick-reference">Appendix A: Endpoint quick reference</a><a class="h2" href="#appendix-b-companion-files-in-this-bundle">Appendix B: Companion files in this bundle</a></nav><main><h1 id="instagram-api-comprehensive-agent-documentation">Instagram API — Comprehensive Agent Documentation</h1>
 <blockquote>Generated: 2026-10-13 · Default version in examples: <code>v25.0</code> (Meta&#x27;s latest is <code>v26.0</code>, released 2026-07-29 — verify in the <a href="https://developers.facebook.com/docs/graph-api/changelog">Graph API changelog</a> before shipping) · Audience: coding agents and developers building apps that extend Instagram.  Conventions: <code>{version}</code> = Graph API version (keep in <code>GRAPH_VERSION</code> env var). <code>{ig-user-id}</code>, <code>{media-id}</code>, <code>{comment-id}</code> are numeric strings. <code>{token}</code> = access token (placeholder <code>EAAB...</code> / <code>IGAA...</code> — never commit real tokens). Every endpoint below shows <strong>curl + TypeScript + Python</strong> unless noted.</blockquote>
 <h2 id="contents">Contents</h2>
 <ul>
@@ -241,21 +241,28 @@ long_lived = tok[&quot;access_token&quot;]</code></pre>
 <h3 id="4-2-instagram-login-flow-full">4.2 Instagram Login flow (full)</h3>
 <p>Same shape, different hosts/scopes — do not mix with §4.1 values:</p>
 <ul>
-<li>Redirect the creator to the Instagram authorize URL configured for your Instagram app</li>
+<li>Redirect the creator to the Instagram authorize URL</li>
 </ul>
-<p>with <code>instagram_business_basic</code>, <code>instagram_business_content_publish</code>, etc. (§16).</p>
+<p>(<code>https://api.instagram.com/oauth/authorize?client_id={instagram-app-id}&amp;redirect_uri={redirect-uri}&amp;scope=instagram_business_basic,instagram_business_content_publish&amp;response_type=code</code>). The redirect appends <code>#_</code> after the code — strip it before exchanging.</p>
 <ul>
-<li>Exchange <code>code</code> at the Instagram token endpoint for a short-lived IG user token.</li>
-<li>Exchange for a long-lived IG token (~60 days); refresh with a still-valid token via</li>
+<li>Exchange <code>code</code> for a short-lived IG user token (~1h):</li>
 </ul>
-<p>the refresh endpoint (<code>grant_type=ig_refresh_token</code> style refresh — check current Instagram Platform docs for exact params, they differ from <code>fb_exchange_token</code>).</p>
+<p><code>POST https://api.instagram.com/oauth/access_token</code> with <code>client_id</code>, <code>client_secret</code>, <code>grant_type=authorization_code</code>, <code>redirect_uri</code>, and <code>code</code>.</p>
+<ul>
+<li>Exchange for a long-lived IG token (~60 days):</li>
+</ul>
+<p><code>GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token&amp;client_secret={instagram-app-secret}&amp;access_token={short-lived-token}</code>.</p>
+<ul>
+<li>Refresh a still-valid long-lived token (no app secret needed):</li>
+</ul>
+<p><code>GET https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&amp;access_token={long-lived-token}</code>. Tokens not refreshed within 60 days expire and can no longer be refreshed.</p>
 <ul>
 <li>The token owner is the IG account: use <code>IG_USER_ID=me</code> or the numeric IG ID.</li>
 <li>Verify with <code>GET /me?fields=user_id,username</code> on <code>graph.instagram.com</code>.</li>
 </ul>
 <pre><code class="language-bash"># Instagram Login flavor: who am I?
 curl -G &quot;https://graph.instagram.com/v25.0/me&quot; \
-  --data-urlencode &quot;fields=user_id,username,account_type&quot; \
+  --data-urlencode &quot;fields=user_id,username&quot; \
   --data-urlencode &quot;access_token=${IG_TOKEN}&quot;</code></pre>
 <h3 id="4-3-token-storage-and-rotation-rules">4.3 Token storage and rotation rules</h3>
 <ul>
@@ -327,25 +334,23 @@ curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
 <p>Requires: <code>instagram_basic</code> (FB Login) / <code>instagram_business_basic</code> (IG Login).</p>
 <h3 id="6-1-get-ig-user-profile-get-ig-user-id">6.1 Get IG user profile — <code>GET /{ig-user-id}</code></h3>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
-  --data-urlencode &quot;fields=id,username,name,biography,account_type,media_count,followers_count,follows_count,profile_picture_url,website&quot; \
+  --data-urlencode &quot;fields=id,username,name,biography,media_count,followers_count,follows_count,profile_picture_url,website&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
-<pre><code class="language-json">{ &quot;id&quot;: &quot;17841400008460056&quot;, &quot;username&quot;: &quot;examplebrand&quot;, &quot;account_type&quot;: &quot;BUSINESS&quot;,
+<pre><code class="language-json">{ &quot;id&quot;: &quot;17841400008460056&quot;, &quot;username&quot;: &quot;examplebrand&quot;,
   &quot;media_count&quot;: 42, &quot;followers_count&quot;: 120400, &quot;follows_count&quot;: 312 }</code></pre>
 <p>TypeScript / Python (helpers from §0):</p>
-<pre><code class="language-ts">const me = await gget&lt;IgUser&gt;(`/${process.env.IG_USER_ID}?fields=id,username,account_type,media_count,followers_count`);</code></pre>
+<pre><code class="language-ts">const me = await gget&lt;IgUser&gt;(`/${process.env.IG_USER_ID}?fields=id,username,media_count,followers_count`);</code></pre>
 <pre><code class="language-python">me = gget(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}&quot;,
-          {&quot;fields&quot;: &quot;id,username,account_type,media_count,followers_count&quot;})</code></pre>
-<p>Useful fields: <code>id,username,name,biography,account_type,media_count,followers_count, follows_count,profile_picture_url,website</code>. Shopping-enabled accounts may expose <code>shopping_review_status</code> and related fields — check your version&#x27;s User reference.</p>
+          {&quot;fields&quot;: &quot;id,username,media_count,followers_count&quot;})</code></pre>
+<p>Useful fields: <code>id,username,name,biography,media_count,followers_count,follows_count, profile_picture_url,website,has_profile_pic,is_published,shopping_product_tag_eligibility</code>. Note: the IG User object has <strong>no <code>account_type</code> field</strong> on current versions — do not request it (error 100). Business-vs-Creator cannot be distinguished via this object.</p>
 <h3 id="6-2-resolve-ig-user-id-from-a-page-get-page-id">6.2 Resolve IG User ID from a Page — <code>GET /{page-id}</code></h3>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${PAGE_ID}&quot; \
   --data-urlencode &quot;fields=instagram_business_account{id,username}&quot; \
   -H &quot;Authorization: Bearer ${USER_TOKEN}&quot;
 # → {&quot;instagram_business_account&quot;: {&quot;id&quot;: &quot;178414…&quot;, &quot;username&quot;: &quot;examplebrand&quot;}, &quot;id&quot;: &quot;1098…&quot;}</code></pre>
 <p>Missing <code>instagram_business_account</code> ⇒ Page↔IG link absent. Re-link in Page Settings.</p>
-<h3 id="6-3-linked-facebook-page-reverse-lookup">6.3 Linked Facebook Page (reverse lookup)</h3>
-<pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
-  --data-urlencode &quot;fields=id,username,connected_facebook_page&quot; \
-  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
+<h3 id="6-3-linked-facebook-page">6.3 Linked Facebook Page</h3>
+<p>There is no <code>connected_facebook_page</code> field on the IG User object. Resolve the link in the other direction: from the Page via <code>instagram_business_account</code> (§6.2), or list a user&#x27;s Pages with <code>GET /me/accounts</code> (§4.1, Step 4).</p>
 <h2 id="7-reading-media-feed-reels-stories-albums">7. Reading media (feed, Reels, Stories, albums)</h2>
 <p>Requires: <code>instagram_basic</code> / <code>instagram_business_basic</code>.</p>
 <h3 id="7-1-list-media-get-ig-user-id-media">7.1 List media — <code>GET /{ig-user-id}/media</code></h3>
@@ -355,7 +360,10 @@ curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
 <ul>
 <li><code>media_type</code>: <code>IMAGE</code> | <code>VIDEO</code> | <code>CAROUSEL_ALBUM</code>.</li>
-<li><code>media_product_type</code>: <code>FEED</code> | <code>REELS</code> | <code>STORY</code>.</li>
+<li><code>media_product_type</code>: <code>FEED</code> | <code>REELS</code> | <code>STORY</code> (also <code>AD</code>). On current references</li>
+</ul>
+<p>this field is documented for the Facebook Login flavor only — do not rely on it with Instagram Login tokens.</p>
+<ul>
 <li>Paginate with <code>paging.next</code> (§5.3). Filter client-side by <code>media_product_type</code> for</li>
 </ul>
 <p>Reels-only views — there is no server-side product-type filter on this edge.</p>
@@ -367,7 +375,7 @@ curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
 <h3 id="7-4-stories-get-ig-user-id-stories-then-get-story-media-id">7.4 Stories — <code>GET /{ig-user-id}/stories</code> then <code>GET /{story-media-id}</code></h3>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/stories&quot; \
-  --data-urlencode &quot;fields=id,media_type,media_url,timestamp,expiry_time&quot; \
+  --data-urlencode &quot;fields=id,media_type,media_url,timestamp&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
 <p>Stories expire after 24h; <code>media_url</code> dies with them. Fetch story insights (§11.4) while live.</p>
 <h3 id="7-5-oembed-public-posts-no-token">7.5 oEmbed (public posts, no token)</h3>
@@ -396,7 +404,13 @@ for m in pages(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/media&quot;,
 <ul>
 <li><strong>Two steps always</strong>: create container → (video: poll to <code>FINISHED</code>) → <code>media_publish</code>.</li>
 <li>Containers expire ~24h unpublished (<code>EXPIRED</code> ⇒ recreate, don&#x27;t retry publish).</li>
-<li>Quota: capped API publishes per 24h (commonly 25 — read <code>content_publishing_limit</code>, §8.8).</li>
+</ul>
+<p>Accounts can create at most <strong>400 containers per rolling 24h</strong>.</p>
+<ul>
+<li>Quota: <strong>100 API-published posts per rolling 24h</strong> (carousels count as one post),</li>
+</ul>
+<p>enforced on <code>media_publish</code> — read <code>content_publishing_limit</code> (§8.8) for live usage.</p>
+<ul>
 <li>Only the returned <strong>media ID</strong> works for insights/comments — store both IDs.</li>
 </ul>
 <h3 id="8-1-photo-single-image">8.1 Photo (single image)</h3>
@@ -487,27 +501,23 @@ curl -X POST &quot;${BASE}/${IG_USER_ID}/media_publish&quot; \
   -d &quot;access_token=${ACCESS_TOKEN}&quot;
 # → {&quot;id&quot;:&quot;STORY_CONTAINER&quot;} → media_publish as usual</code></pre>
 <p>Video stories use <code>video_url</code> + <code>media_type=STORIES</code> and need <code>FINISHED</code> first. Interactive stickers (polls/links) are generally <strong>not</strong> settable via API — publish the flat asset.</p>
-<h3 id="8-5-update-published-media-caption">8.5 Update published media (caption)</h3>
-<pre><code class="language-bash"># Update caption / alt text on a PUBLISHED media id (not a container id)
-curl -X POST &quot;${BASE}/${MEDIA_ID}&quot; \
-  -d &quot;caption=Edited caption #update&quot; \
-  -d &quot;access_token=${ACCESS_TOKEN}&quot;
-# → {&quot;success&quot;: true}</code></pre>
-<p>Only whitelisted fields are mutable (caption, alt text where supported). Media bytes, product type, and timestamps are immutable — delete + republish to change those.</p>
-<h3 id="8-6-delete-published-media">8.6 Delete published media</h3>
+<h3 id="8-5-what-you-can-change-after-publishing">8.5 What you can change after publishing</h3>
+<p>Almost nothing. <strong>Captions cannot be edited via the API</strong> — plan copy before publishing (delete + republish to change it, §8.6). The only supported update on a published media object is toggling comments (§8.7).</p>
+<h3 id="8-6-delete-published-media-facebook-login-only">8.6 Delete published media (Facebook Login only)</h3>
 <pre><code class="language-bash">curl -X DELETE &quot;${BASE}/${MEDIA_ID}?access_token=${ACCESS_TOKEN}&quot;
-# → {&quot;success&quot;: true}</code></pre>
-<p>Deletion is permanent and immediate. There is no trash/restore via API — confirm UX-side.</p>
+# → {&quot;success&quot;: true, &quot;deleted_id&quot;: &quot;17987654321098765&quot;}</code></pre>
+<p>Requires <code>instagram_basic</code> + <code>instagram_manage_contents</code> on the <strong>Facebook Login flavor only</strong> (not available with Instagram Login). Non-ad posts, Stories, and Reels are supported; a carousel must be deleted as a whole album — individual children cannot be deleted. Permanent — confirm UX-side; no trash/restore.</p>
 <h3 id="8-7-enable-disable-comments-on-media">8.7 Enable/disable comments on media</h3>
-<pre><code class="language-bash">curl -X POST &quot;${BASE}/${MEDIA_ID}&quot; \
-  -d &quot;comment_enabled=false&quot; -d &quot;access_token=${ACCESS_TOKEN}&quot;</code></pre>
+<p>Requires <code>instagram_manage_comments</code> (+ basic):</p>
+<pre><code class="language-bash">curl -X POST &quot;${BASE}/${MEDIA_ID}?comment_enabled=false&amp;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;success&quot;: true}</code></pre>
 <h3 id="8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit">8.8 Check publishing quota — <code>GET /{ig-user-id}/content_publishing_limit</code></h3>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/content_publishing_limit&quot; \
-  --data-urlencode &quot;fields=quota_usage,rate_limit_settings,config&quot; \
+  --data-urlencode &quot;fields=quota_usage,rate_limit_settings&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
-<pre><code class="language-json">{ &quot;data&quot;: [{ &quot;quota_usage&quot;: 7, &quot;rate_limit_settings&quot;: [{&quot;limit&quot;: 25, &quot;time_duration&quot;: 86400}],
-  &quot;config&quot;: { &quot;quota_total&quot;: 25, &quot;quota_duration&quot;: 86400 } }] }</code></pre>
-<p>Check before queueing scheduled posts; surface <code>quota_total - quota_usage</code> in scheduler UIs.</p>
+<pre><code class="language-json">{ &quot;data&quot;: [{ &quot;quota_usage&quot;: 7,
+  &quot;rate_limit_settings&quot;: [{ &quot;limit&quot;: 100, &quot;time_duration&quot;: 86400 }] }] }</code></pre>
+<p><code>quota_usage</code> counts API publishes in the current rolling 24h window (limit 100). Check before queueing scheduled posts; surface remaining headroom in scheduler UIs.</p>
 <h3 id="8-9-agent-rules-for-publishing">8.9 Agent rules for publishing</h3>
 <ul>
 <li>URL-encode captions (<code>#</code> → <code>%23</code> in raw form posts; SDK/form encoders handle this).</li>
@@ -519,7 +529,7 @@ curl -X POST &quot;${BASE}/${MEDIA_ID}&quot; \
 <h2 id="9-hashtags-and-business-discovery">9. Hashtags and Business Discovery</h2>
 <p>Requires: <code>instagram_basic</code> (+ <code>instagram_manage_insights</code> for discovered-media insights).</p>
 <h3 id="9-1-hashtag-search-get-ig-hashtag-search">9.1 Hashtag search — <code>GET /ig_hashtag_search</code></h3>
-<p>Resolve a tag name to a hashtag ID (scoped to the querying user):</p>
+<p>Resolve a tag name to a hashtag ID. Hashtag IDs are <strong>static and global</strong> (the same for every app/user). You may query at most <strong>30 unique hashtags per account per rolling 7 days</strong> — every <code>ig_hashtag_search</code>, <code>top_media</code>, and <code>recent_media</code> call counts:</p>
 <pre><code class="language-bash">curl -G &quot;${BASE}/ig_hashtag_search&quot; \
   --data-urlencode &quot;user_id=${IG_USER_ID}&quot; \
   --data-urlencode &quot;q=paris2026&quot; \
@@ -535,7 +545,7 @@ tag_id = tags[&quot;data&quot;][0][&quot;id&quot;]</code></pre>
   --data-urlencode &quot;fields=id,caption,media_type,permalink,timestamp,like_count,comments_count&quot; \
   --data-urlencode &quot;limit=25&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
-<p><code>top_media</code> needs no extra params beyond <code>user_id</code>+<code>fields</code>. Only public media on Business/Creator accounts is returned. Paginate via <code>paging.next</code>. Use for UGC discovery, contest entries, and trend boards (§17).</p>
+<p><code>top_media</code> needs no extra params beyond <code>user_id</code>+<code>fields</code>. Only public media is returned; <strong><code>recent_media</code> only returns media published within the last 24 hours</strong>. The <code>username</code> field cannot be requested on hashtag media, results may not be chronological, and only an <code>after</code> cursor is returned (max <code>limit</code> 50). Use for UGC discovery, contest entries, and trend boards (§17) — budget the 30-tag/7-day limit.</p>
 <h3 id="9-3-business-discovery-get-ig-user-id-fields-business-discovery">9.3 Business Discovery — <code>GET /{ig-user-id}?fields=business_discovery…</code></h3>
 <p>Look up another professional account&#x27;s public profile + media without their token:</p>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
@@ -570,11 +580,18 @@ replies = gget(f&quot;/{comment_id}/replies&quot;, {&quot;fields&quot;: &quot;id
 <pre><code class="language-bash">curl -X DELETE &quot;${BASE}/${COMMENT_ID}?access_token=${ACCESS_TOKEN}&quot;
 # → {&quot;success&quot;: true}</code></pre>
 <p>Only comments the authorized account can moderate (e.g. on its own media). Permanent.</p>
-<h3 id="10-5-block-unblock-an-account-post-ig-user-id-block">10.5 Block / unblock an account — <code>POST /{ig-user-id}/block</code></h3>
-<pre><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/block&quot; \
-  -d &quot;block_user_id=${OFFENDING_IGSID_OR_ID}&quot; -d &quot;access_token=${ACCESS_TOKEN}&quot;
-# unblock: POST /{ig-user-id}/unblock with the same param</code></pre>
-<p>Confirm the exact param name (<code>block_user_id</code> vs <code>user_id</code>) against your version&#x27;s reference — it has varied. Gate this behind human approval in automation.</p>
+<h3 id="10-5-block-unblock-a-user-moderate-conversations-api">10.5 Block / unblock a user (Moderate Conversations API)</h3>
+<p>Blocking is a <strong>messaging</strong> action, not an IG-user edge. Requires a Page access token, <code>instagram_manage_messages</code> + <code>instagram_basic</code> + <code>business_management</code>, and an existing conversation with the user. Gate behind human approval in automation.</p>
+<pre><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/${PAGE_ID}/moderate_conversations&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;user_ids&quot;: [{ &quot;id&quot;: &quot;IGSID_FROM_WEBHOOK&quot; }],
+    &quot;actions&quot;: [&quot;block_user&quot;],
+    &quot;access_token&quot;: &quot;PAGE_ACCESS_TOKEN&quot;
+  }&#x27;
+# unblock: &quot;actions&quot;: [&quot;unblock_user&quot;]  (never combine block+unblock in one call)
+# → {&quot;success&quot;: &quot;true&quot;}</code></pre>
+<p>Up to 10 IGSIDs and 2 actions per request; <code>move_to_spam</code> is the third supported action.</p>
 <h3 id="10-6-moderation-patterns-for-agents">10.6 Moderation patterns for agents</h3>
 <ul>
 <li><strong>Keyword auto-hide</strong>: webhook <code>comments</code> → match blocklist → <code>hide=true</code> → log. Keep a</li>
@@ -590,10 +607,10 @@ replies = gget(f&quot;/{comment_id}/replies&quot;, {&quot;fields&quot;: &quot;id
 <p>writes are throttled harder than reads (§15).</p>
 <h2 id="11-insights-and-analytics">11. Insights and analytics</h2>
 <p>Requires: <code>instagram_manage_insights</code> (IG Login: <code>instagram_business_manage_insights</code>).</p>
-<p>Metric names are <strong>versioned</strong> — a metric valid on v25 may not exist on v26 and vice versa. <strong>One invalid metric fails the whole call</strong> (error 100): on failure, bisect the metric list. <code>values[].value</code> may be a number <strong>or an object</strong> (breakdown) — parse defensively. Cache daily rows; history rarely changes after ~48h.</p>
+<p>Metric names are <strong>versioned</strong> — a metric valid on v25 may not exist on v26 and vice versa. <strong>One invalid metric fails the whole call</strong> (error 100): on failure, bisect the metric list. <code>values[].value</code> may be a number <strong>or an object</strong> (breakdown) — parse defensively. Cache daily rows; insights data may be delayed up to ~48h. Deprecated (do not use in new code): account <code>impressions</code> (dropped for v22+; use <code>views</code>) and <code>profile_views</code>/<code>website_clicks</code> (removed — current replacements are <code>views</code> and <code>profile_links_taps</code>); media <code>impressions</code> for media created after 2024-07-02 and media <code>plays</code> (use <code>views</code>, <code>ig_reels_avg_watch_time</code>, <code>ig_reels_video_view_total_time</code>).</p>
 <h3 id="11-1-account-insights-get-ig-user-id-insights">11.1 Account insights — <code>GET /{ig-user-id}/insights</code></h3>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/insights&quot; \
-  --data-urlencode &quot;metric=reach,impressions,profile_views,website_clicks,accounts_engaged,total_interactions&quot; \
+  --data-urlencode &quot;metric=reach,views,profile_links_taps,accounts_engaged,total_interactions&quot; \
   --data-urlencode &quot;period=day&quot; \
   --data-urlencode &quot;since=1759276800&quot; \
   --data-urlencode &quot;until=1759968000&quot; \
@@ -601,31 +618,37 @@ replies = gget(f&quot;/{comment_id}/replies&quot;, {&quot;fields&quot;: &quot;id
 <pre><code class="language-json">{ &quot;data&quot;: [
   { &quot;name&quot;: &quot;reach&quot;, &quot;period&quot;: &quot;day&quot;, &quot;id&quot;: &quot;178414…/insights/reach/day&quot;,
     &quot;values&quot;: [{ &quot;value&quot;: 1204, &quot;end_time&quot;: &quot;2026-10-13T07:00:00+0000&quot; }] } ] }</code></pre>
-<p>Periods: <code>day</code>, <code>week</code>, <code>days_28</code> depending on metric; <code>follower_count</code>-style metrics use their own period semantics — request them separately. <code>since</code>/<code>until</code> are Unix seconds, aligned to full days.</p>
+<p>Current account interaction metrics use <code>period=day</code> (demographic metrics use <code>period=lifetime</code> + <code>timeframe</code>, no <code>since</code>/<code>until</code>). Pass <code>metric_type=total_value</code> for current-style summed responses with <code>breakdown</code> support, or omit it for the classic time-series shape. <code>since</code>/<code>until</code> are Unix seconds, aligned to full days.</p>
 <h3 id="11-2-media-insights-get-media-id-insights">11.2 Media insights — <code>GET /{media-id}/insights</code></h3>
 <pre><code class="language-bash">curl -G &quot;${BASE}/${MEDIA_ID}/insights&quot; \
-  --data-urlencode &quot;metric=reach,impressions,engagement,saved,shares,total_interactions,likes,comments&quot; \
+  --data-urlencode &quot;metric=views,reach,saved,shares,total_interactions,likes,comments&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
-<p>Valid metrics depend on <code>media_product_type</code> (feed vs Reels vs Story). Reels add plays/watch-time style metrics where supported (e.g. <code>plays</code>, average-watch-time variants — confirm names on your version). No <code>period</code> param on media insights.</p>
+<p>Valid metrics depend on <code>media_product_type</code> (feed vs Reels vs Story). There is no <code>engagement</code> metric. Media responses use <code>period=lifetime</code> (not changeable). Insights are <strong>not available for media inside a carousel album</strong> — query the album-level object. Reels add <code>ig_reels_avg_watch_time</code> and <code>ig_reels_video_view_total_time</code>.</p>
 <p>Runnable: <code>examples/fetch-insights.ts</code>, <code>examples/fetch-insights.py</code>.</p>
 <h3 id="11-3-common-metrics-verify-per-version">11.3 Common metrics (verify per version)</h3>
-<table><thead><tr><th>Surface</th><th>Metrics to try first</th></tr></thead><tbody><tr><td>Account</td><td><code>impressions</code>, <code>reach</code>, <code>profile_views</code>, <code>website_clicks</code>, <code>accounts_engaged</code>, <code>total_interactions</code>, <code>follower_count</code></td></tr><tr><td>Feed media</td><td><code>impressions</code>, <code>reach</code>, <code>engagement</code>, <code>saved</code>, <code>shares</code>, <code>total_interactions</code>, <code>likes</code>, <code>comments</code></td></tr><tr><td>Reels</td><td>feed metrics + <code>plays</code> and watch-time metrics where exposed</td></tr><tr><td>Stories</td><td><code>reach</code>, <code>replies</code>, <code>taps_forward</code>, <code>taps_back</code>, <code>exits</code>, <code>impressions</code></td></tr></tbody></table>
+<table><thead><tr><th>Surface</th><th>Metrics to try first</th></tr></thead><tbody><tr><td>Account</td><td><code>views</code>, <code>reach</code>, <code>accounts_engaged</code>, <code>total_interactions</code>, <code>likes</code>, <code>comments</code>, <code>shares</code>, <code>saves</code>, <code>profile_links_taps</code>, <code>follows_and_unfollows</code></td></tr><tr><td>Feed media</td><td><code>views</code>, <code>reach</code>, <code>saved</code>, <code>shares</code>, <code>total_interactions</code>, <code>likes</code>, <code>comments</code>, <code>profile_visits</code></td></tr><tr><td>Reels</td><td>feed metrics + <code>ig_reels_avg_watch_time</code>, <code>ig_reels_video_view_total_time</code>, <code>reels_skip_rate</code></td></tr><tr><td>Stories</td><td><code>views</code>, <code>reach</code>, <code>replies</code>, <code>navigation</code>, <code>shares</code>, <code>total_interactions</code></td></tr></tbody></table>
 <h3 id="11-4-story-insights">11.4 Story insights</h3>
-<p>Stories expire in 24h — pipeline: <code>GET /{ig-user-id}/stories</code> → for each id <code>GET /{story-id}/insights?metric=reach,replies,taps_forward,taps_back,exits</code> → persist immediately. There is no backfill after expiry.</p>
+<p>Stories expire in 24h — pipeline: <code>GET /{ig-user-id}/stories</code> → for each id <code>GET /{story-id}/insights?metric=views,reach,replies,navigation</code> → persist immediately. Story metrics are only available for 24 hours; values under 5 viewers return error 10. There is no backfill after expiry.</p>
 <h3 id="11-5-audience-demographic-breakdowns">11.5 Audience / demographic breakdowns</h3>
 <p>Some account metrics return breakdown objects (<code>value: {&quot;0-17&quot;: n, …}</code> / city / country). Request audience metrics explicitly per your version&#x27;s reference, store raw JSON, and normalize downstream — key sets shift between versions.</p>
 <p>TypeScript / Python:</p>
-<pre><code class="language-ts">const resp = await gget&lt;InsightsResponse&gt;(`/${process.env.IG_USER_ID}/insights?metric=reach,impressions,profile_views&amp;period=day&amp;since=${since}&amp;until=${until}`);
+<pre><code class="language-ts">const resp = await gget&lt;InsightsResponse&gt;(`/${process.env.IG_USER_ID}/insights?metric=reach,views,accounts_engaged&amp;period=day&amp;since=${since}&amp;until=${until}`);
 for (const m of resp.data) for (const v of m.values) console.log(m.name, v.end_time, JSON.stringify(v.value));</code></pre>
 <pre><code class="language-python">resp = gget(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/insights&quot;,
-            {&quot;metric&quot;: &quot;reach,impressions,profile_views&quot;, &quot;period&quot;: &quot;day&quot;,
+            {&quot;metric&quot;: &quot;reach,views,accounts_engaged&quot;, &quot;period&quot;: &quot;day&quot;,
              &quot;since&quot;: str(since), &quot;until&quot;: str(until)})
 for m in resp[&quot;data&quot;]:
     for v in m[&quot;values&quot;]:
         print(m[&quot;name&quot;], v.get(&quot;end_time&quot;), v[&quot;value&quot;])</code></pre>
 <h2 id="12-messaging-dms">12. Messaging (DMs)</h2>
-<p>Requires: <code>instagram_manage_messages</code> (+ <code>instagram_basic</code>, Page-linked account for FB Login flavor).</p>
+<p>Requires: <code>instagram_manage_messages</code> (FB Login) / <code>instagram_business_manage_messages</code> (IG Login). FB Login additionally requires the user to enable <strong>Allow Access to Messages</strong> (Instagram → Settings → Messages and story replies → Message controls → Connected Tools).</p>
 <p>Mental model: the IG account can <strong>reply</strong> to users who messaged it. Recipients are <strong>IGSIDs from webhooks</strong> (§13) — there is no username→IGSID lookup and no cold outreach.</p>
+<p><strong>Endpoints differ by flavor</strong> (this trips up many integrations):</p>
+<ul>
+<li><strong>Instagram Login</strong>: <code>POST /{ig-user-id}/messages</code> on <code>graph.instagram.com</code> (or <code>/me/messages</code>).</li>
+<li><strong>Facebook Login</strong>: <code>POST /{page-id}/messages</code> on <code>graph.facebook.com</code> with the **Page</li>
+</ul>
+<p>access token** (same Send API as Messenger) — *not* the IG user ID. <code>/me/messages</code> with the Page token also works.</p>
 <h3 id="12-1-the-24-hour-window">12.1 The 24-hour window</h3>
 <ul>
 <li>Inside 24h of the user&#x27;s last message: free-form replies, <code>messaging_type: RESPONSE</code>.</li>
@@ -635,7 +658,8 @@ for m in resp[&quot;data&quot;]:
 <ul>
 <li><code>messaging_type: UPDATE</code> covers proactive policy-approved updates where Meta allows them.</li>
 </ul>
-<h3 id="12-2-send-text-post-ig-user-id-messages">12.2 Send text — <code>POST /{ig-user-id}/messages</code></h3>
+<h3 id="12-2-send-text">12.2 Send text</h3>
+<p>Instagram Login (<code>graph.instagram.com</code>, IG user token):</p>
 <pre><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/messages&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot; \
@@ -645,7 +669,17 @@ for m in resp[&quot;data&quot;]:
     &quot;message&quot;: { &quot;text&quot;: &quot;Hi! Your order ships Friday.&quot; }
   }&#x27;
 # → {&quot;recipient_id&quot;:&quot;IGSID…&quot;,&quot;message_id&quot;:&quot;m_abc123&quot;}</code></pre>
-<p>TypeScript / Python:</p>
+<p>Facebook Login (<code>graph.facebook.com</code>, <strong>Page token, Page ID</strong>):</p>
+<pre><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/${PAGE_ID}/messages&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID_FROM_WEBHOOK&quot; },
+    &quot;messaging_type&quot;: &quot;RESPONSE&quot;,
+    &quot;message&quot;: { &quot;text&quot;: &quot;Hi! Your order ships Friday.&quot; },
+    &quot;access_token&quot;: &quot;PAGE_ACCESS_TOKEN&quot;
+  }&#x27;</code></pre>
+<p>Text must be UTF-8, ≤1000 bytes.</p>
+<p>TypeScript / Python (Instagram Login shown; swap path/token for FB Login):</p>
 <pre><code class="language-ts">const res = await fetch(`${BASE}/${process.env.IG_USER_ID}/messages`, {
   method: &quot;POST&quot;,
   headers: { &quot;Content-Type&quot;: &quot;application/json&quot;, Authorization: `Bearer ${TOKEN}` },
@@ -666,11 +700,25 @@ mid = r.json()[&quot;message_id&quot;]</code></pre>
 <pre><code class="language-json">{ &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID…&quot; }, &quot;messaging_type&quot;: &quot;MESSAGE_TAG&quot;,
   &quot;tag&quot;: &quot;HUMAN_AGENT&quot;, &quot;message&quot;: { &quot;text&quot;: &quot;Following up on your ticket…&quot; } }</code></pre>
 <p>Only with approval for that tag; log every tagged send for audit.</p>
-<h3 id="12-5-conversations-get-ig-user-id-conversations">12.5 Conversations — <code>GET /{ig-user-id}/conversations</code></h3>
-<pre><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/conversations&quot; \
-  --data-urlencode &quot;platform=instagram&quot; \
+<h3 id="12-5-conversations">12.5 Conversations</h3>
+<ul>
+<li><strong>Instagram Login</strong>: <code>GET /{ig-user-id}/conversations</code> (or <code>/me/conversations</code>) on</li>
+</ul>
+<p><code>graph.instagram.com</code>; find one conversation with <code>?user_id={IGSID}</code>.</p>
+<ul>
+<li><strong>Facebook Login</strong>: <code>GET /{page-id}/conversations?platform=instagram</code> on</li>
+</ul>
+<p><code>graph.facebook.com</code> with the Page token.</p>
+<pre><code class="language-bash"># Instagram Login flavor:
+curl -G &quot;${BASE}/${IG_USER_ID}/conversations&quot; \
   --data-urlencode &quot;fields=id,participants,updated_time&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;
+
+# Facebook Login flavor:
+curl -G &quot;https://graph.facebook.com/v25.0/${PAGE_ID}/conversations&quot; \
+  --data-urlencode &quot;platform=instagram&quot; \
+  --data-urlencode &quot;fields=id,participants,updated_time&quot; \
+  --data-urlencode &quot;access_token=${PAGE_TOKEN}&quot;
 
 # Messages in one conversation:
 curl -G &quot;${BASE}/${CONVERSATION_ID}&quot; \
@@ -694,9 +742,9 @@ curl -G &quot;${BASE}/${CONVERSATION_ID}&quot; \
 </ul>
 <p>(<code>https://&lt;host&gt;/webhooks/instagram</code>) + Verify Token (a secret you invent).</p>
 <ul>
-<li>Subscribe the app to Instagram object fields:</li>
+<li>Subscribe the app to Instagram object fields (availability depends on flavor):</li>
 </ul>
-<p><code>comments</code>, <code>messages</code>, <code>messaging_postbacks</code>, <code>messaging_seen</code>, <code>messaging_referrals</code>, <code>mentions</code>, <code>story_insights</code>, <code>live_comments</code> (pick what you consume).</p>
+<p>content — <code>comments</code>, <code>live_comments</code>, <code>mentions</code>, <code>story_insights</code>; messaging — <code>messages</code>, <code>messaging_postbacks</code>, <code>messaging_seen</code>, <code>messaging_referral</code> (singular), <code>message_reactions</code>, <code>messaging_handover</code>, <code>standby</code>. Notes: with Instagram Login, <code>mentions</code> arrives inside the <code>comments</code> notification and <code>story_insights</code> is not available; <code>story_insights</code> requires <code>instagram_manage_insights</code>.</p>
 <ul>
 <li>Subscribe each account: <code>POST /{page-id}/subscribed_apps?subscribed_fields=…</code></li>
 </ul>
@@ -761,7 +809,7 @@ def valid_signature(raw: bytes, header: str, app_secret: str) -&gt; bool:
   &quot;messaging&quot;: [{ &quot;sender&quot;: { &quot;id&quot;: &quot;IGSID…&quot; }, &quot;recipient&quot;: { &quot;id&quot;: &quot;178414…&quot; },
     &quot;timestamp&quot;: 1720000000000,
     &quot;message&quot;: { &quot;mid&quot;: &quot;m_abc123&quot;, &quot;text&quot;: &quot;Do you ship to Berlin?&quot; } }] }]}</code></pre>
-<p>Mention/tag events use the <code>changes[]</code> shape with <code>field: &quot;mentions&quot;</code> (or <code>live_comments</code> for Live). IG Login flavor: content events are flat <code>field</code>/<code>value</code>; DMs still arrive as <code>messaging[]</code>. Normalize both shapes in one parser keyed on <code>entry[].changes</code> vs <code>entry[].messaging</code>.</p>
+<p>Mention/tag events use the <code>changes[]</code> shape with <code>field: &quot;mentions&quot;</code> (or <code>live_comments</code> for Live). Normalize in one parser keyed on <code>entry[].changes</code> (content events) vs <code>entry[].messaging</code> (DMs) — both shapes appear across flavors.</p>
 <h3 id="13-5-subscription-management">13.5 Subscription management</h3>
 <pre><code class="language-bash"># Subscribe a Page&#x27;s app (FB Login flavor)
 curl -X POST &quot;${BASE}/${PAGE_ID}/subscribed_apps&quot; \
@@ -790,7 +838,7 @@ curl -G &quot;${BASE}/${APP_ID}/subscriptions&quot; \
   --data-urlencode &quot;fields=id,caption,media_type,permalink&quot; \
   --data-urlencode &quot;limit=25&quot; \
   -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre>
-<p>Note: <code>/tags</code> behavior differs between flavors — the Facebook Login flavor is the reliable one for tagged-media access; verify the Instagram Login behavior on your version before building UGC flows on it. Pair with <code>mentions</code> webhooks (§13) for real-time capture, and see the UGC repost recipe (§17.4).</p>
+<p>Note: <code>mentioned_media</code> requires <code>instagram_manage_comments</code> in addition to basic on current references; <code>/tags</code> is documented against the Facebook Login flavor — verify Instagram Login behavior on your version before building UGC flows on it. Pair with <code>mentions</code> webhooks (§13) for real-time capture, and see the UGC repost recipe (§17.4).</p>
 <h2 id="15-errors-rate-limits-retries">15. Errors, rate limits, retries</h2>
 <h3 id="15-1-error-shape-always-the-same">15.1 Error shape (always the same)</h3>
 <pre><code class="language-json">{ &quot;error&quot;: { &quot;message&quot;: &quot;(#190) Error validating access token&quot;,
@@ -835,7 +883,7 @@ def with_retry(fn, tries=5):
             delay *= 2</code></pre>
 <h2 id="16-permissions-app-review-going-live">16. Permissions, App Review, going live</h2>
 <h3 id="16-1-permission-matrix-both-flavors">16.1 Permission matrix (both flavors)</h3>
-<table><thead><tr><th>Capability</th><th>FB Login scope</th><th>IG Login scope</th></tr></thead><tbody><tr><td>Profile + media read</td><td><code>instagram_basic</code></td><td><code>instagram_business_basic</code></td></tr><tr><td>Publish / update / delete media</td><td><code>instagram_content_publish</code></td><td><code>instagram_business_content_publish</code></td></tr><tr><td>Comments read/reply/hide/delete</td><td><code>instagram_manage_comments</code></td><td><code>instagram_business_manage_comments</code></td></tr><tr><td>Account + media insights</td><td><code>instagram_manage_insights</code></td><td><code>instagram_business_manage_insights</code></td></tr><tr><td>Messaging</td><td><code>instagram_manage_messages</code></td><td><code>instagram_business_manage_messages</code></td></tr><tr><td>List user&#x27;s Pages</td><td><code>pages_show_list</code></td><td>— (no Pages)</td></tr><tr><td>Read Page / linked IG</td><td><code>pages_read_engagement</code></td><td>—</td></tr><tr><td>Business assets</td><td><code>business_management</code></td><td>—</td></tr></tbody></table>
+<table><thead><tr><th>Capability</th><th>FB Login scope</th><th>IG Login scope</th></tr></thead><tbody><tr><td>Profile + media read</td><td><code>instagram_basic</code> (+ <code>pages_read_engagement</code>)</td><td><code>instagram_business_basic</code></td></tr><tr><td>Publish media</td><td><code>instagram_content_publish</code></td><td><code>instagram_business_content_publish</code></td></tr><tr><td>Delete media</td><td><code>instagram_manage_contents</code> (FB Login only)</td><td>— (not available)</td></tr><tr><td>Toggle comments on media</td><td><code>instagram_manage_comments</code></td><td><code>instagram_business_manage_comments</code></td></tr><tr><td>Comments read/reply/hide/delete</td><td><code>instagram_manage_comments</code></td><td><code>instagram_business_manage_comments</code></td></tr><tr><td>Account + media insights</td><td><code>instagram_manage_insights</code></td><td><code>instagram_business_manage_insights</code></td></tr><tr><td>Messaging</td><td><code>instagram_manage_messages</code></td><td><code>instagram_business_manage_messages</code></td></tr><tr><td>Block/unblock (Moderate Conversations)</td><td><code>instagram_manage_messages</code> + <code>business_management</code></td><td>— (Page-based)</td></tr><tr><td>Mentions/tags/webhook mgmt</td><td>+ <code>pages_manage_metadata</code></td><td>(per-field, see §13)</td></tr><tr><td>List user&#x27;s Pages</td><td><code>pages_show_list</code></td><td>— (no Pages)</td></tr><tr><td>Read Page / linked IG</td><td><code>pages_read_engagement</code></td><td>—</td></tr><tr><td>Business assets</td><td><code>business_management</code></td><td>—</td></tr></tbody></table>
 <p>Scope names drift across versions — treat this table as a starting map and confirm in the permission reference for your <code>GRAPH_VERSION</code>. Request least privilege; every scope beyond basic typically needs App Review for non-role users.</p>
 <h3 id="16-2-app-review-checklist">16.2 App Review checklist</h3>
 <ul>
@@ -865,19 +913,20 @@ def with_retry(fn, tries=5):
 <ul>
 <li>Endpoints: <code>content_publishing_limit</code>, <code>POST /media</code>, <code>GET /{container-id}</code>,</li>
 </ul>
-<p><code>POST /media_publish</code>, <code>GET /{media-id}</code>, <code>POST /{media-id}</code> (caption fix).</p>
+<p><code>POST /media_publish</code>, <code>GET /{media-id}</code>.</p>
 <ul>
 <li>Flow: drag-drop calendar → asset upload to public HTTPS → queue row</li>
 </ul>
 <p><code>{fire_at, asset_url, caption, status}</code> → worker fires (§8.9) → permalink recorded.</p>
 <ul>
-<li>Gotchas: quota (25/24h), container expiry, video <code>FINISHED</code> gate, timezone-aware <code>fire_at</code>.</li>
+<li>Gotchas: quota (100 publishes/24h, 400 containers/24h), container expiry, captions</li>
 </ul>
+<p>are immutable after publish, video <code>FINISHED</code> gate, timezone-aware <code>fire_at</code>.</p>
 <h3 id="17-2-comment-auto-moderator">17.2 Comment auto-moderator</h3>
 <ul>
 <li>Endpoints: webhook <code>comments</code>, <code>GET /{media-id}/comments</code>, <code>POST /{comment-id}</code></li>
 </ul>
-<p>(<code>hide</code>), <code>DELETE /{comment-id}</code>, <code>POST /{ig-user-id}/block</code>.</p>
+<p>(<code>hide</code>), <code>DELETE /{comment-id}</code>, <code>POST /{page-id}/moderate_conversations</code> (block).</p>
 <ul>
 <li>Flow: webhook → blocklist/LLM score → <code>hide=true</code> + mod queue → human approves</li>
 </ul>
@@ -931,7 +980,7 @@ def with_retry(fn, tries=5):
 <p>Decision tree for a failing call: <strong>190?</strong> → re-auth · <strong>10/200?</strong> → scope/Review · <strong>100?</strong> → bisect fields/metrics/IDs · <strong>4/17/32/613/429/5xx?</strong> → backoff (§15) · <strong>else?</strong> → log <code>code/subcode/fbtrace_id</code>, check changelog for a behavior change.</p>
 <hr>
 <h2 id="appendix-a-endpoint-quick-reference">Appendix A: Endpoint quick reference</h2>
-<table><thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Permission</th></tr></thead><tbody><tr><td>GET</td><td><code>/oauth/access_token</code></td><td>Code/token exchange (§4)</td><td>— (app secret)</td></tr><tr><td>GET</td><td><code>/debug_token</code></td><td>Verify token + scopes</td><td>app token</td></tr><tr><td>GET</td><td><code>/{ig-user-id}</code></td><td>Profile</td><td>basic</td></tr><tr><td>GET</td><td><code>/{page-id}?fields=instagram_business_account</code></td><td>Resolve IG ID</td><td>pages_*</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/media</code></td><td>List media</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}</code></td><td>Media object</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}/children</code></td><td>Carousel children</td><td>basic</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/stories</code></td><td>Active stories</td><td>basic</td></tr><tr><td>GET</td><td><code>/instagram_oembed?url=</code></td><td>Public embed</td><td>varies</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/media</code></td><td>Create container (§8)</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/{container-id}?fields=status_code</code></td><td>Poll container</td><td>content_publish</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/media_publish</code></td><td>Publish</td><td>content_publish</td></tr><tr><td>POST</td><td><code>/{media-id}</code></td><td>Update caption / comment_enabled</td><td>content_publish</td></tr><tr><td>DELETE</td><td><code>/{media-id}</code></td><td>Delete media</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/content_publishing_limit</code></td><td>Quota</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/ig_hashtag_search?user_id&amp;q</code></td><td>Hashtag ID</td><td>basic</td></tr><tr><td>GET</td><td><code>/{hashtag-id}/top_media</code>, <code>/recent_media</code></td><td>Hashtag media</td><td>basic</td></tr><tr><td>GET</td><td><code>/{ig-user-id}?fields=business_discovery…</code></td><td>Competitor lookup</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}/comments</code></td><td>List comments</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{comment-id}/replies</code></td><td>Reply</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{comment-id}</code> (<code>hide</code>)</td><td>Hide/unhide</td><td>manage_comments</td></tr><tr><td>DELETE</td><td><code>/{comment-id}</code></td><td>Delete comment</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/block</code>, <code>/unblock</code></td><td>Block/unblock</td><td>manage_comments*</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/insights</code></td><td>Account insights</td><td>manage_insights</td></tr><tr><td>GET</td><td><code>/{media-id}/insights</code></td><td>Media insights</td><td>manage_insights</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/messages</code></td><td>Send DM</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/conversations</code></td><td>List conversations</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/mentioned_media</code></td><td>Caption mentions</td><td>basic*</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/tags</code></td><td>Tagged media</td><td>basic*</td></tr><tr><td>GET/POST</td><td>your <code>/webhooks/instagram</code></td><td>Verify + events (§13)</td><td>— (app secret)</td></tr><tr><td>POST</td><td><code>/{page-id}/subscribed_apps</code></td><td>Subscribe webhooks</td><td>pages_*</td></tr></tbody></table>
+<table><thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Permission</th></tr></thead><tbody><tr><td>GET</td><td><code>/oauth/access_token</code></td><td>Code/token exchange (§4)</td><td>— (app secret)</td></tr><tr><td>GET</td><td><code>/debug_token</code></td><td>Verify token + scopes</td><td>app token</td></tr><tr><td>GET</td><td><code>/{ig-user-id}</code></td><td>Profile</td><td>basic</td></tr><tr><td>GET</td><td><code>/{page-id}?fields=instagram_business_account</code></td><td>Resolve IG ID</td><td>pages_*</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/media</code></td><td>List media</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}</code></td><td>Media object</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}/children</code></td><td>Carousel children</td><td>basic</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/stories</code></td><td>Active stories</td><td>basic</td></tr><tr><td>GET</td><td><code>/instagram_oembed?url=</code></td><td>Public embed</td><td>varies</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/media</code></td><td>Create container (§8)</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/{container-id}?fields=status_code</code></td><td>Poll container</td><td>content_publish</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/media_publish</code></td><td>Publish</td><td>content_publish</td></tr><tr><td>POST</td><td><code>/{media-id}?comment_enabled=</code></td><td>Enable/disable comments</td><td>manage_comments</td></tr><tr><td>DELETE</td><td><code>/{media-id}</code></td><td>Delete media (FB Login only)</td><td>instagram_manage_contents</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/content_publishing_limit</code></td><td>Quota</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/ig_hashtag_search?user_id&amp;q</code></td><td>Hashtag ID</td><td>basic</td></tr><tr><td>GET</td><td><code>/{hashtag-id}/top_media</code>, <code>/recent_media</code></td><td>Hashtag media</td><td>basic</td></tr><tr><td>GET</td><td><code>/{ig-user-id}?fields=business_discovery…</code></td><td>Competitor lookup</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}/comments</code></td><td>List comments</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{comment-id}/replies</code></td><td>Reply</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{comment-id}</code> (<code>hide</code>)</td><td>Hide/unhide</td><td>manage_comments</td></tr><tr><td>DELETE</td><td><code>/{comment-id}</code></td><td>Delete comment</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{page-id}/moderate_conversations</code></td><td>Block/unblock/move-to-spam</td><td>manage_messages + business_management</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/insights</code></td><td>Account insights</td><td>manage_insights</td></tr><tr><td>GET</td><td><code>/{media-id}/insights</code></td><td>Media insights</td><td>manage_insights</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/messages</code> (IG Login)</td><td>Send DM</td><td>manage_messages</td></tr><tr><td>POST</td><td><code>/{page-id}/messages</code> (FB Login)</td><td>Send DM</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/conversations</code> (IG Login)</td><td>List conversations</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{page-id}/conversations?platform=instagram</code> (FB)</td><td>List conversations</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/mentioned_media</code></td><td>Caption mentions</td><td>manage_comments</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/tags</code></td><td>Tagged media</td><td>basic*</td></tr><tr><td>GET/POST</td><td>your <code>/webhooks/instagram</code></td><td>Verify + events (§13)</td><td>— (app secret)</td></tr><tr><td>POST</td><td><code>/{page-id}/subscribed_apps</code></td><td>Subscribe webhooks</td><td>pages_*</td></tr></tbody></table>
 <p><code>*</code> Confirm exact scope on your version — Meta has moved a few edges between scopes.</p>
 <h2 id="appendix-b-companion-files-in-this-bundle">Appendix B: Companion files in this bundle</h2>
 <ul>

@@ -23,7 +23,7 @@ mcp = FastMCP("instagram-graph")
 
 
 @mcp.tool()
-def ig_get_profile(fields: str = "id,username,account_type,media_count") -> dict:
+def ig_get_profile(fields: str = "id,username,media_count,followers_count") -> dict:
     """Get the IG user profile."""
     return gget(f"/{IG_USER_ID}", {"fields": fields})
 
@@ -118,7 +118,11 @@ def ig_hide_comment(comment_id: str, hide: bool) -> dict:
 
 @mcp.tool()
 def ig_send_message(igsid: str, text: str) -> dict:
-    """Send an Instagram DM to a webhook IGSID (24h window)."""
+    """Send an Instagram DM to a webhook IGSID (24h window).
+
+    Instagram Login flavor only (graph.instagram.com + IG user ID). With Facebook
+    Login, send via POST /{page-id}/messages with the Page token instead.
+    """
     return gpost_json(f"/{IG_USER_ID}/messages",
                       {"recipient": {"id": igsid}, "messaging_type": "RESPONSE",
                        "message": {"text": text}})

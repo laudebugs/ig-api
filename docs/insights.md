@@ -1,13 +1,13 @@
 # Insights — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0` · Requires: `instagram_manage_insights`
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0` · Requires: `instagram_manage_insights`
 
 Metrics change across Graph versions; treat metric names as versioned. If a metric returns error 100, check the metric list for your `GRAPH_VERSION` in Meta for Developers.
 
 ## Account insights
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056/insights?metric=reach,impressions,profile_views&period=day&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17841400008460056/insights?metric=reach,views,accounts_engaged&period=day&access_token=EAAB..."
 ```
 
 ```json
@@ -21,22 +21,22 @@ curl "https://graph.facebook.com/v21.0/17841400008460056/insights?metric=reach,i
 Date range with Unix timestamps:
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056/insights?metric=reach&period=day&since=1759276800&until=1759968000&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17841400008460056/insights?metric=reach&period=day&since=1759276800&until=1759968000&access_token=EAAB..."
 ```
 
-Common account metrics: `impressions`, `reach`, `profile_views`, `website_clicks`, `follower_count` (lifetime-style; handle with care), `accounts_engaged`, `total_interactions`. Periods: `day`, `week`, `days_28`, `lifetime` depending on metric.
+Common account metrics: `views`, `reach`, `accounts_engaged`, `total_interactions`, `likes`, `comments`, `shares`, `saves`, `profile_links_taps`. Interaction metrics use `period=day`; demographic metrics use `period=lifetime` + `timeframe`. Do not use `impressions` (dropped for v22+), `profile_views`, or `website_clicks` (removed).
 
 ## Media insights
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17987654321098765/insights?metric=reach,impressions,engagement,saved,shares&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17987654321098765/insights?metric=views,reach,saved,shares&access_token=EAAB..."
 ```
 
-Runnable code: [../examples/fetch-insights.ts](../examples/fetch-insights.ts). Media metrics vary by `media_product_type`: feed posts commonly support `impressions`, `reach`, `engagement`, `saved`, `shares`, `total_interactions`; Reels add plays/views-style metrics (e.g. `plays`, `ig_reels_avg_watch_time` in supported versions). Request only metrics valid for that media type or the whole call fails.
+Runnable code: [../examples/fetch-insights.ts](../examples/fetch-insights.ts). Media metrics vary by `media_product_type`: feed posts commonly support `views`, `reach`, `saved`, `shares`, `total_interactions`, `likes`, `comments`; Reels add `ig_reels_avg_watch_time` / `ig_reels_video_view_total_time`. There is no `engagement` metric, and `plays` is deprecated — use `views`. Insights are unavailable for media inside carousel albums. Request only metrics valid for that media type or the whole call fails.
 
 ## Story insights
 
-Stories expire after 24 hours; fetch insights while the story is live (or via `/{ig-user-id}/stories` then `/{media-id}/insights` with story metrics such as `reach`, `replies`, `taps_forward`, `taps_back`, `exits`).
+Stories expire after 24 hours; fetch insights while the story is live (or via `/{ig-user-id}/stories` then `/{media-id}/insights` with story metrics such as `views`, `reach`, `replies`, `navigation`).
 
 ## Agent rules
 

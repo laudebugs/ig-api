@@ -1,11 +1,11 @@
 # Comments & Moderation — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0` · Requires: `instagram_manage_comments`
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0` · Requires: `instagram_manage_comments`
 
 ## List comments on media
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17987654321098765/comments?fields=id,text,username,timestamp,like_count,hidden&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17987654321098765/comments?fields=id,text,username,timestamp,like_count,hidden&access_token=EAAB..."
 ```
 
 ```json
@@ -15,7 +15,7 @@ curl "https://graph.facebook.com/v21.0/17987654321098765/comments?fields=id,text
 ## Reply to a comment
 
 ```bash
-curl -X POST "https://graph.facebook.com/v21.0/178700001/replies" \
+curl -X POST "https://graph.facebook.com/v25.0/178700001/replies" \
   -d "message=Thanks! More coming Friday." \
   -d "access_token=EAAB..."
 ```
@@ -29,7 +29,7 @@ Runnable code: [../examples/reply-to-comment.ts](../examples/reply-to-comment.ts
 ## Hide / unhide a comment
 
 ```bash
-curl -X POST "https://graph.facebook.com/v21.0/178700001" \
+curl -X POST "https://graph.facebook.com/v25.0/178700001" \
   -d "hide=true" \
   -d "access_token=EAAB..."
 ```
@@ -39,7 +39,7 @@ curl -X POST "https://graph.facebook.com/v21.0/178700001" \
 Only comments the authorized account can moderate (e.g. comments on its own media, per permission rules):
 
 ```bash
-curl -X DELETE "https://graph.facebook.com/v21.0/178700001?access_token=EAAB..."
+curl -X DELETE "https://graph.facebook.com/v25.0/178700001?access_token=EAAB..."
 ```
 
 ```json
@@ -51,7 +51,7 @@ curl -X DELETE "https://graph.facebook.com/v21.0/178700001?access_token=EAAB..."
 Media where the account was mentioned in a caption:
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056/mentioned_media?fields=id,caption,permalink&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17841400008460056/mentioned_media?fields=id,caption,permalink&access_token=EAAB..."
 ```
 
 Comment the account was tagged in: `GET /{ig-user-id}/tags`, then act on the returned media/comment IDs per the fields you requested.

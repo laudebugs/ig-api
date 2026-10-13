@@ -12,7 +12,7 @@
 
 **Can I message any user who follows the account?** No. You can only reply to users who messaged you (IGSID from webhooks), within the 24-hour window or an approved tag. See [messaging.md](messaging.md).
 
-**Which API version should I use?** The version your Meta app is configured for; this bundle's examples use `v21.0` via `GRAPH_VERSION`. Check Meta's changelog and upgrade before a version's deprecation date.
+**Which API version should I use?** The version your Meta app is configured for; this bundle's examples use `v25.0` via `GRAPH_VERSION`. Check Meta's changelog and upgrade before a version's deprecation date.
 
 **Graph API or Instagram Platform API?** This bundle covers the Graph API (Facebook Login, Page-linked). The Instagram Platform API (Instagram Login, `graph.instagram.com`) suits consumer apps without a Page; its endpoints overlap but auth and hosts differ. Do not mix tokens between them.
 

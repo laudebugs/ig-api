@@ -41,7 +41,7 @@ paths:
         - $ref: '#/components/parameters/IgUserId'
         - name: fields
           in: query
-          schema: { type: string, example: "id,username,account_type,media_count" }
+          schema: { type: string, example: "id,username,media_count,followers_count" }
       responses:
         '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/IgUser' } } } }
         '400': { $ref: '#/components/responses/Error' }
@@ -132,8 +132,8 @@ paths:
         '400': { $ref: '#/components/responses/Error' }
     post:
       tags: [publishing]
-      summary: Update media (caption, comment_enabled)
-      description: Only whitelisted fields on PUBLISHED media IDs are mutable.
+      summary: Enable/disable comments on media
+      description: The only supported update on published media. Captions cannot be edited via the API. Requires instagram_manage_comments.
       parameters:
         - name: media-id
           in: path
@@ -145,15 +145,16 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
+              required: [comment_enabled]
               properties:
-                caption: { type: string }
                 comment_enabled: { type: boolean }
       responses:
         '200': { description: Updated, content: { application/json: { schema: { type: object, properties: { success: { type: boolean } } } } } }
         '400': { $ref: '#/components/responses/Error' }
     delete:
       tags: [publishing]
-      summary: Delete published media (permanent)
+      summary: Delete published media (Facebook Login only, permanent)
+      description: Requires instagram_manage_contents. Carousels must be deleted as a whole album.
       parameters:
         - name: media-id
           in: path
@@ -197,7 +198,7 @@ paths:
         - $ref: '#/components/parameters/IgUserId'
         - name: fields
           in: query
-          schema: { type: string, example: "quota_usage,rate_limit_settings,config" }
+          schema: { type: string, example: "quota_usage,rate_limit_settings" }
       responses:
         '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/PublishingLimit' } } } }
         '400': { $ref: '#/components/responses/Error' }
@@ -229,39 +230,63 @@ paths:
       responses:
         '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/MediaList' } } } }
         '400': { $ref: '#/components/responses/Error' }
-  /{ig-user-id}/block:
+  /{page-id}/moderate_conversations:
     post:
-      tags: [comments]
-      summary: Block an account (confirm param name on your version)
+      tags: [messaging]
+      summary: Block/unblock/move-to-spam (Moderate Conversations API, Page token)
+      description: Requires instagram_manage_messages + business_management and an existing conversation. Max 10 user_ids, 2 actions; never combine block_user with unblock_user.
       parameters:
-        - $ref: '#/components/parameters/IgUserId'
+        - name: page-id
+          in: path
+          required: true
+          schema: { type: string }
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               type: object
+              required: [user_ids, actions]
               properties:
-                block_user_id: { type: string }
+                user_ids: { type: array, items: { type: object, required: [id], properties: { id: { type: string, description: IGSID } } } }
+                actions: { type: array, items: { type: string, enum: [block_user, unblock_user, move_to_spam] } }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { success: { type: boolean } } } } } }
+        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { success: { type: string } } } } } }
         '400': { $ref: '#/components/responses/Error' }
-  /{ig-user-id}/unblock:
+  /{page-id}/messages:
     post:
-      tags: [comments]
-      summary: Unblock an account
+      tags: [messaging]
+      summary: Send Instagram message via Page (Facebook Login flavor; Page token)
       parameters:
-        - $ref: '#/components/parameters/IgUserId'
+        - name: page-id
+          in: path
+          required: true
+          schema: { type: string }
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                block_user_id: { type: string }
+          application/json:
+            schema: { $ref: '#/components/schemas/SendMessageRequest' }
       responses:
-        '200': { description: OK, content: { application/json: { schema: { type: object, properties: { success: { type: boolean } } } } } }
+        '200': { description: Sent, content: { application/json: { schema: { type: object, properties: { recipient_id: { type: string }, message_id: { type: string } } } } } }
+        '400': { $ref: '#/components/responses/Error' }
+  /{page-id}/conversations:
+    get:
+      tags: [messaging]
+      summary: List Instagram conversations via Page (Facebook Login flavor)
+      parameters:
+        - name: page-id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: platform
+          in: query
+          schema: { type: string, example: "instagram" }
+        - name: fields
+          in: query
+          schema: { type: string, example: "id,participants,updated_time" }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/ConversationList' } } } }
         '400': { $ref: '#/components/responses/Error' }
   /ig_hashtag_search:
     get:
@@ -400,7 +425,7 @@ paths:
         - name: metric
           in: query
           required: true
-          schema: { type: string, example: "reach,impressions,profile_views" }
+          schema: { type: string, example: "reach,views,accounts_engaged" }
         - name: period
           in: query
           schema: { type: string, enum: [day, week, days_28, month, lifetime], default: day }
@@ -425,7 +450,7 @@ paths:
         - name: metric
           in: query
           required: true
-          schema: { type: string, example: "reach,impressions,engagement,saved" }
+          schema: { type: string, example: "views,reach,saved,shares" }
       responses:
         '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Insights' } } } }
         '400': { $ref: '#/components/responses/Error' }
@@ -589,7 +614,6 @@ components:
       properties:
         id: { type: string }
         username: { type: string }
-        account_type: { type: string, enum: [BUSINESS, CREATOR, MEDIA_CREATOR] }
         media_count: { type: integer }
     Media:
       type: object

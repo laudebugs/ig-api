@@ -1,6 +1,6 @@
 # Media Publishing — Instagram Graph API
 
-> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v21.0` · Requires: `instagram_basic` + `instagram_content_publish`
+> Generated: 2026-10-13 · Base: `https://graph.facebook.com/v25.0` · Requires: `instagram_basic` + `instagram_content_publish`
 
 Publishing is always two steps: create a container, then publish it. Media must be hosted at a public HTTPS URL the Graph API can fetch (no localhost, no auth-walled URLs). Unpublished containers expire after about 24 hours.
 
@@ -9,7 +9,7 @@ Publishing is always two steps: create a container, then publish it. Media must 
 Step 1 — create container:
 
 ```bash
-curl -X POST "https://graph.facebook.com/v21.0/17841400008460056/media" \
+curl -X POST "https://graph.facebook.com/v25.0/17841400008460056/media" \
   -d "image_url=https://example.com/photo.jpg" \
   -d "caption=Hello from the API %23launch" \
   -d "access_token=EAAB..."
@@ -22,7 +22,7 @@ curl -X POST "https://graph.facebook.com/v21.0/17841400008460056/media" \
 Step 2 — publish:
 
 ```bash
-curl -X POST "https://graph.facebook.com/v21.0/17841400008460056/media_publish" \
+curl -X POST "https://graph.facebook.com/v25.0/17841400008460056/media_publish" \
   -d "creation_id=17901234567890123" \
   -d "access_token=EAAB..."
 ```
@@ -38,14 +38,14 @@ The returned `id` is the published media ID. Runnable code: [../examples/publish
 Step 1 with `media_type=REELS` and `video_url`, then poll the container until `FINISHED` before publishing:
 
 ```bash
-curl -X POST "https://graph.facebook.com/v21.0/17841400008460056/media" \
+curl -X POST "https://graph.facebook.com/v25.0/17841400008460056/media" \
   -d "media_type=REELS" \
   -d "video_url=https://example.com/reel.mp4" \
   -d "caption=New reel" \
   -d "share_to_feed=true" \
   -d "access_token=EAAB..."
 
-curl "https://graph.facebook.com/v21.0/17901234567890123?fields=status_code,status&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17901234567890123?fields=status_code,status&access_token=EAAB..."
 ```
 
 ```json
@@ -63,15 +63,15 @@ Poll every 5–10 seconds; if `status_code` is `ERROR`, read `status` and fix th
 ## Check publishing limit
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17841400008460056/content_publishing_limit?fields=quota_usage,rate_limit_settings&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17841400008460056/content_publishing_limit?fields=quota_usage,rate_limit_settings&access_token=EAAB..."
 ```
 
-Accounts are limited to a capped number of published API posts per 24 hours (commonly 25; read the response for your account). Also see [errors-and-rate-limits.md](errors-and-rate-limits.md).
+Accounts are limited to **100 API-published posts per rolling 24 hours** (carousels count as one) and 400 containers created per rolling 24 hours; read the response for live usage. Captions cannot be edited after publishing. Also see [errors-and-rate-limits.md](errors-and-rate-limits.md).
 
 ## Read back the post
 
 ```bash
-curl "https://graph.facebook.com/v21.0/17987654321098765?fields=id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count&access_token=EAAB..."
+curl "https://graph.facebook.com/v25.0/17987654321098765?fields=id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count&access_token=EAAB..."
 ```
 
 ## Agent rules
