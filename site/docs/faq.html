@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FAQ — Instagram Graph API — Instagram API Docs</title><style>
+:root{--fg:#1a1a1a;--bg:#fff;--muted:#666;--code:#f4f4f4;--accent:#0a58ca;--border:#e2e2e2}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.55}
+.layout{display:flex;min-height:100vh}nav{width:300px;flex-shrink:0;border-right:1px solid var(--border);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto}
+nav input{width:100%;padding:.4rem;margin-bottom:.6rem}nav a{display:block;color:var(--fg);text-decoration:none;padding:.15rem 0;font-size:.9rem}
+nav a.h3{padding-left:1rem;color:var(--muted)}nav a:hover{color:var(--accent)}
+nav .group{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:.8rem 0 .2rem}
+nav a.current{font-weight:700;color:var(--accent)}
+main{max-width:900px;padding:2rem 2.5rem}pre{background:var(--code);padding:.8rem;overflow:auto;border-radius:6px}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}pre code{background:none}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left;font-size:.9rem}
+blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.2rem 1rem;color:var(--muted)}
+h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding-bottom:.3rem}
+@media(max-width:800px){nav{display:none}main{padding:1rem}}
+</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="../index.html">Home</a><a href="../api-reference.html">API Reference</a><a href="../formats.html">Formats</a><a href="authentication.html">Authentication</a><a href="comments-moderation.html">Comments Moderation</a><a href="errors-and-rate-limits.html">Errors And Rate Limits</a><a href="faq.html" class="current">Faq</a><a href="getting-started.html">Getting Started</a><a href="insights.html">Insights</a><a href="media-publishing.html">Media Publishing</a><a href="messaging.html">Messaging</a><a href="webhooks.html">Webhooks</a><div class="group">On this page</div></nav><main><h1 id="faq-instagram-graph-api">FAQ — Instagram Graph API</h1>
+<blockquote>Generated: 2026-10-13</blockquote>
+<p><strong>Can I use a personal Instagram account?</strong> No. The Graph API requires a Business or Creator account linked to a Facebook Page.</p>
+<p><strong>Why did publishing fail after creating a container?</strong> Usually the video container was not <code>FINISHED</code> yet, the container expired (~24h unpublished), or the asset URL was not publicly fetchable. Poll status first; recreate expired containers. See <a href="media-publishing.html">media-publishing.md</a>.</p>
+<p><strong>Why error 190 on every call?</strong> The token expired, was invalidated (password change, app revocation), or you used a user token where a Page token is required. Re-run <a href="authentication.html">authentication.md</a>.</p>
+<p><strong>Why error 10 even though the user granted permission?</strong> The permission may still need App Review for public data, or the token was minted before the permission was granted. Re-authorize and check <code>debug_token</code> scopes.</p>
+<p><strong>Can I message any user who follows the account?</strong> No. You can only reply to users who messaged you (IGSID from webhooks), within the 24-hour window or an approved tag. See <a href="messaging.html">messaging.md</a>.</p>
+<p><strong>Which API version should I use?</strong> The version your Meta app is configured for; this bundle&#x27;s examples use <code>v21.0</code> via <code>GRAPH_VERSION</code>. Check Meta&#x27;s changelog and upgrade before a version&#x27;s deprecation date.</p>
+<p><strong>Graph API or Instagram Platform API?</strong> This bundle covers the Graph API (Facebook Login, Page-linked). The Instagram Platform API (Instagram Login, <code>graph.instagram.com</code>) suits consumer apps without a Page; its endpoints overlap but auth and hosts differ. Do not mix tokens between them.</p>
+<p><strong>How do I test without App Review?</strong> Add test users/accounts with roles on your Meta app; Development mode works for those accounts only.</p>
+<p>Back to <a href="../index.html">README</a> · Machine-readable: <a href="../openapi.yaml">openapi.yaml</a></p></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('nav a').forEach(a=>{a.style.display=a.textContent.toLowerCase().includes(q)?'':'none';});}</script></body></html>

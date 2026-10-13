@@ -1,0 +1,13 @@
+meta {
+  name: Account insights
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{graph_host}}/{{graph_version}}/{{ig_user_id}}/insights?metric=reach,impressions,profile_views&period=day
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+}

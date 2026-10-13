@@ -1,0 +1,28 @@
+# Instagram Graph API — Agent Documentation Bundle
+> Generated: 2026-10-13. Full text: llms-full.txt. Contract: openapi.yaml. Types: types/instagram-graph.d.ts.
+
+## Index
+- README.md — bundle overview, core concepts, quick start
+- INSTAGRAM_GRAPH_API.md — COMPREHENSIVE reference: both API flavors, auth, publishing, insights, comments, messaging, webhooks, errors, recipes (curl + TS + Python)
+- FORMATS.md — format guide: which artifact to use for which consumer
+- docs/getting-started.md — prerequisites, Meta app setup, first request
+- docs/authentication.md — Facebook Login OAuth, short→long-lived token exchange, Page access token, IG user ID discovery, permissions table
+- docs/media-publishing.md — POST /{ig-user-id}/media (container), POST /{ig-user-id}/media_publish, GET container status, Reels, carousels, rate limits
+- docs/insights.md — GET /{ig-user-id}/insights, GET /{media-id}/insights, metrics and breakdowns
+- docs/comments-moderation.md — GET/POST comments and replies, hide/delete, mentions
+- docs/messaging.md — POST /{ig-user-id}/messages, 24h window, message types
+- docs/webhooks.md — GET verification (hub.mode/hub.verify_token/hub.challenge), POST events: comments, messages, mentions
+- docs/errors-and-rate-limits.md — error codes 190/10/4/17/32, retry/backoff policy
+- docs/faq.md — pitfalls: personal accounts, unpublished containers expire (~24h), token expiry
+- examples/*.ts + examples/*.py — runnable flows: publish-photo, publish-reel, reply-to-comment, fetch-insights, webhook-handler (+ lib.ts/lib.py shared clients)
+- postman/instagram-graph.postman_collection.json — runnable Postman requests (variables: graph_host, graph_version, ig_user_id, access_token, …)
+- bruno/ — runnable Bruno requests, git-friendly flat files + environments/Local.bru
+- site/ — static multi-page human-readable site (index, api-reference, formats, docs/* guides + verbatim assets)
+- data/chunks.jsonl — one JSON chunk per endpoint for RAG retrieval (fields: id, title, path, method, content)
+
+## Key facts for agents
+- Hosts: https://graph.facebook.com/{version} (Facebook Login, EAA Page token, Page required) OR https://graph.instagram.com/{version} (Instagram Login, IGAA user token, no Page). Never mix.
+- Default version in this bundle: v25.0 (latest known v26.0 — verify changelog before shipping)
+- Auth: Bearer [REDACTED] access token; permissions gate each feature
+- Publishing is always two-step: create container, then media_publish with creation_id
+- IDs are numeric strings; insights since/until are Unix seconds; media timestamps are ISO 8601

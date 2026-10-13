@@ -1,0 +1,15 @@
+meta {
+  name: Create photo container
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{graph_host}}/{{graph_version}}/{{ig_user_id}}/media
+}
+
+body:form-urlencoded {
+  image_url: {{image_url}}
+  caption: Hello from the API #launch
+  access_token: {{access_token}}
+}

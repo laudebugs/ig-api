@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Formats — beyond Markdown — Instagram API Docs</title><style>
+:root{--fg:#1a1a1a;--bg:#fff;--muted:#666;--code:#f4f4f4;--accent:#0a58ca;--border:#e2e2e2}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:var(--fg);background:var(--bg);line-height:1.55}
+.layout{display:flex;min-height:100vh}nav{width:300px;flex-shrink:0;border-right:1px solid var(--border);padding:1rem;position:sticky;top:0;height:100vh;overflow:auto}
+nav input{width:100%;padding:.4rem;margin-bottom:.6rem}nav a{display:block;color:var(--fg);text-decoration:none;padding:.15rem 0;font-size:.9rem}
+nav a.h3{padding-left:1rem;color:var(--muted)}nav a:hover{color:var(--accent)}
+nav .group{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:.8rem 0 .2rem}
+nav a.current{font-weight:700;color:var(--accent)}
+main{max-width:900px;padding:2rem 2.5rem}pre{background:var(--code);padding:.8rem;overflow:auto;border-radius:6px}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}pre code{background:none}
+table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left;font-size:.9rem}
+blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.2rem 1rem;color:var(--muted)}
+h1,h2,h3{scroll-margin-top:1rem}h2{border-bottom:1px solid var(--border);padding-bottom:.3rem}
+@media(max-width:800px){nav{display:none}main{padding:1rem}}
+</style></head><body><div class="layout"><nav><input id="q" placeholder="Filter sections…" oninput="filterNav()"><div class="group">Pages</div><a href="index.html">Home</a><a href="api-reference.html">API Reference</a><a href="formats.html" class="current">Formats</a><a href="docs/authentication.html">Authentication</a><a href="docs/comments-moderation.html">Comments Moderation</a><a href="docs/errors-and-rate-limits.html">Errors And Rate Limits</a><a href="docs/faq.html">Faq</a><a href="docs/getting-started.html">Getting Started</a><a href="docs/insights.html">Insights</a><a href="docs/media-publishing.html">Media Publishing</a><a href="docs/messaging.html">Messaging</a><a href="docs/webhooks.html">Webhooks</a><div class="group">On this page</div><a class="h2" href="#what-this-bundle-ships">What this bundle ships</a><a class="h2" href="#which-to-use-when">Which to use when</a><a class="h2" href="#suggested-next-formats-not-yet-built">Suggested next formats (not yet built)</a><a class="h2" href="#maintenance-rule">Maintenance rule</a></nav><main><h1 id="formats-beyond-markdown">Formats — beyond Markdown</h1>
+<blockquote>Markdown is the narrative layer: readable but not validatable or executable. For coding agents, keep Markdown and add machine-readable companions generated from one source (<code>openapi.yaml</code> + <code>INSTAGRAM_GRAPH_API.md</code>).</blockquote>
+<h2 id="what-this-bundle-ships">What this bundle ships</h2>
+<table><thead><tr><th>Format</th><th>File(s)</th><th>Consumer</th><th>Strength</th></tr></thead><tbody><tr><td>Comprehensive Markdown</td><td><code>INSTAGRAM_GRAPH_API.md</code></td><td>Agents, humans</td><td>Full narrative + curl/TS/Python per endpoint; recipes</td></tr><tr><td>Topic Markdown</td><td><code>docs/*.md</code></td><td>Humans, scoped reads</td><td>Short guides per flow</td></tr><tr><td>OpenAPI 3.1 YAML</td><td><code>openapi.yaml</code></td><td>Agents, codegen</td><td><strong>Source of truth</strong>: validatable paths, params, schemas, auth</td></tr><tr><td>TypeScript types</td><td><code>types/instagram-graph.d.ts</code></td><td>Agents writing TS</td><td>Typed requests/responses/errors</td></tr><tr><td>LLM index + full dump</td><td><code>llms.txt</code>, <code>llms-full.txt</code></td><td>LLM context loaders</td><td>Compact index; one-file whole-bundle context</td></tr><tr><td>RAG chunks</td><td><code>data/chunks.jsonl</code></td><td>Vector search / retrieval</td><td>One slice per endpoint (<code>id,title,path,method,content</code>)</td></tr><tr><td>Runnable examples</td><td><code>examples/*.ts</code>, <code>examples/*.py</code></td><td>Agents, humans</td><td>Copy-paste flows: publish, insights, replies, webhooks</td></tr><tr><td>Postman collection</td><td><code>postman/*.json</code></td><td>Agents, humans, QA</td><td>Runnable requests with variables + environments</td></tr><tr><td>Bruno collection</td><td><code>bruno/</code></td><td>Agents, humans (git-native)</td><td>Same as Postman, plain-text diffable files</td></tr><tr><td>Static HTML site</td><td><code>site/</code> (multi-page)</td><td>Humans</td><td>Searchable, linkable, zero-hosting reference</td></tr><tr><td>MCP starter</td><td><code>mcp/tools.json</code>, <code>mcp/server.py</code></td><td>Agents (MCP clients)</td><td>14 callable tools: agents *call* the API mid-session</td></tr></tbody></table>
+<h2 id="which-to-use-when">Which to use when</h2>
+<ul>
+<li><strong>Agent building a feature</strong>: read <code>llms.txt</code> → pull <code>data/chunks.jsonl</code> slices for the</li>
+</ul>
+<p>endpoints involved → copy the matching <code>examples/</code> flow → type against <code>.d.ts</code>.</p>
+<ul>
+<li><strong>Agent with a big context window</strong>: paste <code>llms-full.txt</code> whole, then work from</li>
+</ul>
+<p><code>INSTAGRAM_GRAPH_API.md</code> section numbers.</p>
+<ul>
+<li><strong>Generating a client SDK</strong>: run OpenAPI codegen on <code>openapi.yaml</code></li>
+</ul>
+<p>(<code>npx @openapitools/openapi-generator-cli generate -i openapi.yaml -g typescript-fetch …</code>).</p>
+<ul>
+<li><strong>Human verifying behavior</strong>: import <code>postman/</code> or open <code>bruno/</code>, set variables, run</li>
+</ul>
+<p>the request; cross-check against <code>site/index.html</code>.</p>
+<ul>
+<li><strong>RAG pipeline</strong>: embed <code>data/chunks.jsonl</code> (30 chunks); re-chunk <code>INSTAGRAM_GRAPH_API.md</code></li>
+</ul>
+<p>by <code>##</code> section for long-form retrieval.</p>
+<h2 id="suggested-next-formats-not-yet-built">Suggested next formats (not yet built)</h2>
+<table><thead><tr><th>Format</th><th>Why</th><th>Effort</th></tr></thead><tbody><tr><td>MCP server (full)</td><td>Extend <code>mcp/</code> starter: carousel/story flows, block, conversations, webhook intake, evals</td><td>Medium — starter exists, add tools + tests</td></tr><tr><td>AsyncAPI for webhooks</td><td>Machine-readable event catalog (comment/message/mention payloads) mirroring <code>openapi.yaml</code></td><td>Small — derive from §13 payloads</td></tr><tr><td>JSON Schema files</td><td>Standalone request/response validation without the full OpenAPI toolchain</td><td>Small — extract from <code>openapi.yaml</code> components</td></tr><tr><td>Python type stubs (<code>.pyi</code>) / mini-SDK</td><td>Typed Python equivalent of the <code>.d.ts</code> for agents writing Python</td><td>Small — type <code>examples/lib.py</code></td></tr><tr><td>SDK packages (npm/PyPI)</td><td>Versioned client both agents and apps can depend on</td><td>Large — needs tests + CI + publishing</td></tr><tr><td>CLI (<code>ig</code> command)</td><td>Human/agent shell access: <code>ig publish photo.jpg --caption …</code></td><td>Medium — wraps the SDK</td></tr><tr><td>SQLite/Parquet snapshot</td><td>Frozen, queryable dataset of endpoints + metrics for offline evals</td><td>Small — export chunks + metric tables</td></tr><tr><td>Evals (<code>evals/</code>)</td><td>Ground-truth Q/A + fixture-backed tests proving an agent can use the docs</td><td>Medium — highest value for doc-quality measurement</td></tr></tbody></table>
+<p>Recommendation: finish the <strong>MCP server</strong> (extend the starter) and add <strong>AsyncAPI webhooks</strong> next — they close the loop from &quot;read the docs&quot; to &quot;call the API and handle its events&quot; for agents.</p>
+<h2 id="maintenance-rule">Maintenance rule</h2>
+<p><code>openapi.yaml</code> is the source of truth for paths/params/schemas; <code>INSTAGRAM_GRAPH_API.md</code> is the source of truth for narrative/examples. After editing either, regenerate derivatives:</p>
+<pre><code class="language-bash">python scripts/build-llms-full.py   # rebuilds llms-full.txt
+python scripts/build-site.py        # rebuilds site/index.html</code></pre>
+<p><code>data/chunks.jsonl</code>, <code>postman/</code>, and <code>bruno/</code> are hand-synced for now — update the matching entries when endpoints change (a generator from <code>openapi.yaml</code> is a good follow-up task).</p></main></div><script>function filterNav(){const q=document.getElementById('q').value.toLowerCase();document.querySelectorAll('nav a').forEach(a=>{a.style.display=a.textContent.toLowerCase().includes(q)?'':'none';});}</script></body></html>
