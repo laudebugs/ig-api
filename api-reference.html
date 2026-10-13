@@ -1,0 +1,2086 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Instagram API — Comprehensive Agent Documentation — Instagram API Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+
+  /* Cream Light Theme */
+  --bg: #faf7f2;
+  --bg-surface: #f3eee6;
+  --bg-subtle: #eae3d7;
+  --bg-code: #f4efe6;
+  --bg-code-header: #ebe4d6;
+  --fg: #1f1b18;
+  --fg-muted: #5e5750;
+  --fg-subtle: #8c8378;
+  --border: #e3dad0;
+  --border-subtle: #ede6dc;
+
+  /* Instagram Colors (Light) */
+  --accent: #d62976;
+  --accent-subtle: rgba(214, 41, 118, 0.09);
+  --accent-fg: #be185d;
+  --accent-coral: #e1306c;
+  --accent-purple: #833ab4;
+  --accent-orange: #ea580c;
+  --accent-yellow: #f59e0b;
+  --ig-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+  --header-bg: rgba(250, 247, 242, 0.92);
+  --header-border: #e3dad0;
+  --kbd-bg: #eae3d7;
+  --kbd-border: #d6ccbe;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* TanStack Highlight tokens (Instagram Light on Cream) */
+  --th-background: #f4efe6;
+  --th-token: #1f1b18;
+  --th-attr: #833ab4;
+  --th-code-inline: #1f1b18;
+  --th-command: #833ab4;
+  --th-comment: #8c8378;
+  --th-deleted: #b91c1c;
+  --th-function: #833ab4;
+  --th-heading: #1f1b18;
+  --th-inserted: #15803d;
+  --th-keyword: #c13584;
+  --th-link: #d62976;
+  --th-literal: #d62976;
+  --th-meta: #8c8378;
+  --th-number: #e1306c;
+  --th-operator: #8c8378;
+  --th-property: #c13584;
+  --th-selector: #15803d;
+  --th-string: #047857;
+  --th-tag: #c13584;
+  --th-type: #833ab4;
+  --th-variable: #ea580c;
+}
+
+[data-theme="dark"] {
+  /* True Black Dark Theme */
+  --bg: #000000;
+  --bg-surface: #111111;
+  --bg-subtle: #1c1c1c;
+  --bg-code: #0a0a0a;
+  --bg-code-header: #141414;
+  --fg: #fbf8f4;
+  --fg-muted: #a8a29e;
+  --fg-subtle: #736d66;
+  --border: #262320;
+  --border-subtle: #1a1816;
+
+  /* Instagram Colors (Dark on Black) */
+  --accent: #f75590;
+  --accent-subtle: rgba(247, 85, 144, 0.15);
+  --accent-fg: #fb7185;
+  --accent-coral: #fb7185;
+  --accent-purple: #c084fc;
+  --accent-orange: #fb923c;
+  --accent-yellow: #fde047;
+  --ig-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+  --header-bg: rgba(0, 0, 0, 0.9);
+  --header-border: #262320;
+  --kbd-bg: #1c1a17;
+  --kbd-border: #332f2b;
+
+  /* TanStack Highlight tokens (Instagram Dark on Black) */
+  --th-background: #0a0a0a;
+  --th-token: #fbf8f4;
+  --th-attr: #c084fc;
+  --th-code-inline: #fbf8f4;
+  --th-command: #c084fc;
+  --th-comment: #736d66;
+  --th-deleted: #f87171;
+  --th-function: #c084fc;
+  --th-heading: #fbf8f4;
+  --th-inserted: #4ade80;
+  --th-keyword: #f472b6;
+  --th-link: #f75590;
+  --th-literal: #f75590;
+  --th-meta: #a8a29e;
+  --th-number: #fb7185;
+  --th-operator: #a8a29e;
+  --th-property: #f472b6;
+  --th-selector: #4ade80;
+  --th-string: #34d399;
+  --th-tag: #f472b6;
+  --th-type: #c084fc;
+  --th-variable: #fb923c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000;
+    --bg-surface: #111111;
+    --bg-subtle: #1c1c1c;
+    --bg-code: #0a0a0a;
+    --bg-code-header: #141414;
+    --fg: #fbf8f4;
+    --fg-muted: #a8a29e;
+    --fg-subtle: #736d66;
+    --border: #262320;
+    --border-subtle: #1a1816;
+
+    --accent: #f75590;
+    --accent-subtle: rgba(247, 85, 144, 0.15);
+    --accent-fg: #fb7185;
+    --accent-coral: #fb7185;
+    --accent-purple: #c084fc;
+    --accent-orange: #fb923c;
+    --accent-yellow: #fde047;
+    --ig-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+    --header-bg: rgba(0, 0, 0, 0.9);
+    --header-border: #262320;
+    --kbd-bg: #1c1a17;
+    --kbd-border: #332f2b;
+
+    --th-background: #0a0a0a;
+    --th-token: #fbf8f4;
+    --th-attr: #c084fc;
+    --th-code-inline: #fbf8f4;
+    --th-command: #c084fc;
+    --th-comment: #736d66;
+    --th-deleted: #f87171;
+    --th-function: #c084fc;
+    --th-heading: #fbf8f4;
+    --th-inserted: #4ade80;
+    --th-keyword: #f472b6;
+    --th-link: #f75590;
+    --th-literal: #f75590;
+    --th-meta: #a8a29e;
+    --th-number: #fb7185;
+    --th-operator: #a8a29e;
+    --th-property: #f472b6;
+    --th-selector: #4ade80;
+    --th-string: #34d399;
+    --th-tag: #f472b6;
+    --th-type: #c084fc;
+    --th-variable: #fb923c;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header */
+header.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 56px;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--header-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+}
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.brand-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  background: linear-gradient(135deg, rgba(225, 48, 108, 0.12), rgba(240, 148, 51, 0.12));
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(225, 48, 108, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.header-nav a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background-color 0.15s;
+}
+.header-nav a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  color: var(--fg);
+  cursor: pointer;
+  line-height: 0;
+}
+.theme-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 0;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+.theme-btn:hover {
+  color: var(--fg);
+  border-color: var(--fg-muted);
+  background: var(--bg-subtle);
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 56px);
+}
+.backdrop {
+  display: none;
+}
+
+/* Sidebar */
+aside.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  padding: 1rem 0.85rem 2rem;
+  background: var(--bg);
+  scrollbar-width: thin;
+}
+aside.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+aside.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.drawer-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+.drawer-close {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 0;
+}
+.drawer-close:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.search-icon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-subtle);
+  pointer-events: none;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.45rem 1.8rem 0.45rem 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+.search-kbd {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fg-subtle);
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.sidebar .group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  margin: 1.1rem 0 0.4rem 0.5rem;
+}
+.sidebar .nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar .nav-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.12s, background-color 0.12s;
+  margin-bottom: 1px;
+}
+.sidebar .nav-list a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+.sidebar .nav-list a.current {
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+.sidebar .nav-list a.h3 {
+  padding-left: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--fg-subtle);
+}
+.sidebar .nav-list a.h3:hover {
+  color: var(--fg-muted);
+}
+.badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  background: var(--bg-subtle);
+  color: var(--fg-subtle);
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+/* Main Content */
+main.content {
+  flex: 1 1 0;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.25rem 3rem 4rem;
+  min-width: 0;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+  margin-bottom: 1rem;
+}
+.breadcrumbs a {
+  color: var(--fg-subtle);
+  text-decoration: none;
+}
+.breadcrumbs a:hover {
+  color: var(--accent);
+}
+.breadcrumbs span.sep {
+  color: var(--border);
+}
+
+/* Typography */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+  color: var(--fg);
+}
+h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  margin: 2.5rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 1.75rem 0 0.5rem;
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.35rem;
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+p {
+  margin: 0 0 1rem;
+  color: var(--fg);
+  line-height: 1.68;
+}
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--accent-fg);
+  text-decoration: underline;
+}
+
+.header-anchor {
+  float: left;
+  margin-left: -0.9em;
+  padding-right: 0.25em;
+  color: var(--fg-subtle);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  font-weight: 400;
+  user-select: none;
+}
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+  opacity: 0.6;
+}
+.header-anchor:hover {
+  opacity: 1 !important;
+  color: var(--accent) !important;
+  text-decoration: none !important;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin: 0 0 1.25rem;
+}
+li {
+  margin-bottom: 0.35rem;
+}
+li::marker {
+  color: var(--fg-subtle);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--bg-surface);
+  margin: 1.25rem 0;
+  padding: 0.85rem 1.15rem;
+  color: var(--fg-muted);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 0.92rem;
+}
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+:not(pre) > code {
+  background: var(--bg-subtle);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.38em;
+  word-break: break-word;
+}
+
+/* Code Blocks */
+.code-block {
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-code);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.85rem;
+  background: var(--bg-code-header);
+  border-bottom: 1px solid var(--border);
+}
+.code-lang {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.copy-btn:hover {
+  background: var(--bg-surface);
+  color: var(--fg);
+  border-color: var(--border);
+}
+.copy-btn.copied {
+  color: #16a34a;
+}
+pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: var(--bg-code);
+  color: var(--fg);
+  -webkit-overflow-scrolling: touch;
+}
+pre code {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* TanStack Highlight tokens */
+pre.th-code {
+  background: var(--th-background);
+  color: var(--th-token);
+}
+.th-token { color: var(--th-token); }
+.th-attr { color: var(--th-attr); }
+.th-code-inline { color: var(--th-code-inline); }
+.th-command { color: var(--th-command); font-weight: 500; }
+.th-comment { color: var(--th-comment); font-style: italic; }
+.th-deleted { color: var(--th-deleted); }
+.th-function { color: var(--th-function); }
+.th-heading { color: var(--th-heading); }
+.th-inserted { color: var(--th-inserted); }
+.th-keyword { color: var(--th-keyword); font-weight: 500; }
+.th-link { color: var(--th-link); }
+.th-literal { color: var(--th-literal); }
+.th-meta { color: var(--th-meta); }
+.th-number { color: var(--th-number); }
+.th-operator { color: var(--th-operator); }
+.th-property { color: var(--th-property); }
+.th-selector { color: var(--th-selector); }
+.th-string { color: var(--th-string); }
+.th-tag { color: var(--th-tag); }
+.th-type { color: var(--th-type); }
+.th-variable { color: var(--th-variable); }
+
+/* Tables */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+  font-size: 0.88rem;
+  text-align: left;
+}
+th {
+  background: var(--bg-surface);
+  color: var(--fg);
+  font-weight: 600;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+th:last-child {
+  border-right: none;
+}
+td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--fg);
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+td:last-child {
+  border-right: none;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: var(--bg-surface);
+}
+
+/* Pagination */
+.pagination-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.page-link {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.page-link:hover {
+  border-color: var(--accent);
+  background: var(--bg-surface);
+  text-decoration: none;
+}
+.page-link.next {
+  text-align: right;
+  grid-column: 2;
+}
+.page-link.prev {
+  grid-column: 1;
+}
+.page-direction {
+  font-size: 0.75rem;
+  color: var(--fg-subtle);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+.page-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Right TOC Rail (Desktop) */
+aside.toc-sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: 2.25rem 1rem 2rem 0.5rem;
+  font-size: 0.82rem;
+}
+.toc-header {
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  margin-bottom: 0.6rem;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--border);
+}
+.toc-list a {
+  display: block;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.25rem 0 0.25rem 0.85rem;
+  line-height: 1.45;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-list a:hover {
+  color: var(--fg);
+  border-left-color: var(--fg-subtle);
+}
+.toc-list a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.toc-list a.h3 {
+  padding-left: 1.5rem;
+  font-size: 0.78rem;
+}
+
+/* Footer */
+footer.doc-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Responsive & Mobile */
+@media (max-width: 1240px) {
+  aside.toc-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .mobile-toggle {
+    display: inline-flex;
+  }
+  .header-nav {
+    display: none;
+  }
+  .drawer-header {
+    display: flex;
+  }
+  aside.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 85vw;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none;
+    border-right: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  body.nav-open aside.sidebar {
+    transform: translateX(0);
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.45);
+  }
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  body.nav-open .backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.nav-open {
+    overflow: hidden;
+  }
+  main.content {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+  h1 {
+    font-size: 1.65rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  .pagination-nav {
+    grid-template-columns: 1fr;
+  }
+  .page-link.next {
+    grid-column: 1;
+  }
+}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <button class="mobile-toggle" aria-label="Toggle navigation menu" onclick="toggleNav()" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a class="brand" href="index.html">
+        <svg class="brand-glyph" width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <defs>
+            <linearGradient id="ig-grad-api-reference-html" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f09433"/>
+              <stop offset="25%" stop-color="#e6683c"/>
+              <stop offset="50%" stop-color="#dc2743"/>
+              <stop offset="75%" stop-color="#cc2366"/>
+              <stop offset="100%" stop-color="#bc1888"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="20" height="20" rx="5.5" ry="5.5" stroke="url(#ig-grad-api-reference-html)" stroke-width="2"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="url(#ig-grad-api-reference-html)" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="url(#ig-grad-api-reference-html)"/>
+        </svg>
+        <span>Instagram API</span>
+        <span class="brand-badge">Docs</span>
+      </a>
+    </div>
+    <div class="header-right">
+      <nav class="header-nav">
+        <a href="api-reference.html">API Reference</a>
+        <a href="formats.html">Formats</a>
+        <a href="openapi.yaml" target="_blank">OpenAPI</a>
+        <a href="llms.txt" target="_blank">llms.txt</a>
+        <a href="https://github.com/laudebugs/ig-api" target="_blank" rel="noopener" aria-label="GitHub repository">GitHub</a>
+      </nav>
+      <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark mode" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </header>
+  <div class="backdrop" onclick="toggleNav(false)"></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="drawer-header"><div class="drawer-title">Navigation</div><button class="drawer-close" aria-label="Close navigation" onclick="toggleNav(false)" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="search-box"><svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="q" type="search" placeholder="Filter sections…" oninput="filterNav()" aria-label="Filter navigation"><span class="search-kbd">/</span></div><div class="group-title">Overview</div><ul class="nav-list"><li><a href="index.html">Home</a></li><li><a href="api-reference.html" class="current">API Reference</a></li><li><a href="formats.html">Formats</a></li></ul><div class="group-title">Guides</div><ul class="nav-list"><li><a href="docs/getting-started.html">Getting Started</a></li><li><a href="docs/authentication.html">Authentication</a></li><li><a href="docs/media-publishing.html">Media Publishing</a></li><li><a href="docs/insights.html">Insights</a></li><li><a href="docs/comments-moderation.html">Comments &amp; Moderation</a></li><li><a href="docs/messaging.html">Messaging</a></li><li><a href="docs/webhooks.html">Webhooks</a></li><li><a href="docs/errors-and-rate-limits.html">Errors &amp; Rate Limits</a></li><li><a href="docs/faq.html">FAQ</a></li></ul><div class="group-title">Resources</div><ul class="nav-list"><li><a href="openapi.yaml" target="_blank" rel="noopener">OpenAPI Spec (3.1)<span class="badge-tag">contract</span></a></li><li><a href="types/instagram-graph.d.ts" target="_blank" rel="noopener">TypeScript Types<span class="badge-tag">types</span></a></li><li><a href="llms.txt" target="_blank" rel="noopener">llms.txt (Fast Index)<span class="badge-tag">llm</span></a></li><li><a href="llms-full.txt" target="_blank" rel="noopener">llms-full.txt (Full Bundle)<span class="badge-tag">llm</span></a></li><li><a href="data/chunks.jsonl" target="_blank" rel="noopener">RAG Chunks (JSONL)<span class="badge-tag">data</span></a></li><li><a href="examples/" target="_blank" rel="noopener">Code Examples<span class="badge-tag">code</span></a></li><li><a href="bruno/" target="_blank" rel="noopener">Bruno Collection<span class="badge-tag">api</span></a></li><li><a href="postman/" target="_blank" rel="noopener">Postman Collection<span class="badge-tag">api</span></a></li></ul><div class="group-title on-this-page-sidebar">On This Page</div><ul class="nav-list on-this-page-list"><li><a class="h2" href="#contents">Contents</a></li><li><a class="h2" href="#0-how-coding-agents-should-use-this-doc">0. How coding agents should use this doc</a></li><li><a class="h2" href="#1-api-landscape-two-flavors">1. API landscape: two flavors</a></li><li><a class="h2" href="#2-concepts-and-mental-model">2. Concepts and mental model</a></li><li><a class="h2" href="#3-app-setup">3. App setup</a></li><li><a class="h3" href="#3-1-facebook-login-flavor-graph-facebook-com">3.1 Facebook Login flavor (graph.facebook.com)</a></li><li><a class="h3" href="#3-2-instagram-login-flavor-graph-instagram-com">3.2 Instagram Login flavor (graph.instagram.com)</a></li><li><a class="h3" href="#3-3-environment-checklist">3.3 Environment checklist</a></li><li><a class="h2" href="#4-authentication">4. Authentication</a></li><li><a class="h3" href="#4-1-facebook-login-flow-full">4.1 Facebook Login flow (full)</a></li><li><a class="h3" href="#4-2-instagram-login-flow-full">4.2 Instagram Login flow (full)</a></li><li><a class="h3" href="#4-3-token-storage-and-rotation-rules">4.3 Token storage and rotation rules</a></li><li><a class="h3" href="#4-4-verify-a-token-debug-token">4.4 Verify a token (debug_token)</a></li><li><a class="h2" href="#5-core-conventions">5. Core conventions</a></li><li><a class="h3" href="#5-1-auth-header-vs-query-param">5.1 Auth header vs query param</a></li><li><a class="h3" href="#5-2-field-selection-and-expansion">5.2 Field selection and expansion</a></li><li><a class="h3" href="#5-3-pagination-cursor-based">5.3 Pagination (cursor-based)</a></li><li><a class="h3" href="#5-4-timestamps">5.4 Timestamps</a></li><li><a class="h3" href="#5-5-reading-rate-limit-headers">5.5 Reading rate-limit headers</a></li><li><a class="h2" href="#6-identity-and-accounts">6. Identity and accounts</a></li><li><a class="h3" href="#6-1-get-ig-user-profile-get-ig-user-id">6.1 Get IG user profile — GET /{ig-user-id}</a></li><li><a class="h3" href="#6-2-resolve-ig-user-id-from-a-page-get-page-id">6.2 Resolve IG User ID from a Page — GET /{page-id}</a></li><li><a class="h3" href="#6-3-linked-facebook-page">6.3 Linked Facebook Page</a></li><li><a class="h2" href="#7-reading-media-feed-reels-stories-albums">7. Reading media (feed, Reels, Stories, albums)</a></li><li><a class="h3" href="#7-1-list-media-get-ig-user-id-media">7.1 List media — GET /{ig-user-id}/media</a></li><li><a class="h3" href="#7-2-get-one-media-object-get-media-id">7.2 Get one media object — GET /{media-id}</a></li><li><a class="h3" href="#7-3-carousel-children-get-media-id-children">7.3 Carousel children — GET /{media-id}/children</a></li><li><a class="h3" href="#7-4-stories-get-ig-user-id-stories-then-get-story-media-id">7.4 Stories — GET /{ig-user-id}/stories then GET /{story-media-id}</a></li><li><a class="h3" href="#7-5-oembed-public-posts-no-token">7.5 oEmbed (public posts, no token)</a></li><li><a class="h2" href="#8-publishing">8. Publishing</a></li><li><a class="h3" href="#8-1-photo-single-image">8.1 Photo (single image)</a></li><li><a class="h3" href="#8-2-reels-video-with-status-polling">8.2 Reels (video) — with status polling</a></li><li><a class="h3" href="#8-3-carousel-album">8.3 Carousel (album)</a></li><li><a class="h3" href="#8-4-stories-image-video">8.4 Stories (image/video)</a></li><li><a class="h3" href="#8-5-what-you-can-change-after-publishing">8.5 What you can change after publishing</a></li><li><a class="h3" href="#8-6-delete-published-media-facebook-login-only">8.6 Delete published media (Facebook Login only)</a></li><li><a class="h3" href="#8-7-enable-disable-comments-on-media">8.7 Enable/disable comments on media</a></li><li><a class="h3" href="#8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit">8.8 Check publishing quota — GET /{ig-user-id}/content_publishing_limit</a></li><li><a class="h3" href="#8-9-agent-rules-for-publishing">8.9 Agent rules for publishing</a></li><li><a class="h2" href="#9-hashtags-and-business-discovery">9. Hashtags and Business Discovery</a></li><li><a class="h3" href="#9-1-hashtag-search-get-ig-hashtag-search">9.1 Hashtag search — GET /ig_hashtag_search</a></li><li><a class="h3" href="#9-2-top-recent-hashtag-media-get-hashtag-id-top-media-recent-media">9.2 Top / recent hashtag media — GET /{hashtag-id}/{top_media|recent_media}</a></li><li><a class="h3" href="#9-3-business-discovery-get-ig-user-id-fields-business-discovery">9.3 Business Discovery — GET /{ig-user-id}?fields=business_discovery…</a></li><li><a class="h2" href="#10-comments-and-moderation">10. Comments and moderation</a></li><li><a class="h3" href="#10-1-list-comments-get-media-id-comments">10.1 List comments — GET /{media-id}/comments</a></li><li><a class="h3" href="#10-2-reply-post-comment-id-replies">10.2 Reply — POST /{comment-id}/replies</a></li><li><a class="h3" href="#10-3-hide-unhide-post-comment-id-with-hide">10.3 Hide / unhide — POST /{comment-id} with hide</a></li><li><a class="h3" href="#10-4-delete-delete-comment-id">10.4 Delete — DELETE /{comment-id}</a></li><li><a class="h3" href="#10-5-block-unblock-a-user-moderate-conversations-api">10.5 Block / unblock a user (Moderate Conversations API)</a></li><li><a class="h3" href="#10-6-moderation-patterns-for-agents">10.6 Moderation patterns for agents</a></li><li><a class="h2" href="#11-insights-and-analytics">11. Insights and analytics</a></li><li><a class="h3" href="#11-1-account-insights-get-ig-user-id-insights">11.1 Account insights — GET /{ig-user-id}/insights</a></li><li><a class="h3" href="#11-2-media-insights-get-media-id-insights">11.2 Media insights — GET /{media-id}/insights</a></li><li><a class="h3" href="#11-3-common-metrics-verify-per-version">11.3 Common metrics (verify per version)</a></li><li><a class="h3" href="#11-4-story-insights">11.4 Story insights</a></li><li><a class="h3" href="#11-5-audience-demographic-breakdowns">11.5 Audience / demographic breakdowns</a></li><li><a class="h2" href="#12-messaging-dms">12. Messaging (DMs)</a></li><li><a class="h3" href="#12-1-the-24-hour-window">12.1 The 24-hour window</a></li><li><a class="h3" href="#12-2-send-text">12.2 Send text</a></li><li><a class="h3" href="#12-3-send-media-attachment">12.3 Send media / attachment</a></li><li><a class="h3" href="#12-4-message-tags-outside-the-window">12.4 Message tags (outside the window)</a></li><li><a class="h3" href="#12-5-conversations">12.5 Conversations</a></li><li><a class="h3" href="#12-6-agent-rules-for-messaging">12.6 Agent rules for messaging</a></li><li><a class="h2" href="#13-webhooks">13. Webhooks</a></li><li><a class="h3" href="#13-1-setup">13.1 Setup</a></li><li><a class="h3" href="#13-2-verification-get-return-hub-challenge-verbatim">13.2 Verification (GET — return hub.challenge verbatim)</a></li><li><a class="h3" href="#13-3-signature-validation-post-every-event">13.3 Signature validation (POST — every event)</a></li><li><a class="h3" href="#13-4-event-payload-catalog">13.4 Event payload catalog</a></li><li><a class="h3" href="#13-5-subscription-management">13.5 Subscription management</a></li><li><a class="h3" href="#13-6-agent-rules-for-webhooks">13.6 Agent rules for webhooks</a></li><li><a class="h2" href="#14-mentions-and-tags">14. Mentions and tags</a></li><li><a class="h3" href="#14-1-caption-mentions-get-ig-user-id-mentioned-media">14.1 Caption mentions — GET /{ig-user-id}/mentioned_media</a></li><li><a class="h3" href="#14-2-tags-get-ig-user-id-tags">14.2 Tags — GET /{ig-user-id}/tags</a></li><li><a class="h2" href="#15-errors-rate-limits-retries">15. Errors, rate limits, retries</a></li><li><a class="h3" href="#15-1-error-shape-always-the-same">15.1 Error shape (always the same)</a></li><li><a class="h3" href="#15-2-code-table-agent-action">15.2 Code table → agent action</a></li><li><a class="h3" href="#15-3-retry-policy-implement-once-use-everywhere">15.3 Retry policy (implement once, use everywhere)</a></li><li><a class="h2" href="#16-permissions-app-review-going-live">16. Permissions, App Review, going live</a></li><li><a class="h3" href="#16-1-permission-matrix-both-flavors">16.1 Permission matrix (both flavors)</a></li><li><a class="h3" href="#16-2-app-review-checklist">16.2 App Review checklist</a></li><li><a class="h3" href="#16-3-going-live">16.3 Going live</a></li><li><a class="h2" href="#17-agent-build-recipes-extend-instagram">17. Agent build recipes (extend Instagram)</a></li><li><a class="h3" href="#17-1-scheduled-post-manager">17.1 Scheduled-post manager</a></li><li><a class="h3" href="#17-2-comment-auto-moderator">17.2 Comment auto-moderator</a></li><li><a class="h3" href="#17-3-analytics-dashboard-reports">17.3 Analytics dashboard + reports</a></li><li><a class="h3" href="#17-4-ugc-repost-pipeline-rights-safe">17.4 UGC repost pipeline (rights-safe)</a></li><li><a class="h3" href="#17-5-dm-support-chatbot-human-handoff">17.5 DM support chatbot + human handoff</a></li><li><a class="h3" href="#17-6-contest-giveaway-engine">17.6 Contest / giveaway engine</a></li><li><a class="h3" href="#17-7-cross-posting-bridge">17.7 Cross-posting bridge</a></li><li><a class="h2" href="#18-faq-and-troubleshooting">18. FAQ and troubleshooting</a></li><li><a class="h2" href="#appendix-a-endpoint-quick-reference">Appendix A: Endpoint quick reference</a></li><li><a class="h2" href="#appendix-b-companion-files-in-this-bundle">Appendix B: Companion files in this bundle</a></li></ul>
+    </aside>
+    <main class="content">
+      <div class="breadcrumbs"><a href="index.html">Docs</a><span class="sep">/</span><span>Overview</span><span class="sep">/</span><span>API Reference</span></div>
+      <h1 id="instagram-api-comprehensive-agent-documentation"><a class="header-anchor" href="#instagram-api-comprehensive-agent-documentation" aria-label="Permalink to this section">#</a>Instagram API — Comprehensive Agent Documentation</h1>
+<blockquote><p>Generated: 2026-10-13 · Default version in examples: <code>v25.0</code> (Meta&#x27;s latest is <code>v26.0</code>, released 2026-07-29 — verify in the <a href="https://developers.facebook.com/docs/graph-api/changelog">Graph API changelog</a> before shipping) · Audience: coding agents and developers building apps that extend Instagram.  Conventions: <code>{version}</code> = Graph API version (keep in <code>GRAPH_VERSION</code> env var). <code>{ig-user-id}</code>, <code>{media-id}</code>, <code>{comment-id}</code> are numeric strings. <code>{token}</code> = access token (placeholder <code>EAAB...</code> / <code>IGAA...</code> — never commit real tokens). Every endpoint below shows <strong>curl + TypeScript + Python</strong> unless noted.</p></blockquote>
+<h2 id="contents"><a class="header-anchor" href="#contents" aria-label="Permalink to this section">#</a>Contents</h2>
+<ul>
+<li><a href="#0-how-coding-agents-should-use-this-doc">0. How coding agents should use this doc</a></li>
+<li><a href="#1-api-landscape-two-flavors">1. API landscape: two flavors</a></li>
+<li><a href="#2-concepts-and-mental-model">2. Concepts and mental model</a></li>
+<li><a href="#3-app-setup">3. App setup</a></li>
+<li><a href="#4-authentication">4. Authentication</a></li>
+<li><a href="#5-core-conventions">5. Core conventions</a></li>
+<li><a href="#6-identity-and-accounts">6. Identity and accounts</a></li>
+<li><a href="#7-reading-media-feed-reels-stories-albums">7. Reading media (feed, Reels, Stories, albums)</a></li>
+<li><a href="#8-publishing">8. Publishing</a></li>
+<li><a href="#9-hashtags-and-business-discovery">9. Hashtags and Business Discovery</a></li>
+<li><a href="#10-comments-and-moderation">10. Comments and moderation</a></li>
+<li><a href="#11-insights-and-analytics">11. Insights and analytics</a></li>
+<li><a href="#12-messaging-dms">12. Messaging (DMs)</a></li>
+<li><a href="#13-webhooks">13. Webhooks</a></li>
+<li><a href="#14-mentions-and-tags">14. Mentions and tags</a></li>
+<li><a href="#15-errors-rate-limits-retries">15. Errors, rate limits, retries</a></li>
+<li><a href="#16-permissions-app-review-going-live">16. Permissions, App Review, going live</a></li>
+<li><a href="#17-agent-build-recipes-extend-instagram">17. Agent build recipes (extend Instagram)</a></li>
+<li><a href="#18-faq-and-troubleshooting">18. FAQ and troubleshooting</a></li>
+<li><a href="#appendix-a-endpoint-quick-reference">Appendix A: Endpoint quick reference</a></li>
+<li><a href="#appendix-b-companion-files-in-this-bundle">Appendix B: Companion files in this bundle</a></li>
+</ul>
+<hr>
+<h2 id="0-how-coding-agents-should-use-this-doc"><a class="header-anchor" href="#0-how-coding-agents-should-use-this-doc" aria-label="Permalink to this section">#</a>0. How coding agents should use this doc</h2>
+<ul>
+<li><strong>Pick a flavor first</strong> (§1). The host, token type, and OAuth flow all follow from that</li>
+</ul>
+<p>choice. Never mix <code>graph.facebook.com</code> tokens with <code>graph.instagram.com</code> calls.</p>
+<ul>
+<li><strong>Keep config in env</strong>: <code>GRAPH_HOST</code>, <code>GRAPH_VERSION</code>, <code>IG_USER_ID</code>, <code>ACCESS_TOKEN</code>.</li>
+</ul>
+<p>All examples below assume these are set.</p>
+<ul>
+<li><strong>Machine-readable contract</strong>: <code>openapi.yaml</code> mirrors these endpoints; <code>types/instagram-graph.d.ts</code></li>
+</ul>
+<p>gives TypeScript shapes; <code>data/chunks.jsonl</code> gives one RAG chunk per endpoint.</p>
+<ul>
+<li><strong>Copy, don&#x27;t improvise</strong>: runnable flows live in <code>examples/</code> (TypeScript + Python).</li>
+</ul>
+<p>Prefer them over hand-rolled requests.</p>
+<ul>
+<li><strong>Verify before shipping</strong>: metric names, permissions, and version availability change.</li>
+</ul>
+<p>Confirm against Meta for Developers and test in Development mode with a role-holding account.</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash"># Standard env used by every example in this doc
+export GRAPH_HOST=&quot;https://graph.facebook.com&quot;   # or https://graph.instagram.com
+export GRAPH_VERSION=&quot;v25.0&quot;
+export IG_USER_ID=&quot;17841400008460056&quot;
+export ACCESS_TOKEN=&quot;EAAB...&quot;
+export BASE=&quot;${GRAPH_HOST}/${GRAPH_VERSION}&quot;</code></pre></div>
+<p>TypeScript helper used throughout (save as <code>examples/lib.ts</code> or inline):</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">// Minimal typed Graph client (fetch, no SDK)
+const BASE = `${process.env.GRAPH_HOST ?? &quot;https://graph.facebook.com&quot;}/${process.env.GRAPH_VERSION ?? &quot;v25.0&quot;}`;
+const TOKEN = process.env.ACCESS_TOKEN!;
+
+export async function gget&lt;T&gt;(path: string): Promise&lt;T&gt; {
+  const res = await fetch(`${BASE}${path}`, { headers: { Authorization: `Bearer ${TOKEN}` } });
+  const json = (await res.json()) as T &amp; { error?: { message: string; code: number } };
+  if (!res.ok) throw new Error(`GET ${path} → ${json.error?.code}: ${json.error?.message ?? res.status}`);
+  return json;
+}
+
+export async function gpost&lt;T&gt;(path: string, body: Record&lt;string, string&gt; = {}): Promise&lt;T&gt; {
+  const res = await fetch(`${BASE}${path}`, {
+    method: &quot;POST&quot;,
+    headers: { &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot; },
+    body: new URLSearchParams({ ...body, access_token: TOKEN }),
+  });
+  const json = (await res.json()) as T &amp; { error?: { message: string; code: number } };
+  if (!res.ok) throw new Error(`POST ${path} → ${json.error?.code}: ${json.error?.message ?? res.status}`);
+  return json;
+}</code></pre></div>
+<p>Python helper used throughout (save as <code>examples/lib.py</code> or inline):</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python"># Minimal Graph client (requests, pip install requests)
+import os
+import requests
+
+BASE = f&quot;{os.environ.get(&#x27;GRAPH_HOST&#x27;, &#x27;https://graph.facebook.com&#x27;)}/{os.environ.get(&#x27;GRAPH_VERSION&#x27;, &#x27;v25.0&#x27;)}&quot;
+TOKEN = os.environ[&quot;ACCESS_TOKEN&quot;]
+
+def gget(path, params=None):
+    r = requests.get(f&quot;{BASE}{path}&quot;, headers={&quot;Authorization&quot;: f&quot;Bearer {TOKEN}&quot;},
+                     params=params or {}, timeout=30)
+    data = r.json()
+    if r.status_code != 200:
+        raise RuntimeError(f&quot;GET {path} -&gt; {data.get(&#x27;error&#x27;, r.status_code)}&quot;)
+    return data
+
+def gpost(path, data=None):
+    payload = dict(data or {}); payload[&quot;access_token&quot;] = TOKEN
+    r = requests.post(f&quot;{BASE}{path}&quot;, data=payload, timeout=60)
+    body = r.json()
+    if r.status_code != 200:
+        raise RuntimeError(f&quot;POST {path} -&gt; {body.get(&#x27;error&#x27;, r.status_code)}&quot;)
+    return body</code></pre></div>
+<h2 id="1-api-landscape-two-flavors"><a class="header-anchor" href="#1-api-landscape-two-flavors" aria-label="Permalink to this section">#</a>1. API landscape: two flavors</h2>
+<p>Meta ships <strong>two Instagram API products</strong>. They overlap in endpoints but differ in host, auth, and account linkage. Pick one per app — tokens are <strong>not</strong> interchangeable.</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>Instagram Graph API (Facebook Login)</th><th>Instagram API (Instagram Login)</th></tr></thead><tbody><tr><td>Host</td><td><code>https://graph.facebook.com</code></td><td><code>https://graph.instagram.com</code></td></tr><tr><td>Token prefix</td><td><code>EAA…</code> (Page access token)</td><td><code>IGAA…</code> / <code>IGQW…</code> (IG user token)</td></tr><tr><td>Requires Facebook Page linked to IG?</td><td><strong>Yes</strong></td><td><strong>No</strong> — token <em>is</em> the IG account</td></tr><tr><td>IG account type</td><td>Business or Creator</td><td>Business or Creator</td></tr><tr><td>OAuth dialog host</td><td><code>www.facebook.com/dialog/oauth</code></td><td>Instagram OAuth (<code>instagram.com</code> / Meta Business Login for Instagram)</td></tr><tr><td>Scopes look like</td><td><code>instagram_basic</code>, <code>instagram_content_publish</code>, …</td><td><code>instagram_business_basic</code>, <code>instagram_business_content_publish</code>, …</td></tr><tr><td>Typical <code>IG_USER_ID</code></td><td>Numeric Page-derived ID (<code>instagram_business_account.id</code>)</td><td>Numeric IG ID, or <code>me</code> for the token owner</td></tr><tr><td>Webhooks object</td><td>Facebook app → Instagram object, often Page-mediated</td><td>Instagram object, flat <code>field</code>/<code>value</code> for content + <code>messaging[]</code> for DMs</td></tr><tr><td>Best for</td><td>Agencies/managers handling many Pages, existing Facebook apps</td><td>Consumer/creator apps, no-Page onboarding, new builds</td></tr></tbody></table></div>
+<p><strong>Which to choose?</strong></p>
+<ul>
+<li>New app, creators log in with Instagram directly → <strong>Instagram Login</strong> (simpler onboarding).</li>
+<li>Managing Pages/assets you already own, or you need edges only exposed via Pages</li>
+</ul>
+<p>(some <code>/tags</code> behaviors, Page-level subscriptions) → <strong>Facebook Login</strong>.</p>
+<ul>
+<li>Either way, the <strong>endpoint paths in §§6–15 are the same shape</strong>; only host, token, and</li>
+</ul>
+<p>scope names differ. Examples in this doc use the Facebook Login host; swap <code>GRAPH_HOST</code> and scopes for Instagram Login.</p>
+<blockquote><p>The legacy Instagram Basic Display API (personal-account media read) is retired — do not build on it. Personal accounts cannot use either flavor above; the IG account must be Business or Creator.</p></blockquote>
+<h2 id="2-concepts-and-mental-model"><a class="header-anchor" href="#2-concepts-and-mental-model" aria-label="Permalink to this section">#</a>2. Concepts and mental model</h2>
+<ul>
+<li><strong>IG User ID</strong> (<code>ig-user-id</code>): the Instagram Business/Creator account ID. Most paths hang</li>
+</ul>
+<p>off it: <code>/media</code>, <code>/insights</code>, <code>/messages</code>, <code>/stories</code>, <code>/tags</code>. With Instagram Login you can often use <code>me</code> instead of the numeric ID.</p>
+<ul>
+<li><strong>Media vs container</strong>: publishing is <strong>two-step</strong>. <code>POST /{ig-user-id}/media</code> creates a</li>
+</ul>
+<p><em>container</em> (unpublished draft, expires in ~24h); <code>POST /{ig-user-id}/media_publish</code> with <code>creation_id</code> publishes it and returns the real <strong>media ID</strong>. Insights/comments act on the media ID, never the container ID.</p>
+<ul>
+<li><strong>IGSID</strong> (Instagram-scoped ID): the per-app user ID for someone who messaged the account.</li>
+</ul>
+<p>Delivered only via webhooks. You reply to IGSIDs, never to usernames.</p>
+<ul>
+<li><strong>Page access token</strong> (Facebook Login flavor): derived from a long-lived user token via</li>
+</ul>
+<p><code>/me/accounts</code>. It authorizes IG calls. Effectively non-expiring unless revoked/password change (still handle error 190).</p>
+<ul>
+<li><strong>Permissions gate features</strong>: each feature needs its scope (§16). Missing/ unapproved</li>
+</ul>
+<p>scope → error 10/200. Request least privilege; each scope may need App Review.</p>
+<ul>
+<li><strong>Versioning</strong>: versions release ~quarterly, supported ~2 years, then deprecated.</li>
+</ul>
+<p>Pin <code>GRAPH_VERSION</code>, watch the changelog, and migrate before deprecation.</p>
+<ul>
+<li><strong>Professional accounts only</strong>: Business or Creator, and (Facebook Login flavor) linked to</li>
+</ul>
+<p>a Facebook Page. Development mode restricts calls to users with a role on the Meta app.</p>
+<h2 id="3-app-setup"><a class="header-anchor" href="#3-app-setup" aria-label="Permalink to this section">#</a>3. App setup</h2>
+<h3 id="3-1-facebook-login-flavor-graph-facebook-com"><a class="header-anchor" href="#3-1-facebook-login-flavor-graph-facebook-com" aria-label="Permalink to this section">#</a>3.1 Facebook Login flavor (graph.facebook.com)</h3>
+<ul>
+<li><strong>Professional IG account</strong>: in Instagram → Settings → Account type → Switch to</li>
+</ul>
+<p>professional (Business or Creator).</p>
+<ul>
+<li><strong>Link a Facebook Page</strong>: Page Settings → Linked accounts → connect the IG account.</li>
+</ul>
+<p>Confirm the link by viewing the Page&#x27;s <code>instagram_business_account</code> (§4, Step 4).</p>
+<ul>
+<li><strong>Create a Meta app</strong> at developers.facebook.com → add products <strong>Facebook Login</strong></li>
+</ul>
+<p>and reference the Instagram Graph API. Save App ID + App Secret.</p>
+<ul>
+<li><strong>Configure OAuth</strong>: valid redirect URI(s), request scopes (§16) for your use case.</li>
+<li><strong>Roles for testing</strong>: App Roles → add your test Facebook/IG users. Development mode</li>
+</ul>
+<p>only works for role holders until App Review passes.</p>
+<ul>
+<li>(Messaging/webhooks) Add the <strong>Webhooks</strong> product, set callback URL + verify token (§13).</li>
+</ul>
+<h3 id="3-2-instagram-login-flavor-graph-instagram-com"><a class="header-anchor" href="#3-2-instagram-login-flavor-graph-instagram-com" aria-label="Permalink to this section">#</a>3.2 Instagram Login flavor (graph.instagram.com)</h3>
+<ul>
+<li><strong>Professional IG account</strong> (same as above). No Facebook Page needed.</li>
+<li><strong>Create a Meta app</strong> with the <strong>Instagram</strong> product configured for <strong>Instagram Login</strong></li>
+</ul>
+<p>(also called &quot;Business Login for Instagram&quot;). This is a different app product than the classic Instagram Graph API — an app with only the classic product cannot mint Instagram Login tokens. Save the Instagram App ID + Secret.</p>
+<ul>
+<li><strong>Configure OAuth</strong> with <code>instagram_business_*</code> scopes (§16) and redirect URI.</li>
+<li><strong>Test users</strong>: add IG test accounts with roles on the app; Development mode gating</li>
+</ul>
+<p>applies the same way.</p>
+<h3 id="3-3-environment-checklist"><a class="header-anchor" href="#3-3-environment-checklist" aria-label="Permalink to this section">#</a>3.3 Environment checklist</h3>
+<ul>
+<li>☐  <code>GRAPH_HOST</code>, <code>GRAPH_VERSION</code>, <code>IG_USER_ID</code>, <code>ACCESS_TOKEN</code> in a secret store (never in repo/prompts)</li>
+<li>☐  Token scopes verified via <code>debug_token</code> (§4.4)</li>
+<li>☐  Webhook callback HTTPS + verify token + signature validation (§13)</li>
+<li>☐  Publishing quota checked (<code>content_publishing_limit</code>, §8.8)</li>
+<li>☐  Error-190 re-auth path implemented (§15), not just retries</li>
+</ul>
+<h2 id="4-authentication"><a class="header-anchor" href="#4-authentication" aria-label="Permalink to this section">#</a>4. Authentication</h2>
+<h3 id="4-1-facebook-login-flow-full"><a class="header-anchor" href="#4-1-facebook-login-flow-full" aria-label="Permalink to this section">#</a>4.1 Facebook Login flow (full)</h3>
+<p><strong>Step 1 — Authorization dialog</strong> (browser redirect):</p>
+<div class="code-block" data-lang="text"><div class="code-header"><span class="code-lang">text</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-text">https://www.facebook.com/v25.0/dialog/oauth
+  ?client_id={app-id}
+  &amp;redirect_uri={redirect-uri}
+  &amp;scope=instagram_basic,instagram_content_publish,instagram_manage_comments,instagram_manage_insights,pages_show_list,pages_read_engagement
+  &amp;response_type=code</code></pre></div>
+<p>Success returns <code>{redirect-uri}?code={code}</code>. Handle <code>?error=access_denied</code> when the user cancels — show reconnect UX, don&#x27;t retry silently.</p>
+<p><strong>Step 2 — Code → short-lived user token (~1h):</strong></p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/oauth/access_token&quot; \
+  --data-urlencode &quot;client_id=${APP_ID}&quot; \
+  --data-urlencode &quot;client_secret=${APP_SECRET}&quot; \
+  --data-urlencode &quot;redirect_uri=${REDIRECT_URI}&quot; \
+  --data-urlencode &quot;code=${CODE}&quot;
+# → {&quot;access_token&quot;:&quot;EAABshort...&quot;,&quot;token_type&quot;:&quot;bearer&quot;,&quot;expires_in&quot;:3600}</code></pre></div>
+<p><strong>Step 3 — Short-lived → long-lived user token (~60 days):</strong></p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/oauth/access_token&quot; \
+  --data-urlencode &quot;grant_type=fb_exchange_token&quot; \
+  --data-urlencode &quot;client_id=${APP_ID}&quot; \
+  --data-urlencode &quot;client_secret=${APP_SECRET}&quot; \
+  --data-urlencode &quot;fb_exchange_token=${SHORT_LIVED_TOKEN}&quot;
+# → {&quot;access_token&quot;:&quot;EAABlong...&quot;,&quot;token_type&quot;:&quot;bearer&quot;,&quot;expires_in&quot;:5184000}</code></pre></div>
+<p>Store server-side only. Refresh before expiry by repeating this exchange with a still-valid long-lived token (returns a fresh ~60-day token).</p>
+<p>TypeScript:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const qs = new URLSearchParams({ grant_type: &quot;fb_exchange_token&quot;, client_id: APP_ID,
+  client_secret: APP_SECRET, fb_exchange_token: shortLived });
+const tok = await fetch(`${BASE}/oauth/access_token?${qs}`).then(r =&gt; r.json());</code></pre></div>
+<p>Python:</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">tok = requests.get(f&quot;{BASE}/oauth/access_token&quot;, params={
+    &quot;grant_type&quot;: &quot;fb_exchange_token&quot;, &quot;client_id&quot;: APP_ID,
+    &quot;client_secret&quot;: APP_SECRET, &quot;fb_exchange_token&quot;: short_lived}, timeout=30).json()
+long_lived = tok[&quot;access_token&quot;]</code></pre></div>
+<p><strong>Step 4 — Page token + IG User ID:</strong></p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/me/accounts&quot; \
+  --data-urlencode &quot;fields=id,name,access_token,instagram_business_account{id,username}&quot; \
+  --data-urlencode &quot;access_token=${LONG_LIVED_USER_TOKEN}&quot;</code></pre></div>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;data&quot;: [{
+    &quot;id&quot;: &quot;109876543210&quot;, &quot;name&quot;: &quot;Example Page&quot;, &quot;access_token&quot;: &quot;EAABpage...&quot;,
+    &quot;instagram_business_account&quot;: { &quot;id&quot;: &quot;17841400008460056&quot;, &quot;username&quot;: &quot;examplebrand&quot; }
+}]}</code></pre></div>
+<p>Use the Page <code>access_token</code> for all IG calls; <code>instagram_business_account.id</code> is <code>IG_USER_ID</code>. If <code>instagram_business_account</code> is absent, the Page↔IG link is missing (§3.1 step 2).</p>
+<p><strong>Step 5 — Verify scopes and expiry</strong> (see §4.4).</p>
+<h3 id="4-2-instagram-login-flow-full"><a class="header-anchor" href="#4-2-instagram-login-flow-full" aria-label="Permalink to this section">#</a>4.2 Instagram Login flow (full)</h3>
+<p>Same shape, different hosts/scopes — do not mix with §4.1 values:</p>
+<ul>
+<li>Redirect the creator to the Instagram authorize URL</li>
+</ul>
+<p>(<code>https://api.instagram.com/oauth/authorize?client_id={instagram-app-id}&amp;redirect_uri={redirect-uri}&amp;scope=instagram_business_basic,instagram_business_content_publish&amp;response_type=code</code>). The redirect appends <code>#_</code> after the code — strip it before exchanging.</p>
+<ul>
+<li>Exchange <code>code</code> for a short-lived IG user token (~1h):</li>
+</ul>
+<p><code>POST https://api.instagram.com/oauth/access_token</code> with <code>client_id</code>, <code>client_secret</code>, <code>grant_type=authorization_code</code>, <code>redirect_uri</code>, and <code>code</code>.</p>
+<ul>
+<li>Exchange for a long-lived IG token (~60 days):</li>
+</ul>
+<p><code>GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token&amp;client_secret={instagram-app-secret}&amp;access_token={short-lived-token}</code>.</p>
+<ul>
+<li>Refresh a still-valid long-lived token (no app secret needed):</li>
+</ul>
+<p><code>GET https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&amp;access_token={long-lived-token}</code>. Tokens not refreshed within 60 days expire and can no longer be refreshed.</p>
+<ul>
+<li>The token owner is the IG account: use <code>IG_USER_ID=me</code> or the numeric IG ID.</li>
+<li>Verify with <code>GET /me?fields=user_id,username</code> on <code>graph.instagram.com</code>.</li>
+</ul>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash"># Instagram Login flavor: who am I?
+curl -G &quot;https://graph.instagram.com/v25.0/me&quot; \
+  --data-urlencode &quot;fields=user_id,username&quot; \
+  --data-urlencode &quot;access_token=${IG_TOKEN}&quot;</code></pre></div>
+<h3 id="4-3-token-storage-and-rotation-rules"><a class="header-anchor" href="#4-3-token-storage-and-rotation-rules" aria-label="Permalink to this section">#</a>4.3 Token storage and rotation rules</h3>
+<ul>
+<li>Server-side only (secret manager / env). Never in client bundles, repos, logs, or prompts.</li>
+<li>One row per connected account: <code>{ ig_user_id, page_id?, token_ciphertext, scopes, expires_at }</code>.</li>
+<li>Refresh long-lived tokens on a schedule (e.g. day 50 of 60), not on failure.</li>
+<li>On <strong>error 190</strong> (invalid/expired token): mark the connection <code>needs_reauth</code> and restart</li>
+</ul>
+<p>OAuth — never retry the same call in a loop.</p>
+<ul>
+<li>Implement the <strong>Data Deletion callback</strong> and <strong>deauthorize webhook</strong> Meta requires for</li>
+</ul>
+<p>App Review (confirm user data removal when they disconnect).</p>
+<h3 id="4-4-verify-a-token-debug-token"><a class="header-anchor" href="#4-4-verify-a-token-debug-token" aria-label="Permalink to this section">#</a>4.4 Verify a token (debug_token)</h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/debug_token&quot; \
+  --data-urlencode &quot;input_token=${ACCESS_TOKEN}&quot; \
+  --data-urlencode &quot;access_token=${APP_ID}|${APP_SECRET}&quot;</code></pre></div>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;data&quot;: { &quot;is_valid&quot;: true, &quot;app_id&quot;: &quot;123…&quot;, &quot;type&quot;: &quot;PAGE&quot;,
+  &quot;expires_at&quot;: 0, &quot;scopes&quot;: [&quot;instagram_basic&quot;, &quot;instagram_content_publish&quot;, &quot;pages_show_list&quot;] }}</code></pre></div>
+<p>Gate every new connection on <code>is_valid=true</code> + required scopes present. <code>expires_at: 0</code> means non-expiring (typical for Page tokens derived from long-lived user tokens).</p>
+<h2 id="5-core-conventions"><a class="header-anchor" href="#5-core-conventions" aria-label="Permalink to this section">#</a>5. Core conventions</h2>
+<h3 id="5-1-auth-header-vs-query-param"><a class="header-anchor" href="#5-1-auth-header-vs-query-param" aria-label="Permalink to this section">#</a>5.1 Auth header vs query param</h3>
+<p>Both work; prefer the header (tokens stay out of logs/URLs):</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot; &quot;${BASE}/${IG_USER_ID}?fields=id,username&quot;</code></pre></div>
+<p>Form-encoded <code>POST</code> bodies in this doc use <code>access_token</code> in the body (Meta convention); JSON <code>POST</code>s (messaging) use the <code>Authorization</code> header.</p>
+<h3 id="5-2-field-selection-and-expansion"><a class="header-anchor" href="#5-2-field-selection-and-expansion" aria-label="Permalink to this section">#</a>5.2 Field selection and expansion</h3>
+<p>Always pass <code>fields</code> — default payloads are sparse and version-dependent:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash"># Nested expansion: business discovery + media children in one call
+curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
+  --data-urlencode &quot;fields=id,username,media.limit(5){id,caption,media_type,children{id,media_type}}&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<p>Invalid field → error 100 naming the field. Bisect field lists on failure.</p>
+<h3 id="5-3-pagination-cursor-based"><a class="header-anchor" href="#5-3-pagination-cursor-based" aria-label="Permalink to this section">#</a>5.3 Pagination (cursor-based)</h3>
+<p>List edges return <code>paging: { cursors: { before, after }, next? }</code>. Walk <code>after</code> until <code>paging.next</code> is absent. <code>limit</code> default 25, max varies by edge (use ≤50 defensively).</p>
+<p>TypeScript:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">async function* pages&lt;T&gt;(firstPath: string) {
+  let path: string | undefined = firstPath;
+  while (path) {
+    const url = path.startsWith(&quot;http&quot;) ? path : `${BASE}${path}`;
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const json = await res.json() as { data: T[]; paging?: { cursors?: { after?: string }; next?: string } };
+    if (!res.ok) throw new Error(JSON.stringify(json));
+    yield* json.data;
+    path = json.paging?.next;
+  }
+}
+// usage: for await (const m of pages&lt;Media&gt;(`/${IG_USER_ID}/media?fields=id,caption&amp;limit=50`)) { … }</code></pre></div>
+<p>Python:</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">def pages(first_path, params=None):
+    url, params = f&quot;{BASE}{first_path}&quot;, dict(params or {})
+    while url:
+        r = requests.get(url, headers={&quot;Authorization&quot;: f&quot;Bearer {TOKEN}&quot;},
+                         params=params, timeout=30)
+        body = r.json()
+        if r.status_code != 200:
+            raise RuntimeError(body.get(&quot;error&quot;, r.status_code))
+        yield from body.get(&quot;data&quot;, [])
+        url = (body.get(&quot;paging&quot;) or {}).get(&quot;next&quot;)
+        params = {}  # &#x27;next&#x27; already encodes the cursor</code></pre></div>
+<h3 id="5-4-timestamps"><a class="header-anchor" href="#5-4-timestamps" aria-label="Permalink to this section">#</a>5.4 Timestamps</h3>
+<ul>
+<li>Media/comment <code>timestamp</code> fields: ISO 8601 (<code>2026-10-13T10:00:00+0000</code>).</li>
+<li>Insights <code>since</code>/<code>until</code>: <strong>Unix seconds</strong>. Align to full days; partial windows truncate silently.</li>
+<li>Webhook <code>entry[].time</code>: Unix seconds.</li>
+</ul>
+<h3 id="5-5-reading-rate-limit-headers"><a class="header-anchor" href="#5-5-reading-rate-limit-headers" aria-label="Permalink to this section">#</a>5.5 Reading rate-limit headers</h3>
+<p>Every response may include <code>X-App-Usage</code>, <code>X-Page-Usage</code>, <code>X-Business-Use-Case-Usage</code> (JSON like <code>{&quot;call_count&quot;:42,&quot;total_time&quot;:31,&quot;total_cputime&quot;:28}</code> = % of limit used). Throttle proactively past ~70%; see §15 for the full retry policy.</p>
+<h2 id="6-identity-and-accounts"><a class="header-anchor" href="#6-identity-and-accounts" aria-label="Permalink to this section">#</a>6. Identity and accounts</h2>
+<p>Requires: <code>instagram_basic</code> (FB Login) / <code>instagram_business_basic</code> (IG Login).</p>
+<h3 id="6-1-get-ig-user-profile-get-ig-user-id"><a class="header-anchor" href="#6-1-get-ig-user-profile-get-ig-user-id" aria-label="Permalink to this section">#</a>6.1 Get IG user profile — <code>GET /{ig-user-id}</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
+  --data-urlencode &quot;fields=id,username,name,biography,media_count,followers_count,follows_count,profile_picture_url,website&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;id&quot;: &quot;17841400008460056&quot;, &quot;username&quot;: &quot;examplebrand&quot;,
+  &quot;media_count&quot;: 42, &quot;followers_count&quot;: 120400, &quot;follows_count&quot;: 312 }</code></pre></div>
+<p>TypeScript / Python (helpers from §0):</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const me = await gget&lt;IgUser&gt;(`/${process.env.IG_USER_ID}?fields=id,username,media_count,followers_count`);</code></pre></div>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">me = gget(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}&quot;,
+          {&quot;fields&quot;: &quot;id,username,media_count,followers_count&quot;})</code></pre></div>
+<p>Useful fields: <code>id,username,name,biography,media_count,followers_count,follows_count, profile_picture_url,website,has_profile_pic,is_published,shopping_product_tag_eligibility</code>. Note: the IG User object has <strong>no <code>account_type</code> field</strong> on current versions — do not request it (error 100). Business-vs-Creator cannot be distinguished via this object.</p>
+<h3 id="6-2-resolve-ig-user-id-from-a-page-get-page-id"><a class="header-anchor" href="#6-2-resolve-ig-user-id-from-a-page-get-page-id" aria-label="Permalink to this section">#</a>6.2 Resolve IG User ID from a Page — <code>GET /{page-id}</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${PAGE_ID}&quot; \
+  --data-urlencode &quot;fields=instagram_business_account{id,username}&quot; \
+  -H &quot;Authorization: Bearer ${USER_TOKEN}&quot;
+# → {&quot;instagram_business_account&quot;: {&quot;id&quot;: &quot;178414…&quot;, &quot;username&quot;: &quot;examplebrand&quot;}, &quot;id&quot;: &quot;1098…&quot;}</code></pre></div>
+<p>Missing <code>instagram_business_account</code> ⇒ Page↔IG link absent. Re-link in Page Settings.</p>
+<h3 id="6-3-linked-facebook-page"><a class="header-anchor" href="#6-3-linked-facebook-page" aria-label="Permalink to this section">#</a>6.3 Linked Facebook Page</h3>
+<p>There is no <code>connected_facebook_page</code> field on the IG User object. Resolve the link in the other direction: from the Page via <code>instagram_business_account</code> (§6.2), or list a user&#x27;s Pages with <code>GET /me/accounts</code> (§4.1, Step 4).</p>
+<h2 id="7-reading-media-feed-reels-stories-albums"><a class="header-anchor" href="#7-reading-media-feed-reels-stories-albums" aria-label="Permalink to this section">#</a>7. Reading media (feed, Reels, Stories, albums)</h2>
+<p>Requires: <code>instagram_basic</code> / <code>instagram_business_basic</code>.</p>
+<h3 id="7-1-list-media-get-ig-user-id-media"><a class="header-anchor" href="#7-1-list-media-get-ig-user-id-media" aria-label="Permalink to this section">#</a>7.1 List media — <code>GET /{ig-user-id}/media</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  --data-urlencode &quot;fields=id,caption,media_type,media_product_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count&quot; \
+  --data-urlencode &quot;limit=25&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<ul>
+<li><code>media_type</code>: <code>IMAGE</code> | <code>VIDEO</code> | <code>CAROUSEL_ALBUM</code>.</li>
+<li><code>media_product_type</code>: <code>FEED</code> | <code>REELS</code> | <code>STORY</code> (also <code>AD</code>). On current references</li>
+</ul>
+<p>this field is documented for the Facebook Login flavor only — do not rely on it with Instagram Login tokens.</p>
+<ul>
+<li>Paginate with <code>paging.next</code> (§5.3). Filter client-side by <code>media_product_type</code> for</li>
+</ul>
+<p>Reels-only views — there is no server-side product-type filter on this edge.</p>
+<h3 id="7-2-get-one-media-object-get-media-id"><a class="header-anchor" href="#7-2-get-one-media-object-get-media-id" aria-label="Permalink to this section">#</a>7.2 Get one media object — <code>GET /{media-id}</code></h3>
+<p>Same <code>fields</code> as §7.1 plus <code>owner</code>, <code>children{id,media_type,media_url}</code> for albums, <code>is_comment_enabled</code>. Store <code>permalink</code> for link-backs; <code>media_url</code> may expire — do not hotlink it long-term, re-fetch or cache the bytes (respecting rights).</p>
+<h3 id="7-3-carousel-children-get-media-id-children"><a class="header-anchor" href="#7-3-carousel-children-get-media-id-children" aria-label="Permalink to this section">#</a>7.3 Carousel children — <code>GET /{media-id}/children</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${MEDIA_ID}/children&quot; \
+  --data-urlencode &quot;fields=id,media_type,media_url,thumbnail_url,permalink&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<h3 id="7-4-stories-get-ig-user-id-stories-then-get-story-media-id"><a class="header-anchor" href="#7-4-stories-get-ig-user-id-stories-then-get-story-media-id" aria-label="Permalink to this section">#</a>7.4 Stories — <code>GET /{ig-user-id}/stories</code> then <code>GET /{story-media-id}</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/stories&quot; \
+  --data-urlencode &quot;fields=id,media_type,media_url,timestamp&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<p>Stories expire after 24h; <code>media_url</code> dies with them. Fetch story insights (§11.4) while live.</p>
+<h3 id="7-5-oembed-public-posts-no-token"><a class="header-anchor" href="#7-5-oembed-public-posts-no-token" aria-label="Permalink to this section">#</a>7.5 oEmbed (public posts, no token)</h3>
+<p>For rendering a public post/preview without auth:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/instagram_oembed&quot; \
+  --data-urlencode &quot;url=https://www.instagram.com/p/${SHORTCODE}/&quot; \
+  --data-urlencode &quot;fields=author_name,author_url,provider_name,title,html,thumbnail_url,width,height&quot;</code></pre></div>
+<p>Availability and auth requirements for oEmbed have changed across versions — if it returns an auth error on your version, fall back to <code>GET /{media-id}</code> with a token.</p>
+<p>TypeScript + Python:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const stories = await gget&lt;MediaList&gt;(`/${process.env.IG_USER_ID}/stories?fields=id,media_type,timestamp&amp;limit=25`);
+for await (const m of pages&lt;Media&gt;(`/${process.env.IG_USER_ID}/media?fields=id,caption,media_product_type,timestamp&amp;limit=50`)) {
+  console.log(m.id, m.media_product_type, m.timestamp);
+}</code></pre></div>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">stories = gget(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/stories&quot;,
+               {&quot;fields&quot;: &quot;id,media_type,timestamp&quot;, &quot;limit&quot;: &quot;25&quot;})
+for m in pages(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/media&quot;,
+               {&quot;fields&quot;: &quot;id,caption,media_product_type,timestamp&quot;, &quot;limit&quot;: &quot;50&quot;}):
+    print(m[&quot;id&quot;], m.get(&quot;media_product_type&quot;), m.get(&quot;timestamp&quot;))</code></pre></div>
+<h2 id="8-publishing"><a class="header-anchor" href="#8-publishing" aria-label="Permalink to this section">#</a>8. Publishing</h2>
+<p>Requires: <code>instagram_basic</code> + <code>instagram_content_publish</code> (IG Login: <code>instagram_business_basic</code> + <code>instagram_business_content_publish</code>).</p>
+<p>Rules that apply to <strong>every</strong> publish:</p>
+<ul>
+<li>Assets must be <strong>public HTTPS URLs</strong> Meta&#x27;s fetcher can reach (no localhost, no</li>
+</ul>
+<p>auth walls, no expiring signed URLs that die mid-processing).</p>
+<ul>
+<li><strong>Two steps always</strong>: create container → (video: poll to <code>FINISHED</code>) → <code>media_publish</code>.</li>
+<li>Containers expire ~24h unpublished (<code>EXPIRED</code> ⇒ recreate, don&#x27;t retry publish).</li>
+</ul>
+<p>Accounts can create at most <strong>400 containers per rolling 24h</strong>.</p>
+<ul>
+<li>Quota: <strong>100 API-published posts per rolling 24h</strong> (carousels count as one post),</li>
+</ul>
+<p>enforced on <code>media_publish</code> — read <code>content_publishing_limit</code> (§8.8) for live usage.</p>
+<ul>
+<li>Only the returned <strong>media ID</strong> works for insights/comments — store both IDs.</li>
+</ul>
+<h3 id="8-1-photo-single-image"><a class="header-anchor" href="#8-1-photo-single-image" aria-label="Permalink to this section">#</a>8.1 Photo (single image)</h3>
+<p>Step 1 — container:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  -d &quot;image_url=https://example.com/photo.jpg&quot; \
+  -d &quot;caption=Hello from the API #launch&quot; \
+  -d &quot;alt_text=A sunrise over mountains&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;id&quot;:&quot;17901234567890123&quot;}</code></pre></div>
+<p>Step 2 — publish:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/media_publish&quot; \
+  -d &quot;creation_id=17901234567890123&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;id&quot;:&quot;17987654321098765&quot;}</code></pre></div>
+<p>TypeScript:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const c = await gpost&lt;{ id: string }&gt;(`/${process.env.IG_USER_ID}/media`,
+  { image_url: &quot;https://example.com/photo.jpg&quot;, caption: &quot;Hello from the API #launch&quot; });
+const pub = await gpost&lt;{ id: string }&gt;(`/${process.env.IG_USER_ID}/media_publish`, { creation_id: c.id });</code></pre></div>
+<p>Python:</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">c = gpost(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/media&quot;,
+          {&quot;image_url&quot;: &quot;https://example.com/photo.jpg&quot;, &quot;caption&quot;: &quot;Hello from the API #launch&quot;})
+pub = gpost(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/media_publish&quot;, {&quot;creation_id&quot;: c[&quot;id&quot;]})</code></pre></div>
+<p>Runnable: <code>examples/publish-photo.ts</code>, <code>examples/publish-photo.py</code>.</p>
+<h3 id="8-2-reels-video-with-status-polling"><a class="header-anchor" href="#8-2-reels-video-with-status-polling" aria-label="Permalink to this section">#</a>8.2 Reels (video) — with status polling</h3>
+<p>Step 1 — container with <code>media_type=REELS</code>:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  -d &quot;media_type=REELS&quot; \
+  -d &quot;video_url=https://example.com/reel.mp4&quot; \
+  -d &quot;caption=New reel #reels&quot; \
+  -d &quot;share_to_feed=true&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;id&quot;:&quot;17901234567890124&quot;}</code></pre></div>
+<p>Step 2 — poll until <code>FINISHED</code> (video processing is async):</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/17901234567890124&quot; \
+  --data-urlencode &quot;fields=status_code,status&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;
+# → {&quot;id&quot;:&quot;17901234567890124&quot;,&quot;status_code&quot;:&quot;IN_PROGRESS&quot;} … eventually FINISHED</code></pre></div>
+<p><code>status_code</code>: <code>IN_PROGRESS</code> → <code>FINISHED</code> → (after publish) <code>PUBLISHED</code>; <code>ERROR</code> ⇒ read <code>status</code> for the reason (codec, size, URL unreachable) and recreate; <code>EXPIRED</code> ⇒ recreate. Poll every 5–10s, give up after ~10 min.</p>
+<p>Step 3 — publish (same <code>media_publish</code> call as §8.1).</p>
+<p>TypeScript (poll helper):</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">async function waitFinished(containerId: string, tries = 120) {
+  for (let i = 0; i &lt; tries; i++) {
+    const s = await gget&lt;{ status_code: string; status?: string }&gt;(`/${containerId}?fields=status_code,status`);
+    if (s.status_code === &quot;FINISHED&quot;) return;
+    if (s.status_code === &quot;ERROR&quot; || s.status_code === &quot;EXPIRED&quot;)
+      throw new Error(`container ${s.status_code}: ${s.status ?? &quot;unknown&quot;}`);
+    await new Promise(r =&gt; setTimeout(r, 5000));
+  }
+  throw new Error(&quot;timed out waiting for FINISHED&quot;);
+}</code></pre></div>
+<p>Python:</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">import time
+def wait_finished(container_id, tries=120):
+    for _ in range(tries):
+        s = gget(f&quot;/{container_id}&quot;, {&quot;fields&quot;: &quot;status_code,status&quot;})
+        if s[&quot;status_code&quot;] == &quot;FINISHED&quot;:
+            return
+        if s[&quot;status_code&quot;] in (&quot;ERROR&quot;, &quot;EXPIRED&quot;):
+            raise RuntimeError(f&quot;container {s[&#x27;status_code&#x27;]}: {s.get(&#x27;status&#x27;, &#x27;unknown&#x27;)}&quot;)
+        time.sleep(5)
+    raise TimeoutError(&quot;timed out waiting for FINISHED&quot;)</code></pre></div>
+<p>Runnable: <code>examples/publish-reel.ts</code>, <code>examples/publish-reel.py</code>. Video constraints (verify current spec): MP4/MOV, H.264, AAC, aspect ratios per Reel spec, size/duration caps — <code>ERROR</code> status names the violation.</p>
+<h3 id="8-3-carousel-album"><a class="header-anchor" href="#8-3-carousel-album" aria-label="Permalink to this section">#</a>8.3 Carousel (album)</h3>
+<p>Three phases — item containers, parent container, publish:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash"># 1) One container per item (up to 10; images and videos can mix per current spec)
+curl -X POST &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  -d &quot;image_url=https://example.com/1.jpg&quot; -d &quot;is_carousel_item=true&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;   # → {&quot;id&quot;:&quot;C1&quot;}
+curl -X POST &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  -d &quot;image_url=https://example.com/2.jpg&quot; -d &quot;is_carousel_item=true&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;   # → {&quot;id&quot;:&quot;C2&quot;}
+
+# 2) Parent container
+curl -X POST &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  -d &quot;media_type=CAROUSEL&quot; -d &quot;children=C1,C2&quot; \
+  -d &quot;caption=Swipe through #carousel&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;   # → {&quot;id&quot;:&quot;PARENT&quot;}
+
+# 3) Publish the PARENT id
+curl -X POST &quot;${BASE}/${IG_USER_ID}/media_publish&quot; \
+  -d &quot;creation_id=PARENT&quot; -d &quot;access_token=${ACCESS_TOKEN}&quot;</code></pre></div>
+<p>Video carousel items must reach <code>FINISHED</code> before the parent publish. Publish only the parent — publishing a child fails.</p>
+<h3 id="8-4-stories-image-video"><a class="header-anchor" href="#8-4-stories-image-video" aria-label="Permalink to this section">#</a>8.4 Stories (image/video)</h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/media&quot; \
+  -d &quot;media_type=STORIES&quot; \
+  -d &quot;image_url=https://example.com/story.jpg&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;id&quot;:&quot;STORY_CONTAINER&quot;} → media_publish as usual</code></pre></div>
+<p>Video stories use <code>video_url</code> + <code>media_type=STORIES</code> and need <code>FINISHED</code> first. Interactive stickers (polls/links) are generally <strong>not</strong> settable via API — publish the flat asset.</p>
+<h3 id="8-5-what-you-can-change-after-publishing"><a class="header-anchor" href="#8-5-what-you-can-change-after-publishing" aria-label="Permalink to this section">#</a>8.5 What you can change after publishing</h3>
+<p>Almost nothing. <strong>Captions cannot be edited via the API</strong> — plan copy before publishing (delete + republish to change it, §8.6). The only supported update on a published media object is toggling comments (§8.7).</p>
+<h3 id="8-6-delete-published-media-facebook-login-only"><a class="header-anchor" href="#8-6-delete-published-media-facebook-login-only" aria-label="Permalink to this section">#</a>8.6 Delete published media (Facebook Login only)</h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X DELETE &quot;${BASE}/${MEDIA_ID}?access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;success&quot;: true, &quot;deleted_id&quot;: &quot;17987654321098765&quot;}</code></pre></div>
+<p>Requires <code>instagram_basic</code> + <code>instagram_manage_contents</code> on the <strong>Facebook Login flavor only</strong> (not available with Instagram Login). Non-ad posts, Stories, and Reels are supported; a carousel must be deleted as a whole album — individual children cannot be deleted. Permanent — confirm UX-side; no trash/restore.</p>
+<h3 id="8-7-enable-disable-comments-on-media"><a class="header-anchor" href="#8-7-enable-disable-comments-on-media" aria-label="Permalink to this section">#</a>8.7 Enable/disable comments on media</h3>
+<p>Requires <code>instagram_manage_comments</code> (+ basic):</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${MEDIA_ID}?comment_enabled=false&amp;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;success&quot;: true}</code></pre></div>
+<h3 id="8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit"><a class="header-anchor" href="#8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit" aria-label="Permalink to this section">#</a>8.8 Check publishing quota — <code>GET /{ig-user-id}/content_publishing_limit</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/content_publishing_limit&quot; \
+  --data-urlencode &quot;fields=quota_usage,rate_limit_settings&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;data&quot;: [{ &quot;quota_usage&quot;: 7,
+  &quot;rate_limit_settings&quot;: [{ &quot;limit&quot;: 100, &quot;time_duration&quot;: 86400 }] }] }</code></pre></div>
+<p><code>quota_usage</code> counts API publishes in the current rolling 24h window (limit 100). Check before queueing scheduled posts; surface remaining headroom in scheduler UIs.</p>
+<h3 id="8-9-agent-rules-for-publishing"><a class="header-anchor" href="#8-9-agent-rules-for-publishing" aria-label="Permalink to this section">#</a>8.9 Agent rules for publishing</h3>
+<ul>
+<li>URL-encode captions (<code>#</code> → <code>%23</code> in raw form posts; SDK/form encoders handle this).</li>
+<li>Never <code>media_publish</code> before video <code>FINISHED</code>; never publish a carousel child.</li>
+<li>Store <code>{container_id, media_id, permalink, timestamp}</code> per post.</li>
+<li>Scheduler pattern: queue → at fire time check quota → create → poll → publish →</li>
+</ul>
+<p>verify via <code>GET /{media-id}</code> → record permalink. Retry transient errors (§15), re-auth on 190, recreate on <code>EXPIRED</code>.</p>
+<h2 id="9-hashtags-and-business-discovery"><a class="header-anchor" href="#9-hashtags-and-business-discovery" aria-label="Permalink to this section">#</a>9. Hashtags and Business Discovery</h2>
+<p>Requires: <code>instagram_basic</code> (+ <code>instagram_manage_insights</code> for discovered-media insights).</p>
+<h3 id="9-1-hashtag-search-get-ig-hashtag-search"><a class="header-anchor" href="#9-1-hashtag-search-get-ig-hashtag-search" aria-label="Permalink to this section">#</a>9.1 Hashtag search — <code>GET /ig_hashtag_search</code></h3>
+<p>Resolve a tag name to a hashtag ID. Hashtag IDs are <strong>static and global</strong> (the same for every app/user). You may query at most <strong>30 unique hashtags per account per rolling 7 days</strong> — every <code>ig_hashtag_search</code>, <code>top_media</code>, and <code>recent_media</code> call counts:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/ig_hashtag_search&quot; \
+  --data-urlencode &quot;user_id=${IG_USER_ID}&quot; \
+  --data-urlencode &quot;q=paris2026&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;
+# → {&quot;data&quot;: [{&quot;id&quot;: &quot;178415…&quot;, &quot;name&quot;: &quot;paris2026&quot;}]}</code></pre></div>
+<p>TypeScript / Python:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const tags = await gget&lt;{ data: { id: string; name: string }[] }&gt;(`/ig_hashtag_search?user_id=${process.env.IG_USER_ID}&amp;q=paris2026`);</code></pre></div>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">tags = gget(&quot;/ig_hashtag_search&quot;, {&quot;user_id&quot;: os.environ[&quot;IG_USER_ID&quot;], &quot;q&quot;: &quot;paris2026&quot;})
+tag_id = tags[&quot;data&quot;][0][&quot;id&quot;]</code></pre></div>
+<h3 id="9-2-top-recent-hashtag-media-get-hashtag-id-top-media-recent-media"><a class="header-anchor" href="#9-2-top-recent-hashtag-media-get-hashtag-id-top-media-recent-media" aria-label="Permalink to this section">#</a>9.2 Top / recent hashtag media — <code>GET /{hashtag-id}/{top_media|recent_media}</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${HASHTAG_ID}/recent_media&quot; \
+  --data-urlencode &quot;user_id=${IG_USER_ID}&quot; \
+  --data-urlencode &quot;fields=id,caption,media_type,permalink,timestamp,like_count,comments_count&quot; \
+  --data-urlencode &quot;limit=25&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<p><code>top_media</code> needs no extra params beyond <code>user_id</code>+<code>fields</code>. Only public media is returned; <strong><code>recent_media</code> only returns media published within the last 24 hours</strong>. The <code>username</code> field cannot be requested on hashtag media, results may not be chronological, and only an <code>after</code> cursor is returned (max <code>limit</code> 50). Use for UGC discovery, contest entries, and trend boards (§17) — budget the 30-tag/7-day limit.</p>
+<h3 id="9-3-business-discovery-get-ig-user-id-fields-business-discovery"><a class="header-anchor" href="#9-3-business-discovery-get-ig-user-id-fields-business-discovery" aria-label="Permalink to this section">#</a>9.3 Business Discovery — <code>GET /{ig-user-id}?fields=business_discovery…</code></h3>
+<p>Look up another professional account&#x27;s public profile + media without their token:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}&quot; \
+  --data-urlencode &quot;fields=business_discovery.username(targetbrand){id,username,media_count,followers_count,media.limit(10){id,caption,like_count,comments_count,timestamp}}&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<p>Target must be Business/Creator and public-ish; personal/private accounts return errors. Rate-limit this edge aggressively — it is the classic quota burner for competitor trackers.</p>
+<h2 id="10-comments-and-moderation"><a class="header-anchor" href="#10-comments-and-moderation" aria-label="Permalink to this section">#</a>10. Comments and moderation</h2>
+<p>Requires: <code>instagram_manage_comments</code> (+ <code>instagram_basic</code>).</p>
+<h3 id="10-1-list-comments-get-media-id-comments"><a class="header-anchor" href="#10-1-list-comments-get-media-id-comments" aria-label="Permalink to this section">#</a>10.1 List comments — <code>GET /{media-id}/comments</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${MEDIA_ID}/comments&quot; \
+  --data-urlencode &quot;fields=id,text,username,timestamp,like_count,hidden,replies{id,text,username,timestamp}&quot; \
+  --data-urlencode &quot;limit=50&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;data&quot;: [{ &quot;id&quot;: &quot;178700001&quot;, &quot;text&quot;: &quot;Love this!&quot;, &quot;username&quot;: &quot;fan&quot;,
+  &quot;timestamp&quot;: &quot;2026-10-13T10:00:00+0000&quot;, &quot;like_count&quot;: 3, &quot;hidden&quot;: false }] }</code></pre></div>
+<h3 id="10-2-reply-post-comment-id-replies"><a class="header-anchor" href="#10-2-reply-post-comment-id-replies" aria-label="Permalink to this section">#</a>10.2 Reply — <code>POST /{comment-id}/replies</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${COMMENT_ID}/replies&quot; \
+  -d &quot;message=Thanks! More coming Friday.&quot; \
+  -d &quot;access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;id&quot;:&quot;178700002&quot;}</code></pre></div>
+<p>TypeScript / Python + list replies:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const reply = await gpost&lt;{ id: string }&gt;(`/${commentId}/replies`, { message: &quot;Thanks! More coming Friday.&quot; });
+const replies = await gget&lt;CommentList&gt;(`/${commentId}/replies?fields=id,text,username`);</code></pre></div>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">reply = gpost(f&quot;/{comment_id}/replies&quot;, {&quot;message&quot;: &quot;Thanks! More coming Friday.&quot;})
+replies = gget(f&quot;/{comment_id}/replies&quot;, {&quot;fields&quot;: &quot;id,text,username&quot;})</code></pre></div>
+<p>Runnable: <code>examples/reply-to-comment.ts</code>, <code>examples/reply-to-comment.py</code>.</p>
+<h3 id="10-3-hide-unhide-post-comment-id-with-hide"><a class="header-anchor" href="#10-3-hide-unhide-post-comment-id-with-hide" aria-label="Permalink to this section">#</a>10.3 Hide / unhide — <code>POST /{comment-id}</code> with <code>hide</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${COMMENT_ID}&quot; -d &quot;hide=true&quot; -d &quot;access_token=${ACCESS_TOKEN}&quot;
+# unhide: hide=false</code></pre></div>
+<p>Hidden comments are invisible publicly but recoverable — prefer hide over delete when an audit trail matters. Response: <code>{&quot;success&quot;: true}</code>.</p>
+<h3 id="10-4-delete-delete-comment-id"><a class="header-anchor" href="#10-4-delete-delete-comment-id" aria-label="Permalink to this section">#</a>10.4 Delete — <code>DELETE /{comment-id}</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X DELETE &quot;${BASE}/${COMMENT_ID}?access_token=${ACCESS_TOKEN}&quot;
+# → {&quot;success&quot;: true}</code></pre></div>
+<p>Only comments the authorized account can moderate (e.g. on its own media). Permanent.</p>
+<h3 id="10-5-block-unblock-a-user-moderate-conversations-api"><a class="header-anchor" href="#10-5-block-unblock-a-user-moderate-conversations-api" aria-label="Permalink to this section">#</a>10.5 Block / unblock a user (Moderate Conversations API)</h3>
+<p>Blocking is a <strong>messaging</strong> action, not an IG-user edge. Requires a Page access token, <code>instagram_manage_messages</code> + <code>instagram_basic</code> + <code>business_management</code>, and an existing conversation with the user. Gate behind human approval in automation.</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/${PAGE_ID}/moderate_conversations&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;user_ids&quot;: [{ &quot;id&quot;: &quot;IGSID_FROM_WEBHOOK&quot; }],
+    &quot;actions&quot;: [&quot;block_user&quot;],
+    &quot;access_token&quot;: &quot;PAGE_ACCESS_TOKEN&quot;
+  }&#x27;
+# unblock: &quot;actions&quot;: [&quot;unblock_user&quot;]  (never combine block+unblock in one call)
+# → {&quot;success&quot;: &quot;true&quot;}</code></pre></div>
+<p>Up to 10 IGSIDs and 2 actions per request; <code>move_to_spam</code> is the third supported action.</p>
+<h3 id="10-6-moderation-patterns-for-agents"><a class="header-anchor" href="#10-6-moderation-patterns-for-agents" aria-label="Permalink to this section">#</a>10.6 Moderation patterns for agents</h3>
+<ul>
+<li><strong>Keyword auto-hide</strong>: webhook <code>comments</code> → match blocklist → <code>hide=true</code> → log. Keep a</li>
+</ul>
+<p>human allowlist and an unhide path; never auto-delete on first match.</p>
+<ul>
+<li><strong>Bulk triage</strong>: <code>pages()</code> over recent media → comments → score (toxicity/LLM) →</li>
+</ul>
+<p>queue hide/delete/block actions with per-action approval levels.</p>
+<ul>
+<li><strong>Rate discipline</strong>: batch reads, serialize writes, sleep between deletes; comment</li>
+</ul>
+<p>writes are throttled harder than reads (§15).</p>
+<h2 id="11-insights-and-analytics"><a class="header-anchor" href="#11-insights-and-analytics" aria-label="Permalink to this section">#</a>11. Insights and analytics</h2>
+<p>Requires: <code>instagram_manage_insights</code> (IG Login: <code>instagram_business_manage_insights</code>).</p>
+<p>Metric names are <strong>versioned</strong> — a metric valid on v25 may not exist on v26 and vice versa. <strong>One invalid metric fails the whole call</strong> (error 100): on failure, bisect the metric list. <code>values[].value</code> may be a number <strong>or an object</strong> (breakdown) — parse defensively. Cache daily rows; insights data may be delayed up to ~48h. Deprecated (do not use in new code): account <code>impressions</code> (dropped for v22+; use <code>views</code>) and <code>profile_views</code>/<code>website_clicks</code> (removed — current replacements are <code>views</code> and <code>profile_links_taps</code>); media <code>impressions</code> for media created after 2024-07-02 and media <code>plays</code> (use <code>views</code>, <code>ig_reels_avg_watch_time</code>, <code>ig_reels_video_view_total_time</code>).</p>
+<h3 id="11-1-account-insights-get-ig-user-id-insights"><a class="header-anchor" href="#11-1-account-insights-get-ig-user-id-insights" aria-label="Permalink to this section">#</a>11.1 Account insights — <code>GET /{ig-user-id}/insights</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/insights&quot; \
+  --data-urlencode &quot;metric=reach,views,profile_links_taps,accounts_engaged,total_interactions&quot; \
+  --data-urlencode &quot;period=day&quot; \
+  --data-urlencode &quot;since=1759276800&quot; \
+  --data-urlencode &quot;until=1759968000&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;data&quot;: [
+  { &quot;name&quot;: &quot;reach&quot;, &quot;period&quot;: &quot;day&quot;, &quot;id&quot;: &quot;178414…/insights/reach/day&quot;,
+    &quot;values&quot;: [{ &quot;value&quot;: 1204, &quot;end_time&quot;: &quot;2026-10-13T07:00:00+0000&quot; }] } ] }</code></pre></div>
+<p>Current account interaction metrics use <code>period=day</code> (demographic metrics use <code>period=lifetime</code> + <code>timeframe</code>, no <code>since</code>/<code>until</code>). Pass <code>metric_type=total_value</code> for current-style summed responses with <code>breakdown</code> support, or omit it for the classic time-series shape. <code>since</code>/<code>until</code> are Unix seconds, aligned to full days.</p>
+<h3 id="11-2-media-insights-get-media-id-insights"><a class="header-anchor" href="#11-2-media-insights-get-media-id-insights" aria-label="Permalink to this section">#</a>11.2 Media insights — <code>GET /{media-id}/insights</code></h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${MEDIA_ID}/insights&quot; \
+  --data-urlencode &quot;metric=views,reach,saved,shares,total_interactions,likes,comments&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<p>Valid metrics depend on <code>media_product_type</code> (feed vs Reels vs Story). There is no <code>engagement</code> metric. Media responses use <code>period=lifetime</code> (not changeable). Insights are <strong>not available for media inside a carousel album</strong> — query the album-level object. Reels add <code>ig_reels_avg_watch_time</code> and <code>ig_reels_video_view_total_time</code>.</p>
+<p>Runnable: <code>examples/fetch-insights.ts</code>, <code>examples/fetch-insights.py</code>.</p>
+<h3 id="11-3-common-metrics-verify-per-version"><a class="header-anchor" href="#11-3-common-metrics-verify-per-version" aria-label="Permalink to this section">#</a>11.3 Common metrics (verify per version)</h3>
+<div class="table-wrap"><table><thead><tr><th>Surface</th><th>Metrics to try first</th></tr></thead><tbody><tr><td>Account</td><td><code>views</code>, <code>reach</code>, <code>accounts_engaged</code>, <code>total_interactions</code>, <code>likes</code>, <code>comments</code>, <code>shares</code>, <code>saves</code>, <code>profile_links_taps</code>, <code>follows_and_unfollows</code></td></tr><tr><td>Feed media</td><td><code>views</code>, <code>reach</code>, <code>saved</code>, <code>shares</code>, <code>total_interactions</code>, <code>likes</code>, <code>comments</code>, <code>profile_visits</code></td></tr><tr><td>Reels</td><td>feed metrics + <code>ig_reels_avg_watch_time</code>, <code>ig_reels_video_view_total_time</code>, <code>reels_skip_rate</code></td></tr><tr><td>Stories</td><td><code>views</code>, <code>reach</code>, <code>replies</code>, <code>navigation</code>, <code>shares</code>, <code>total_interactions</code></td></tr></tbody></table></div>
+<h3 id="11-4-story-insights"><a class="header-anchor" href="#11-4-story-insights" aria-label="Permalink to this section">#</a>11.4 Story insights</h3>
+<p>Stories expire in 24h — pipeline: <code>GET /{ig-user-id}/stories</code> → for each id <code>GET /{story-id}/insights?metric=views,reach,replies,navigation</code> → persist immediately. Story metrics are only available for 24 hours; values under 5 viewers return error 10. There is no backfill after expiry.</p>
+<h3 id="11-5-audience-demographic-breakdowns"><a class="header-anchor" href="#11-5-audience-demographic-breakdowns" aria-label="Permalink to this section">#</a>11.5 Audience / demographic breakdowns</h3>
+<p>Some account metrics return breakdown objects (<code>value: {&quot;0-17&quot;: n, …}</code> / city / country). Request audience metrics explicitly per your version&#x27;s reference, store raw JSON, and normalize downstream — key sets shift between versions.</p>
+<p>TypeScript / Python:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const resp = await gget&lt;InsightsResponse&gt;(`/${process.env.IG_USER_ID}/insights?metric=reach,views,accounts_engaged&amp;period=day&amp;since=${since}&amp;until=${until}`);
+for (const m of resp.data) for (const v of m.values) console.log(m.name, v.end_time, JSON.stringify(v.value));</code></pre></div>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">resp = gget(f&quot;/{os.environ[&#x27;IG_USER_ID&#x27;]}/insights&quot;,
+            {&quot;metric&quot;: &quot;reach,views,accounts_engaged&quot;, &quot;period&quot;: &quot;day&quot;,
+             &quot;since&quot;: str(since), &quot;until&quot;: str(until)})
+for m in resp[&quot;data&quot;]:
+    for v in m[&quot;values&quot;]:
+        print(m[&quot;name&quot;], v.get(&quot;end_time&quot;), v[&quot;value&quot;])</code></pre></div>
+<h2 id="12-messaging-dms"><a class="header-anchor" href="#12-messaging-dms" aria-label="Permalink to this section">#</a>12. Messaging (DMs)</h2>
+<p>Requires: <code>instagram_manage_messages</code> (FB Login) / <code>instagram_business_manage_messages</code> (IG Login). FB Login additionally requires the user to enable <strong>Allow Access to Messages</strong> (Instagram → Settings → Messages and story replies → Message controls → Connected Tools).</p>
+<p>Mental model: the IG account can <strong>reply</strong> to users who messaged it. Recipients are <strong>IGSIDs from webhooks</strong> (§13) — there is no username→IGSID lookup and no cold outreach.</p>
+<p><strong>Endpoints differ by flavor</strong> (this trips up many integrations):</p>
+<ul>
+<li><strong>Instagram Login</strong>: <code>POST /{ig-user-id}/messages</code> on <code>graph.instagram.com</code> (or <code>/me/messages</code>).</li>
+<li><strong>Facebook Login</strong>: <code>POST /{page-id}/messages</code> on <code>graph.facebook.com</code> with the **Page</li>
+</ul>
+<p>access token** (same Send API as Messenger) — <em>not</em> the IG user ID. <code>/me/messages</code> with the Page token also works.</p>
+<h3 id="12-1-the-24-hour-window"><a class="header-anchor" href="#12-1-the-24-hour-window" aria-label="Permalink to this section">#</a>12.1 The 24-hour window</h3>
+<ul>
+<li>Inside 24h of the user&#x27;s last message: free-form replies, <code>messaging_type: RESPONSE</code>.</li>
+<li>Outside 24h: only tagged/policy messages where approved</li>
+</ul>
+<p>(<code>messaging_type: MESSAGE_TAG</code> + allowed tag such as <code>HUMAN_AGENT</code> for human support within 7 days). Misuse restricts the account — when in doubt, wait for the user.</p>
+<ul>
+<li><code>messaging_type: UPDATE</code> covers proactive policy-approved updates where Meta allows them.</li>
+</ul>
+<h3 id="12-2-send-text"><a class="header-anchor" href="#12-2-send-text" aria-label="Permalink to this section">#</a>12.2 Send text</h3>
+<p>Instagram Login (<code>graph.instagram.com</code>, IG user token):</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;${BASE}/${IG_USER_ID}/messages&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot; \
+  -d &#x27;{
+    &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID_FROM_WEBHOOK&quot; },
+    &quot;messaging_type&quot;: &quot;RESPONSE&quot;,
+    &quot;message&quot;: { &quot;text&quot;: &quot;Hi! Your order ships Friday.&quot; }
+  }&#x27;
+# → {&quot;recipient_id&quot;:&quot;IGSID…&quot;,&quot;message_id&quot;:&quot;m_abc123&quot;}</code></pre></div>
+<p>Facebook Login (<code>graph.facebook.com</code>, <strong>Page token, Page ID</strong>):</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -X POST &quot;https://graph.facebook.com/v25.0/${PAGE_ID}/messages&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID_FROM_WEBHOOK&quot; },
+    &quot;messaging_type&quot;: &quot;RESPONSE&quot;,
+    &quot;message&quot;: { &quot;text&quot;: &quot;Hi! Your order ships Friday.&quot; },
+    &quot;access_token&quot;: &quot;PAGE_ACCESS_TOKEN&quot;
+  }&#x27;</code></pre></div>
+<p>Text must be UTF-8, ≤1000 bytes.</p>
+<p>TypeScript / Python (Instagram Login shown; swap path/token for FB Login):</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const res = await fetch(`${BASE}/${process.env.IG_USER_ID}/messages`, {
+  method: &quot;POST&quot;,
+  headers: { &quot;Content-Type&quot;: &quot;application/json&quot;, Authorization: `Bearer ${TOKEN}` },
+  body: JSON.stringify({ recipient: { id: igsid }, messaging_type: &quot;RESPONSE&quot;,
+    message: { text: &quot;Hi! Your order ships Friday.&quot; } }),
+});</code></pre></div>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">r = requests.post(f&quot;{BASE}/{os.environ[&#x27;IG_USER_ID&#x27;]}/messages&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {TOKEN}&quot;},
+    json={&quot;recipient&quot;: {&quot;id&quot;: igsid}, &quot;messaging_type&quot;: &quot;RESPONSE&quot;,
+          &quot;message&quot;: {&quot;text&quot;: &quot;Hi! Your order ships Friday.&quot;}}, timeout=30)
+mid = r.json()[&quot;message_id&quot;]</code></pre></div>
+<h3 id="12-3-send-media-attachment"><a class="header-anchor" href="#12-3-send-media-attachment" aria-label="Permalink to this section">#</a>12.3 Send media / attachment</h3>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID…&quot; }, &quot;messaging_type&quot;: &quot;RESPONSE&quot;,
+  &quot;message&quot;: { &quot;attachment&quot;: { &quot;type&quot;: &quot;image&quot;,
+    &quot;payload&quot;: { &quot;url&quot;: &quot;https://example.com/ship.jpg&quot;, &quot;is_reusable&quot;: true } } } }</code></pre></div>
+<p><code>is_reusable</code> returns an <code>attachment_id</code> for repeat sends. Confirm supported <code>type</code> values (image/video/audio/file, templates) on your version.</p>
+<h3 id="12-4-message-tags-outside-the-window"><a class="header-anchor" href="#12-4-message-tags-outside-the-window" aria-label="Permalink to this section">#</a>12.4 Message tags (outside the window)</h3>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;recipient&quot;: { &quot;id&quot;: &quot;IGSID…&quot; }, &quot;messaging_type&quot;: &quot;MESSAGE_TAG&quot;,
+  &quot;tag&quot;: &quot;HUMAN_AGENT&quot;, &quot;message&quot;: { &quot;text&quot;: &quot;Following up on your ticket…&quot; } }</code></pre></div>
+<p>Only with approval for that tag; log every tagged send for audit.</p>
+<h3 id="12-5-conversations"><a class="header-anchor" href="#12-5-conversations" aria-label="Permalink to this section">#</a>12.5 Conversations</h3>
+<ul>
+<li><strong>Instagram Login</strong>: <code>GET /{ig-user-id}/conversations</code> (or <code>/me/conversations</code>) on</li>
+</ul>
+<p><code>graph.instagram.com</code>; find one conversation with <code>?user_id={IGSID}</code>.</p>
+<ul>
+<li><strong>Facebook Login</strong>: <code>GET /{page-id}/conversations?platform=instagram</code> on</li>
+</ul>
+<p><code>graph.facebook.com</code> with the Page token.</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash"># Instagram Login flavor:
+curl -G &quot;${BASE}/${IG_USER_ID}/conversations&quot; \
+  --data-urlencode &quot;fields=id,participants,updated_time&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;
+
+# Facebook Login flavor:
+curl -G &quot;https://graph.facebook.com/v25.0/${PAGE_ID}/conversations&quot; \
+  --data-urlencode &quot;platform=instagram&quot; \
+  --data-urlencode &quot;fields=id,participants,updated_time&quot; \
+  --data-urlencode &quot;access_token=${PAGE_TOKEN}&quot;
+
+# Messages in one conversation:
+curl -G &quot;${BASE}/${CONVERSATION_ID}&quot; \
+  --data-urlencode &quot;fields=messages{id,message,from,created_time}&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<h3 id="12-6-agent-rules-for-messaging"><a class="header-anchor" href="#12-6-agent-rules-for-messaging" aria-label="Permalink to this section">#</a>12.6 Agent rules for messaging</h3>
+<ul>
+<li>Reply to the webhook IGSID, never a username; store <code>message_id</code> per send.</li>
+<li>Dedupe inbound <code>mid</code> — webhooks retry and double-deliver.</li>
+<li>Human handoff: bot answers inside 24h → escalate with <code>HUMAN_AGENT</code> tag or hand to an</li>
+</ul>
+<p>agent inbox; log transcripts per conversation.</p>
+<ul>
+<li>Never build spam/cold-DM flows — accounts get restricted and apps fail Review.</li>
+</ul>
+<h2 id="13-webhooks"><a class="header-anchor" href="#13-webhooks" aria-label="Permalink to this section">#</a>13. Webhooks</h2>
+<p>Webhooks push comments, messages, mentions, and story events to your HTTPS endpoint. Prefer them over polling everywhere.</p>
+<h3 id="13-1-setup"><a class="header-anchor" href="#13-1-setup" aria-label="Permalink to this section">#</a>13.1 Setup</h3>
+<ul>
+<li>Meta app dashboard → <strong>Webhooks</strong> product → Callback URL</li>
+</ul>
+<p>(<code>https://&lt;host&gt;/webhooks/instagram</code>) + Verify Token (a secret you invent).</p>
+<ul>
+<li>Subscribe the app to Instagram object fields (availability depends on flavor):</li>
+</ul>
+<p>content — <code>comments</code>, <code>live_comments</code>, <code>mentions</code>, <code>story_insights</code>; messaging — <code>messages</code>, <code>messaging_postbacks</code>, <code>messaging_seen</code>, <code>messaging_referral</code> (singular), <code>message_reactions</code>, <code>messaging_handover</code>, <code>standby</code>. Notes: with Instagram Login, <code>mentions</code> arrives inside the <code>comments</code> notification and <code>story_insights</code> is not available; <code>story_insights</code> requires <code>instagram_manage_insights</code>.</p>
+<ul>
+<li>Subscribe each account: <code>POST /{page-id}/subscribed_apps?subscribed_fields=…</code></li>
+</ul>
+<p>with a Page token (FB Login flavor), or the dashboard per-object subscription. Re-subscribe after token/app changes; when events stop, check subscription state first.</p>
+<ul>
+<li>Implement verification (§13.2) + signature validation (§13.3) before subscribing.</li>
+</ul>
+<h3 id="13-2-verification-get-return-hub-challenge-verbatim"><a class="header-anchor" href="#13-2-verification-get-return-hub-challenge-verbatim" aria-label="Permalink to this section">#</a>13.2 Verification (GET — return <code>hub.challenge</code> verbatim)</h3>
+<p>Meta calls <code>GET {callback}?hub.mode=subscribe&amp;hub.verify_token=…&amp;hub.challenge=…</code>. Return HTTP 200 + challenge <strong>as plain text</strong> only when mode/token match, else 403.</p>
+<p>TypeScript (Express):</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">app.get(&quot;/webhooks/instagram&quot;, (req, res) =&gt; {
+  const { &quot;hub.mode&quot;: mode, &quot;hub.verify_token&quot;: token, &quot;hub.challenge&quot;: challenge } = req.query;
+  if (mode === &quot;subscribe&quot; &amp;&amp; token === process.env.WEBHOOK_VERIFY_TOKEN &amp;&amp; typeof challenge === &quot;string&quot;)
+    return res.status(200).send(challenge);
+  return res.sendStatus(403);
+});</code></pre></div>
+<p>Python (stdlib, no framework):</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">from http.server import BaseHTTPRequestHandler
+from urllib.parse import urlparse, parse_qs
+import os
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        q = parse_qs(urlparse(self.path).query)
+        if (q.get(&quot;hub.mode&quot;, [&quot;&quot;])[0] == &quot;subscribe&quot;
+                and q.get(&quot;hub.verify_token&quot;, [&quot;&quot;])[0] == os.environ[&quot;WEBHOOK_VERIFY_TOKEN&quot;]):
+            body = q.get(&quot;hub.challenge&quot;, [&quot;&quot;])[0].encode()
+            self.send_response(200); self.send_header(&quot;Content-Type&quot;, &quot;text/plain&quot;)
+            self.send_header(&quot;Content-Length&quot;, str(len(body))); self.end_headers()
+            self.wfile.write(body)
+        else:
+            self.send_response(403); self.end_headers()</code></pre></div>
+<p>Runnable: <code>examples/webhook-handler.ts</code>, <code>examples/webhook-handler.py</code>.</p>
+<h3 id="13-3-signature-validation-post-every-event"><a class="header-anchor" href="#13-3-signature-validation-post-every-event" aria-label="Permalink to this section">#</a>13.3 Signature validation (POST — every event)</h3>
+<p>Meta signs the raw body with your App Secret in <code>X-Hub-Signature-256: sha256=&lt;hex&gt;</code>. <strong>Validate before trusting anything.</strong> Acknowledge 200 immediately, process async.</p>
+<p>TypeScript:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">import { createHmac, timingSafeEqual } from &quot;crypto&quot;;
+function validSignature(rawBody: Buffer, header: string | undefined, appSecret: string): boolean {
+  if (!header?.startsWith(&quot;sha256=&quot;)) return false;
+  const expected = createHmac(&quot;sha256&quot;, appSecret).update(rawBody).digest();
+  const got = Buffer.from(header.slice(7), &quot;hex&quot;);
+  return got.length === expected.length &amp;&amp; timingSafeEqual(got, expected);
+}</code></pre></div>
+<p>Python:</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">import hashlib, hmac
+def valid_signature(raw: bytes, header: str, app_secret: str) -&gt; bool:
+    if not header.startswith(&quot;sha256=&quot;):
+        return False
+    expected = hmac.new(app_secret.encode(), raw, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, header.removeprefix(&quot;sha256=&quot;))</code></pre></div>
+<h3 id="13-4-event-payload-catalog"><a class="header-anchor" href="#13-4-event-payload-catalog" aria-label="Permalink to this section">#</a>13.4 Event payload catalog</h3>
+<p>Comment event (<code>changes[]</code>):</p>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;object&quot;: &quot;instagram&quot;, &quot;entry&quot;: [{
+  &quot;id&quot;: &quot;17841400008460056&quot;, &quot;time&quot;: 1720000000,
+  &quot;changes&quot;: [{ &quot;field&quot;: &quot;comments&quot;,
+    &quot;value&quot;: { &quot;id&quot;: &quot;178700001&quot;, &quot;text&quot;: &quot;Love this!&quot;,
+      &quot;from&quot;: { &quot;id&quot;: &quot;98765&quot;, &quot;username&quot;: &quot;fan&quot; },
+      &quot;media&quot;: { &quot;id&quot;: &quot;17987654321098765&quot;, &quot;media_product_type&quot;: &quot;FEED&quot; } } }] }]}</code></pre></div>
+<p>Message event (<code>messaging[]</code> — <code>sender.id</code> is the IGSID to reply to):</p>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;object&quot;: &quot;instagram&quot;, &quot;entry&quot;: [{
+  &quot;id&quot;: &quot;17841400008460056&quot;, &quot;time&quot;: 1720000000,
+  &quot;messaging&quot;: [{ &quot;sender&quot;: { &quot;id&quot;: &quot;IGSID…&quot; }, &quot;recipient&quot;: { &quot;id&quot;: &quot;178414…&quot; },
+    &quot;timestamp&quot;: 1720000000000,
+    &quot;message&quot;: { &quot;mid&quot;: &quot;m_abc123&quot;, &quot;text&quot;: &quot;Do you ship to Berlin?&quot; } }] }]}</code></pre></div>
+<p>Mention/tag events use the <code>changes[]</code> shape with <code>field: &quot;mentions&quot;</code> (or <code>live_comments</code> for Live). Normalize in one parser keyed on <code>entry[].changes</code> (content events) vs <code>entry[].messaging</code> (DMs) — both shapes appear across flavors.</p>
+<h3 id="13-5-subscription-management"><a class="header-anchor" href="#13-5-subscription-management" aria-label="Permalink to this section">#</a>13.5 Subscription management</h3>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash"># Subscribe a Page&#x27;s app (FB Login flavor)
+curl -X POST &quot;${BASE}/${PAGE_ID}/subscribed_apps&quot; \
+  -d &quot;subscribed_fields=comments,messages,mentions&quot; \
+  -d &quot;access_token=${PAGE_TOKEN}&quot;
+
+# List subscriptions (app token: APP_ID|APP_SECRET)
+curl -G &quot;${BASE}/${APP_ID}/subscriptions&quot; \
+  --data-urlencode &quot;access_token=${APP_ID}|${APP_SECRET}&quot;</code></pre></div>
+<h3 id="13-6-agent-rules-for-webhooks"><a class="header-anchor" href="#13-6-agent-rules-for-webhooks" aria-label="Permalink to this section">#</a>13.6 Agent rules for webhooks</h3>
+<ul>
+<li>200 fast (&lt;1s), enqueue, process async — non-200 triggers retries ⇒ duplicates.</li>
+<li>Dedupe by comment ID / message <code>mid</code> / <code>(field, value.id)</code> with a seen-set (Redis/DB).</li>
+<li>Never process unsigned bodies; rotate App Secret + verify token via config, not code.</li>
+<li>Log full raw bodies (redacting tokens) for replay during development.</li>
+</ul>
+<h2 id="14-mentions-and-tags"><a class="header-anchor" href="#14-mentions-and-tags" aria-label="Permalink to this section">#</a>14. Mentions and tags</h2>
+<h3 id="14-1-caption-mentions-get-ig-user-id-mentioned-media"><a class="header-anchor" href="#14-1-caption-mentions-get-ig-user-id-mentioned-media" aria-label="Permalink to this section">#</a>14.1 Caption mentions — <code>GET /{ig-user-id}/mentioned_media</code></h3>
+<p>Media where the account was @-mentioned in someone else&#x27;s caption:</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/mentioned_media&quot; \
+  --data-urlencode &quot;fields=id,caption,permalink,username,timestamp&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<h3 id="14-2-tags-get-ig-user-id-tags"><a class="header-anchor" href="#14-2-tags-get-ig-user-id-tags" aria-label="Permalink to this section">#</a>14.2 Tags — <code>GET /{ig-user-id}/tags</code></h3>
+<p>Media where the account was tagged (photo tag):</p>
+<div class="code-block" data-lang="bash"><div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-bash">curl -G &quot;${BASE}/${IG_USER_ID}/tags&quot; \
+  --data-urlencode &quot;fields=id,caption,media_type,permalink&quot; \
+  --data-urlencode &quot;limit=25&quot; \
+  -H &quot;Authorization: Bearer ${ACCESS_TOKEN}&quot;</code></pre></div>
+<p>Note: <code>mentioned_media</code> requires <code>instagram_manage_comments</code> in addition to basic on current references; <code>/tags</code> is documented against the Facebook Login flavor — verify Instagram Login behavior on your version before building UGC flows on it. Pair with <code>mentions</code> webhooks (§13) for real-time capture, and see the UGC repost recipe (§17.4).</p>
+<h2 id="15-errors-rate-limits-retries"><a class="header-anchor" href="#15-errors-rate-limits-retries" aria-label="Permalink to this section">#</a>15. Errors, rate limits, retries</h2>
+<h3 id="15-1-error-shape-always-the-same"><a class="header-anchor" href="#15-1-error-shape-always-the-same" aria-label="Permalink to this section">#</a>15.1 Error shape (always the same)</h3>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{ &quot;error&quot;: { &quot;message&quot;: &quot;(#190) Error validating access token&quot;,
+  &quot;type&quot;: &quot;OAuthException&quot;, &quot;code&quot;: 190, &quot;error_subcode&quot;: 463, &quot;fbtrace_id&quot;: &quot;AbC123&quot; } }</code></pre></div>
+<p>Always log <code>code</code> + <code>error_subcode</code> + <code>fbtrace_id</code>. The <code>message</code> prefix <code>(#code)</code> is parseable but prefer the numeric fields.</p>
+<h3 id="15-2-code-table-agent-action"><a class="header-anchor" href="#15-2-code-table-agent-action" aria-label="Permalink to this section">#</a>15.2 Code table → agent action</h3>
+<div class="table-wrap"><table><thead><tr><th>Code</th><th>Meaning</th><th>Action</th></tr></thead><tbody><tr><td>190</td><td>Token expired/invalid/revoked</td><td><strong>Re-auth</strong> (restart OAuth/refresh). Never blind-retry. Mark connection <code>needs_reauth</code>.</td></tr><tr><td>10 / 200</td><td>Permission missing / not approved</td><td>Request scope; check App Review; re-authorize (old tokens lack new scopes); verify <code>debug_token</code>.</td></tr><tr><td>100</td><td>Invalid parameter (field/metric/ID)</td><td>Fix request. Bisect <code>fields</code>/metric lists; check ID belongs to this account/version.</td></tr><tr><td>4</td><td>App-level rate limit</td><td>Back off globally; batch + cache; shed non-critical traffic.</td></tr><tr><td>17</td><td>User-level rate limit</td><td>Slow per-account calls; per-account queue with leaky bucket.</td></tr><tr><td>32</td><td>Page-level rate limit</td><td>Serialize Page-token calls; spread across time.</td></tr><tr><td>613</td><td>Custom throttling (e.g. publishing quota)</td><td>Respect quota; check <code>content_publishing_limit</code>; retry after window.</td></tr><tr><td>368</td><td>Temporarily blocked for policy violation</td><td>Stop the offending action type; human review; appeal if needed.</td></tr><tr><td>1 / 2</td><td>Transient API error / service down</td><td>Retry with backoff.</td></tr><tr><td>HTTP 5xx</td><td>Server-side failure</td><td>Retry with backoff.</td></tr><tr><td>HTTP 429</td><td>Explicit throttle</td><td>Honor <code>Retry-After</code>, then backoff.</td></tr></tbody></table></div>
+<h3 id="15-3-retry-policy-implement-once-use-everywhere"><a class="header-anchor" href="#15-3-retry-policy-implement-once-use-everywhere" aria-label="Permalink to this section">#</a>15.3 Retry policy (implement once, use everywhere)</h3>
+<ul>
+<li>Retry <strong>only</strong> transient failures: codes 1, 2, 4, 17, 32, HTTP 5xx/429.</li>
+<li>Backoff: 1s → 2s → 4s → 8s → 16s, + jitter, max 5 attempts, honor <code>Retry-After</code>.</li>
+<li>Never retry 190/10/100/368 without changing credentials/request/behavior.</li>
+<li>Poll video containers every 5–10s (§8.2), not in tight loops.</li>
+<li>Watch <code>X-*-Usage</code> headers (§5.5); throttle past ~70% before Meta throttles you.</li>
+</ul>
+<p>TypeScript:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">const RETRYABLE = new Set([1, 2, 4, 17, 32]);
+export async function withRetry&lt;T&gt;(fn: () =&gt; Promise&lt;T&gt;, tries = 5): Promise&lt;T&gt; {
+  let delay = 1000;
+  for (let i = 0; ; i++) {
+    try { return await fn(); }
+    catch (e: unknown) {
+      const code = (e as { code?: number })?.code;
+      if (i &gt;= tries - 1 || (code !== undefined &amp;&amp; !RETRYABLE.has(code))) throw e;
+      await new Promise(r =&gt; setTimeout(r, delay + Math.random() * 250));
+      delay *= 2;
+    }
+  }
+}</code></pre></div>
+<p>Python:</p>
+<div class="code-block" data-lang="python"><div class="code-header"><span class="code-lang">python</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-python">import random, time
+RETRYABLE = {1, 2, 4, 17, 32}
+def with_retry(fn, tries=5):
+    delay = 1.0
+    for i in range(tries):
+        try:
+            return fn()
+        except RuntimeError as e:
+            if i == tries - 1:
+                raise
+            time.sleep(delay + random.uniform(0, 0.25))
+            delay *= 2</code></pre></div>
+<h2 id="16-permissions-app-review-going-live"><a class="header-anchor" href="#16-permissions-app-review-going-live" aria-label="Permalink to this section">#</a>16. Permissions, App Review, going live</h2>
+<h3 id="16-1-permission-matrix-both-flavors"><a class="header-anchor" href="#16-1-permission-matrix-both-flavors" aria-label="Permalink to this section">#</a>16.1 Permission matrix (both flavors)</h3>
+<div class="table-wrap"><table><thead><tr><th>Capability</th><th>FB Login scope</th><th>IG Login scope</th></tr></thead><tbody><tr><td>Profile + media read</td><td><code>instagram_basic</code> (+ <code>pages_read_engagement</code>)</td><td><code>instagram_business_basic</code></td></tr><tr><td>Publish media</td><td><code>instagram_content_publish</code></td><td><code>instagram_business_content_publish</code></td></tr><tr><td>Delete media</td><td><code>instagram_manage_contents</code> (FB Login only)</td><td>— (not available)</td></tr><tr><td>Toggle comments on media</td><td><code>instagram_manage_comments</code></td><td><code>instagram_business_manage_comments</code></td></tr><tr><td>Comments read/reply/hide/delete</td><td><code>instagram_manage_comments</code></td><td><code>instagram_business_manage_comments</code></td></tr><tr><td>Account + media insights</td><td><code>instagram_manage_insights</code></td><td><code>instagram_business_manage_insights</code></td></tr><tr><td>Messaging</td><td><code>instagram_manage_messages</code></td><td><code>instagram_business_manage_messages</code></td></tr><tr><td>Block/unblock (Moderate Conversations)</td><td><code>instagram_manage_messages</code> + <code>business_management</code></td><td>— (Page-based)</td></tr><tr><td>Mentions/tags/webhook mgmt</td><td>+ <code>pages_manage_metadata</code></td><td>(per-field, see §13)</td></tr><tr><td>List user&#x27;s Pages</td><td><code>pages_show_list</code></td><td>— (no Pages)</td></tr><tr><td>Read Page / linked IG</td><td><code>pages_read_engagement</code></td><td>—</td></tr><tr><td>Business assets</td><td><code>business_management</code></td><td>—</td></tr></tbody></table></div>
+<p>Scope names drift across versions — treat this table as a starting map and confirm in the permission reference for your <code>GRAPH_VERSION</code>. Request least privilege; every scope beyond basic typically needs App Review for non-role users.</p>
+<h3 id="16-2-app-review-checklist"><a class="header-anchor" href="#16-2-app-review-checklist" aria-label="Permalink to this section">#</a>16.2 App Review checklist</h3>
+<ul>
+<li>☐  Each scope has an in-product use case + screencast showing the OAuth grant and feature</li>
+<li>☐  Test credentials / test IG account for reviewers + step-by-step repro</li>
+<li>☐  Privacy Policy URL, Data Deletion callback implemented, deauthorize handling</li>
+<li>☐  Business verification completed if required for your scopes</li>
+<li>☐  Development-mode testing done with role-holding accounts first</li>
+</ul>
+<h3 id="16-3-going-live"><a class="header-anchor" href="#16-3-going-live" aria-label="Permalink to this section">#</a>16.3 Going live</h3>
+<ul>
+<li>Pin <code>GRAPH_VERSION</code>; run the full flow matrix (auth → read → publish → insights →</li>
+</ul>
+<p>comments → messaging → webhooks) against a test account.</p>
+<ul>
+<li>Verify <code>debug_token</code> scopes, quota, webhook delivery, and the 190 re-auth path.</li>
+<li>Submit App Review; keep Development-mode behavior identical to production code paths.</li>
+<li>After approval: onboard real users, monitor <code>X-*-Usage</code> headers + error-code dashboard</li>
+</ul>
+<p>(alert on 190 spikes = systemic token issue; 4/17/32 = scale issue).</p>
+<ul>
+<li>Track the changelog quarterly; migrate before your version&#x27;s deprecation date.</li>
+</ul>
+<h2 id="17-agent-build-recipes-extend-instagram"><a class="header-anchor" href="#17-agent-build-recipes-extend-instagram" aria-label="Permalink to this section">#</a>17. Agent build recipes (extend Instagram)</h2>
+<p>Each recipe lists the endpoint map + key files. Build in this order: webhook receiver → read path → write path → scheduler/queue → UI.</p>
+<h3 id="17-1-scheduled-post-manager"><a class="header-anchor" href="#17-1-scheduled-post-manager" aria-label="Permalink to this section">#</a>17.1 Scheduled-post manager</h3>
+<ul>
+<li>Endpoints: <code>content_publishing_limit</code>, <code>POST /media</code>, <code>GET /{container-id}</code>,</li>
+</ul>
+<p><code>POST /media_publish</code>, <code>GET /{media-id}</code>.</p>
+<ul>
+<li>Flow: drag-drop calendar → asset upload to public HTTPS → queue row</li>
+</ul>
+<p><code>{fire_at, asset_url, caption, status}</code> → worker fires (§8.9) → permalink recorded.</p>
+<ul>
+<li>Gotchas: quota (100 publishes/24h, 400 containers/24h), container expiry, captions</li>
+</ul>
+<p>are immutable after publish, video <code>FINISHED</code> gate, timezone-aware <code>fire_at</code>.</p>
+<h3 id="17-2-comment-auto-moderator"><a class="header-anchor" href="#17-2-comment-auto-moderator" aria-label="Permalink to this section">#</a>17.2 Comment auto-moderator</h3>
+<ul>
+<li>Endpoints: webhook <code>comments</code>, <code>GET /{media-id}/comments</code>, <code>POST /{comment-id}</code></li>
+</ul>
+<p>(<code>hide</code>), <code>DELETE /{comment-id}</code>, <code>POST /{page-id}/moderate_conversations</code> (block).</p>
+<ul>
+<li>Flow: webhook → blocklist/LLM score → <code>hide=true</code> + mod queue → human approves</li>
+</ul>
+<p>delete/block. Keep allowlist + unhide path; log every action with actor + reason.</p>
+<h3 id="17-3-analytics-dashboard-reports"><a class="header-anchor" href="#17-3-analytics-dashboard-reports" aria-label="Permalink to this section">#</a>17.3 Analytics dashboard + reports</h3>
+<ul>
+<li>Endpoints: <code>GET /{ig-user-id}/insights</code>, <code>GET /{media-id}/insights</code>, <code>/stories</code>,</li>
+</ul>
+<p>Business Discovery for competitors (§9.3).</p>
+<ul>
+<li>Flow: nightly ETL (account + per-media + stories-before-expiry) → warehouse →</li>
+</ul>
+<p>engagement-rate, best-time-to-post, follower-growth views → weekly PDF/email digest.</p>
+<ul>
+<li>Gotchas: metric bisect on error 100, breakdown-object parsing, 48h cache rule.</li>
+</ul>
+<h3 id="17-4-ugc-repost-pipeline-rights-safe"><a class="header-anchor" href="#17-4-ugc-repost-pipeline-rights-safe" aria-label="Permalink to this section">#</a>17.4 UGC repost pipeline (rights-safe)</h3>
+<ul>
+<li>Endpoints: webhook <code>mentions</code>, <code>GET /{ig-user-id}/tags</code>, <code>GET /{ig-user-id}/mentioned_media</code>,</li>
+</ul>
+<p><code>GET /{hashtag-id}/recent_media</code>, publish flow.</p>
+<ul>
+<li>Flow: detect tag/mention/hashtag hit → fetch media + author → DM/email rights request →</li>
+</ul>
+<p>on approval, download bytes, re-host on your CDN, publish with credit caption.</p>
+<ul>
+<li>Never republish without explicit consent; store consent receipts.</li>
+</ul>
+<h3 id="17-5-dm-support-chatbot-human-handoff"><a class="header-anchor" href="#17-5-dm-support-chatbot-human-handoff" aria-label="Permalink to this section">#</a>17.5 DM support chatbot + human handoff</h3>
+<ul>
+<li>Endpoints: webhook <code>messaging</code>, <code>POST /{ig-user-id}/messages</code>, <code>/conversations</code>,</li>
+</ul>
+<p><code>MESSAGE_TAG</code> fallback (§12.4).</p>
+<ul>
+<li>Flow: inbound <code>mid</code> → dedupe → intent/FAQ bot (RESPONSE, inside 24h) → low-confidence</li>
+</ul>
+<p>→ human inbox + <code>HUMAN_AGENT</code> follow-up where approved. Persist transcripts per IGSID.</p>
+<h3 id="17-6-contest-giveaway-engine"><a class="header-anchor" href="#17-6-contest-giveaway-engine" aria-label="Permalink to this section">#</a>17.6 Contest / giveaway engine</h3>
+<ul>
+<li>Endpoints: hashtag <code>recent_media</code>, <code>GET /{media-id}/comments</code>, comment reply, insights.</li>
+<li>Flow: define hashtag + window → collect entries (media + comments) → eligibility filter</li>
+</ul>
+<p>(follower? keyword? tag-a-friend?) → random draw + audit log → announce via publish + reply to winners. Export entries CSV for transparency.</p>
+<h3 id="17-7-cross-posting-bridge"><a class="header-anchor" href="#17-7-cross-posting-bridge" aria-label="Permalink to this section">#</a>17.7 Cross-posting bridge</h3>
+<ul>
+<li>Flow: source (RSS/YouTube/TikTok/webhook) → normalize to image/video + caption →</li>
+</ul>
+<p>flavor-aware publish (§8) → record <code>{source_id → media_id, permalink}</code> mapping → reconcile failures with dead-letter queue. Respect per-network rights and quotas.</p>
+<h2 id="18-faq-and-troubleshooting"><a class="header-anchor" href="#18-faq-and-troubleshooting" aria-label="Permalink to this section">#</a>18. FAQ and troubleshooting</h2>
+<p><strong>Personal account?</strong> Neither flavor supports personal accounts — switch to Business/Creator. <strong><code>instagram_business_account</code> missing?</strong> Page↔IG link broken — relink in Page Settings. <strong>190 on every call?</strong> Token expired/revoked or wrong token type — re-run §4; check flavor/host match. <strong>Error 10 after granting?</strong> Needs App Review for public use, or token predates the grant — re-authorize, check <code>debug_token</code> scopes. <strong>Publish failed after container?</strong> Video not <code>FINISHED</code>, container <code>EXPIRED</code> (~24h), or asset URL unfetchable — poll, recreate, check URL. <strong>Whole insights call fails?</strong> One bad metric — bisect the list (§11). <strong>Can&#x27;t DM a follower?</strong> Expected — only webhook IGSIDs within 24h (or approved tag). <strong>Webhooks silent?</strong> Check subscription state, re-subscribe after token changes, verify callback returns challenge as <code>text/plain</code>, confirm App Secret signature path. <strong><code>media_url</code> 404s?</strong> URLs expire (especially Stories) — re-fetch or cache bytes. <strong>Which version?</strong> Pin via <code>GRAPH_VERSION</code>; this doc&#x27;s examples use <code>v25.0</code>, latest known <code>v26.0</code> — confirm in the changelog and migrate before deprecation. <strong>Which flavor?</strong> New creator apps → Instagram Login; Page-centric management → Facebook Login. Never mix tokens/hosts.</p>
+<p>Decision tree for a failing call: <strong>190?</strong> → re-auth · <strong>10/200?</strong> → scope/Review · <strong>100?</strong> → bisect fields/metrics/IDs · <strong>4/17/32/613/429/5xx?</strong> → backoff (§15) · <strong>else?</strong> → log <code>code/subcode/fbtrace_id</code>, check changelog for a behavior change.</p>
+<hr>
+<h2 id="appendix-a-endpoint-quick-reference"><a class="header-anchor" href="#appendix-a-endpoint-quick-reference" aria-label="Permalink to this section">#</a>Appendix A: Endpoint quick reference</h2>
+<div class="table-wrap"><table><thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Permission</th></tr></thead><tbody><tr><td>GET</td><td><code>/oauth/access_token</code></td><td>Code/token exchange (§4)</td><td>— (app secret)</td></tr><tr><td>GET</td><td><code>/debug_token</code></td><td>Verify token + scopes</td><td>app token</td></tr><tr><td>GET</td><td><code>/{ig-user-id}</code></td><td>Profile</td><td>basic</td></tr><tr><td>GET</td><td><code>/{page-id}?fields=instagram_business_account</code></td><td>Resolve IG ID</td><td>pages_*</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/media</code></td><td>List media</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}</code></td><td>Media object</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}/children</code></td><td>Carousel children</td><td>basic</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/stories</code></td><td>Active stories</td><td>basic</td></tr><tr><td>GET</td><td><code>/instagram_oembed?url=</code></td><td>Public embed</td><td>varies</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/media</code></td><td>Create container (§8)</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/{container-id}?fields=status_code</code></td><td>Poll container</td><td>content_publish</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/media_publish</code></td><td>Publish</td><td>content_publish</td></tr><tr><td>POST</td><td><code>/{media-id}?comment_enabled=</code></td><td>Enable/disable comments</td><td>manage_comments</td></tr><tr><td>DELETE</td><td><code>/{media-id}</code></td><td>Delete media (FB Login only)</td><td>instagram_manage_contents</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/content_publishing_limit</code></td><td>Quota</td><td>content_publish</td></tr><tr><td>GET</td><td><code>/ig_hashtag_search?user_id&amp;q</code></td><td>Hashtag ID</td><td>basic</td></tr><tr><td>GET</td><td><code>/{hashtag-id}/top_media</code>, <code>/recent_media</code></td><td>Hashtag media</td><td>basic</td></tr><tr><td>GET</td><td><code>/{ig-user-id}?fields=business_discovery…</code></td><td>Competitor lookup</td><td>basic</td></tr><tr><td>GET</td><td><code>/{media-id}/comments</code></td><td>List comments</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{comment-id}/replies</code></td><td>Reply</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{comment-id}</code> (<code>hide</code>)</td><td>Hide/unhide</td><td>manage_comments</td></tr><tr><td>DELETE</td><td><code>/{comment-id}</code></td><td>Delete comment</td><td>manage_comments</td></tr><tr><td>POST</td><td><code>/{page-id}/moderate_conversations</code></td><td>Block/unblock/move-to-spam</td><td>manage_messages + business_management</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/insights</code></td><td>Account insights</td><td>manage_insights</td></tr><tr><td>GET</td><td><code>/{media-id}/insights</code></td><td>Media insights</td><td>manage_insights</td></tr><tr><td>POST</td><td><code>/{ig-user-id}/messages</code> (IG Login)</td><td>Send DM</td><td>manage_messages</td></tr><tr><td>POST</td><td><code>/{page-id}/messages</code> (FB Login)</td><td>Send DM</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/conversations</code> (IG Login)</td><td>List conversations</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{page-id}/conversations?platform=instagram</code> (FB)</td><td>List conversations</td><td>manage_messages</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/mentioned_media</code></td><td>Caption mentions</td><td>manage_comments</td></tr><tr><td>GET</td><td><code>/{ig-user-id}/tags</code></td><td>Tagged media</td><td>basic*</td></tr><tr><td>GET/POST</td><td>your <code>/webhooks/instagram</code></td><td>Verify + events (§13)</td><td>— (app secret)</td></tr><tr><td>POST</td><td><code>/{page-id}/subscribed_apps</code></td><td>Subscribe webhooks</td><td>pages_*</td></tr></tbody></table></div>
+<p><code>*</code> Confirm exact scope on your version — Meta has moved a few edges between scopes.</p>
+<h2 id="appendix-b-companion-files-in-this-bundle"><a class="header-anchor" href="#appendix-b-companion-files-in-this-bundle" aria-label="Permalink to this section">#</a>Appendix B: Companion files in this bundle</h2>
+<ul>
+<li><code>openapi.yaml</code> — machine-readable contract (source of truth for paths/schemas).</li>
+<li><code>types/instagram-graph.d.ts</code> — TypeScript types for requests/responses.</li>
+<li><code>examples/<em>.ts</code>, <code>examples/</em>.py</code> — runnable flows (publish, insights, replies, webhooks).</li>
+<li><code>postman/instagram-graph.postman_collection.json</code> + <code>bruno/</code> — runnable request collections.</li>
+<li><code>mcp/tools.json</code> + <code>mcp/server.py</code> — MCP starter: 14 callable tools for MCP-capable agents.</li>
+<li><code>data/chunks.jsonl</code> — one RAG chunk per endpoint/topic.</li>
+<li><code>llms.txt</code> / <code>llms-full.txt</code> — LLM index + single-file full context.</li>
+<li><code>site/</code> — static multi-page human-readable site (landing, API reference, formats,</li>
+</ul>
+<p>guides; built by <code>scripts/build-site.py</code>).</p>
+<ul>
+<li><code>FORMATS.md</code> — why each format exists and when to use it.</li>
+<li><code>docs/*.md</code> — topic guides (kept short; this file is the comprehensive reference).</li>
+</ul>
+      <nav class="pagination-nav" aria-label="Documentation navigation"><a class="page-link prev" href="index.html"><span class="page-direction">← Previous</span><span class="page-title">Home</span></a><a class="page-link next" href="formats.html"><span class="page-direction">Next →</span><span class="page-title">Formats</span></a></nav>
+      <footer class="doc-footer"><span>Instagram Graph API Documentation · Target Meta v25.0 / v26.0</span><span>Deployed to GitHub Pages</span></footer>
+    </main>
+    <aside class="toc-sidebar" aria-label="Table of contents"><div class="toc-header">On this page</div><ul class="toc-list"><li><a class="h2" href="#contents">Contents</a></li><li><a class="h2" href="#0-how-coding-agents-should-use-this-doc">0. How coding agents should use this doc</a></li><li><a class="h2" href="#1-api-landscape-two-flavors">1. API landscape: two flavors</a></li><li><a class="h2" href="#2-concepts-and-mental-model">2. Concepts and mental model</a></li><li><a class="h2" href="#3-app-setup">3. App setup</a></li><li><a class="h3" href="#3-1-facebook-login-flavor-graph-facebook-com">3.1 Facebook Login flavor (graph.facebook.com)</a></li><li><a class="h3" href="#3-2-instagram-login-flavor-graph-instagram-com">3.2 Instagram Login flavor (graph.instagram.com)</a></li><li><a class="h3" href="#3-3-environment-checklist">3.3 Environment checklist</a></li><li><a class="h2" href="#4-authentication">4. Authentication</a></li><li><a class="h3" href="#4-1-facebook-login-flow-full">4.1 Facebook Login flow (full)</a></li><li><a class="h3" href="#4-2-instagram-login-flow-full">4.2 Instagram Login flow (full)</a></li><li><a class="h3" href="#4-3-token-storage-and-rotation-rules">4.3 Token storage and rotation rules</a></li><li><a class="h3" href="#4-4-verify-a-token-debug-token">4.4 Verify a token (debug_token)</a></li><li><a class="h2" href="#5-core-conventions">5. Core conventions</a></li><li><a class="h3" href="#5-1-auth-header-vs-query-param">5.1 Auth header vs query param</a></li><li><a class="h3" href="#5-2-field-selection-and-expansion">5.2 Field selection and expansion</a></li><li><a class="h3" href="#5-3-pagination-cursor-based">5.3 Pagination (cursor-based)</a></li><li><a class="h3" href="#5-4-timestamps">5.4 Timestamps</a></li><li><a class="h3" href="#5-5-reading-rate-limit-headers">5.5 Reading rate-limit headers</a></li><li><a class="h2" href="#6-identity-and-accounts">6. Identity and accounts</a></li><li><a class="h3" href="#6-1-get-ig-user-profile-get-ig-user-id">6.1 Get IG user profile — GET /{ig-user-id}</a></li><li><a class="h3" href="#6-2-resolve-ig-user-id-from-a-page-get-page-id">6.2 Resolve IG User ID from a Page — GET /{page-id}</a></li><li><a class="h3" href="#6-3-linked-facebook-page">6.3 Linked Facebook Page</a></li><li><a class="h2" href="#7-reading-media-feed-reels-stories-albums">7. Reading media (feed, Reels, Stories, albums)</a></li><li><a class="h3" href="#7-1-list-media-get-ig-user-id-media">7.1 List media — GET /{ig-user-id}/media</a></li><li><a class="h3" href="#7-2-get-one-media-object-get-media-id">7.2 Get one media object — GET /{media-id}</a></li><li><a class="h3" href="#7-3-carousel-children-get-media-id-children">7.3 Carousel children — GET /{media-id}/children</a></li><li><a class="h3" href="#7-4-stories-get-ig-user-id-stories-then-get-story-media-id">7.4 Stories — GET /{ig-user-id}/stories then GET /{story-media-id}</a></li><li><a class="h3" href="#7-5-oembed-public-posts-no-token">7.5 oEmbed (public posts, no token)</a></li><li><a class="h2" href="#8-publishing">8. Publishing</a></li><li><a class="h3" href="#8-1-photo-single-image">8.1 Photo (single image)</a></li><li><a class="h3" href="#8-2-reels-video-with-status-polling">8.2 Reels (video) — with status polling</a></li><li><a class="h3" href="#8-3-carousel-album">8.3 Carousel (album)</a></li><li><a class="h3" href="#8-4-stories-image-video">8.4 Stories (image/video)</a></li><li><a class="h3" href="#8-5-what-you-can-change-after-publishing">8.5 What you can change after publishing</a></li><li><a class="h3" href="#8-6-delete-published-media-facebook-login-only">8.6 Delete published media (Facebook Login only)</a></li><li><a class="h3" href="#8-7-enable-disable-comments-on-media">8.7 Enable/disable comments on media</a></li><li><a class="h3" href="#8-8-check-publishing-quota-get-ig-user-id-content-publishing-limit">8.8 Check publishing quota — GET /{ig-user-id}/content_publishing_limit</a></li><li><a class="h3" href="#8-9-agent-rules-for-publishing">8.9 Agent rules for publishing</a></li><li><a class="h2" href="#9-hashtags-and-business-discovery">9. Hashtags and Business Discovery</a></li><li><a class="h3" href="#9-1-hashtag-search-get-ig-hashtag-search">9.1 Hashtag search — GET /ig_hashtag_search</a></li><li><a class="h3" href="#9-2-top-recent-hashtag-media-get-hashtag-id-top-media-recent-media">9.2 Top / recent hashtag media — GET /{hashtag-id}/{top_media|recent_media}</a></li><li><a class="h3" href="#9-3-business-discovery-get-ig-user-id-fields-business-discovery">9.3 Business Discovery — GET /{ig-user-id}?fields=business_discovery…</a></li><li><a class="h2" href="#10-comments-and-moderation">10. Comments and moderation</a></li><li><a class="h3" href="#10-1-list-comments-get-media-id-comments">10.1 List comments — GET /{media-id}/comments</a></li><li><a class="h3" href="#10-2-reply-post-comment-id-replies">10.2 Reply — POST /{comment-id}/replies</a></li><li><a class="h3" href="#10-3-hide-unhide-post-comment-id-with-hide">10.3 Hide / unhide — POST /{comment-id} with hide</a></li><li><a class="h3" href="#10-4-delete-delete-comment-id">10.4 Delete — DELETE /{comment-id}</a></li><li><a class="h3" href="#10-5-block-unblock-a-user-moderate-conversations-api">10.5 Block / unblock a user (Moderate Conversations API)</a></li><li><a class="h3" href="#10-6-moderation-patterns-for-agents">10.6 Moderation patterns for agents</a></li><li><a class="h2" href="#11-insights-and-analytics">11. Insights and analytics</a></li><li><a class="h3" href="#11-1-account-insights-get-ig-user-id-insights">11.1 Account insights — GET /{ig-user-id}/insights</a></li><li><a class="h3" href="#11-2-media-insights-get-media-id-insights">11.2 Media insights — GET /{media-id}/insights</a></li><li><a class="h3" href="#11-3-common-metrics-verify-per-version">11.3 Common metrics (verify per version)</a></li><li><a class="h3" href="#11-4-story-insights">11.4 Story insights</a></li><li><a class="h3" href="#11-5-audience-demographic-breakdowns">11.5 Audience / demographic breakdowns</a></li><li><a class="h2" href="#12-messaging-dms">12. Messaging (DMs)</a></li><li><a class="h3" href="#12-1-the-24-hour-window">12.1 The 24-hour window</a></li><li><a class="h3" href="#12-2-send-text">12.2 Send text</a></li><li><a class="h3" href="#12-3-send-media-attachment">12.3 Send media / attachment</a></li><li><a class="h3" href="#12-4-message-tags-outside-the-window">12.4 Message tags (outside the window)</a></li><li><a class="h3" href="#12-5-conversations">12.5 Conversations</a></li><li><a class="h3" href="#12-6-agent-rules-for-messaging">12.6 Agent rules for messaging</a></li><li><a class="h2" href="#13-webhooks">13. Webhooks</a></li><li><a class="h3" href="#13-1-setup">13.1 Setup</a></li><li><a class="h3" href="#13-2-verification-get-return-hub-challenge-verbatim">13.2 Verification (GET — return hub.challenge verbatim)</a></li><li><a class="h3" href="#13-3-signature-validation-post-every-event">13.3 Signature validation (POST — every event)</a></li><li><a class="h3" href="#13-4-event-payload-catalog">13.4 Event payload catalog</a></li><li><a class="h3" href="#13-5-subscription-management">13.5 Subscription management</a></li><li><a class="h3" href="#13-6-agent-rules-for-webhooks">13.6 Agent rules for webhooks</a></li><li><a class="h2" href="#14-mentions-and-tags">14. Mentions and tags</a></li><li><a class="h3" href="#14-1-caption-mentions-get-ig-user-id-mentioned-media">14.1 Caption mentions — GET /{ig-user-id}/mentioned_media</a></li><li><a class="h3" href="#14-2-tags-get-ig-user-id-tags">14.2 Tags — GET /{ig-user-id}/tags</a></li><li><a class="h2" href="#15-errors-rate-limits-retries">15. Errors, rate limits, retries</a></li><li><a class="h3" href="#15-1-error-shape-always-the-same">15.1 Error shape (always the same)</a></li><li><a class="h3" href="#15-2-code-table-agent-action">15.2 Code table → agent action</a></li><li><a class="h3" href="#15-3-retry-policy-implement-once-use-everywhere">15.3 Retry policy (implement once, use everywhere)</a></li><li><a class="h2" href="#16-permissions-app-review-going-live">16. Permissions, App Review, going live</a></li><li><a class="h3" href="#16-1-permission-matrix-both-flavors">16.1 Permission matrix (both flavors)</a></li><li><a class="h3" href="#16-2-app-review-checklist">16.2 App Review checklist</a></li><li><a class="h3" href="#16-3-going-live">16.3 Going live</a></li><li><a class="h2" href="#17-agent-build-recipes-extend-instagram">17. Agent build recipes (extend Instagram)</a></li><li><a class="h3" href="#17-1-scheduled-post-manager">17.1 Scheduled-post manager</a></li><li><a class="h3" href="#17-2-comment-auto-moderator">17.2 Comment auto-moderator</a></li><li><a class="h3" href="#17-3-analytics-dashboard-reports">17.3 Analytics dashboard + reports</a></li><li><a class="h3" href="#17-4-ugc-repost-pipeline-rights-safe">17.4 UGC repost pipeline (rights-safe)</a></li><li><a class="h3" href="#17-5-dm-support-chatbot-human-handoff">17.5 DM support chatbot + human handoff</a></li><li><a class="h3" href="#17-6-contest-giveaway-engine">17.6 Contest / giveaway engine</a></li><li><a class="h3" href="#17-7-cross-posting-bridge">17.7 Cross-posting bridge</a></li><li><a class="h2" href="#18-faq-and-troubleshooting">18. FAQ and troubleshooting</a></li><li><a class="h2" href="#appendix-a-endpoint-quick-reference">Appendix A: Endpoint quick reference</a></li><li><a class="h2" href="#appendix-b-companion-files-in-this-bundle">Appendix B: Companion files in this bundle</a></li></ul></aside>
+  </div>
+  <script>
+// Mobile navigation toggle
+function toggleNav(force) {
+  const body = document.body;
+  const isOpen = typeof force === 'boolean' ? force : !body.classList.contains('nav-open');
+  body.classList.toggle('nav-open', isOpen);
+  const btn = document.querySelector('.mobile-toggle');
+  if (btn) btn.setAttribute('aria-expanded', String(isOpen));
+}
+
+// Close mobile navigation when clicking links
+document.querySelectorAll('aside.sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (document.body.classList.contains('nav-open')) toggleNav(false);
+  });
+});
+
+// Escape key closes mobile nav
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+    toggleNav(false);
+  }
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    const q = document.getElementById('q');
+    if (q) { q.focus(); q.select(); }
+  }
+});
+
+// Sidebar search / filter
+function filterNav() {
+  const q = (document.getElementById('q').value || '').toLowerCase().trim();
+  document.querySelectorAll('aside.sidebar .nav-list li').forEach(li => {
+    const text = li.textContent.toLowerCase();
+    li.style.display = !q || text.includes(q) ? '' : 'none';
+  });
+  // Hide empty group headers when searching
+  document.querySelectorAll('aside.sidebar .group-title').forEach(title => {
+    let next = title.nextElementSibling;
+    let anyVisible = false;
+    if (next && next.classList.contains('nav-list')) {
+      next.querySelectorAll('li').forEach(li => {
+        if (li.style.display !== 'none') anyVisible = true;
+      });
+      title.style.display = anyVisible ? '' : 'none';
+      next.style.display = anyVisible ? '' : 'none';
+    }
+  });
+}
+
+// Dark / Light Mode Toggle
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+initTheme();
+
+// Copy Code Button
+function copyCode(btn) {
+  const block = btn.closest('.code-block');
+  const code = block ? block.querySelector('pre code') : null;
+  if (!code) return;
+  const text = code.innerText || code.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Copied!</span>`;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {});
+}
+
+// Active TOC Scrollspy
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        document.querySelectorAll('aside.toc-sidebar a').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '0px 0px -70% 0px' });
+  document.querySelectorAll('h2[id], h3[id]').forEach(h => observer.observe(h));
+}
+</script>
+  <script type="module">
+import { highlightToHtml } from 'https://cdn.jsdelivr.net/npm/@tanstack/highlight@1.1.0/+esm';
+
+const LANG_MAP = {
+  bash: 'shell', sh: 'shell', zsh: 'shell', curl: 'shell', console: 'shell',
+  py: 'python', python: 'python',
+  ts: 'ts', typescript: 'ts',
+  js: 'js', javascript: 'js',
+  json: 'json', jsonc: 'json',
+  yaml: 'yaml', yml: 'yaml',
+  http: 'http', https: 'http',
+  html: 'html', xml: 'html',
+  sql: 'sql',
+  md: 'markdown', markdown: 'markdown',
+  text: 'plaintext', txt: 'plaintext'
+};
+
+function highlightAll() {
+  document.querySelectorAll('.code-block pre').forEach((pre) => {
+    if (pre.dataset.highlighted) return;
+    const code = pre.querySelector('code');
+    if (!code) return;
+    const block = pre.closest('.code-block');
+    let rawLang = (block ? block.dataset.lang : '') || '';
+    if (!rawLang) {
+      const cls = code.className || '';
+      const m = cls.match(/language-([a-zA-Z0-9_-]+)/);
+      if (m) rawLang = m[1];
+    }
+    rawLang = rawLang.toLowerCase().trim();
+    const text = code.textContent || '';
+    let targetLang = LANG_MAP[rawLang] || rawLang;
+    if (!targetLang || targetLang === 'code') {
+      if (/^(GET|POST|DELETE|PUT|PATCH|HTTP\/)\s/m.test(text)) {
+        targetLang = 'http';
+      } else {
+        targetLang = 'plaintext';
+      }
+    }
+    try {
+      const resHtml = highlightToHtml(text, { lang: targetLang });
+      if (resHtml) {
+        const temp = document.createElement('template');
+        temp.innerHTML = resHtml;
+        const newPre = temp.content.querySelector('pre');
+        if (newPre) {
+          newPre.tabIndex = 0;
+          newPre.dataset.highlighted = 'true';
+          pre.replaceWith(newPre);
+        }
+      }
+    } catch (e) {
+      console.warn('TanStack Highlight error:', targetLang, e);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', highlightAll);
+} else {
+  highlightAll();
+}
+</script>
+</body>
+</html>
