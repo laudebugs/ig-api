@@ -15,7 +15,7 @@ Follow [authentication.md](authentication.md): OAuth → short-lived user token 
 
 ## Step 2 — First request
 
-```bash title="First API request" highlight={1}
+```bash
 curl "https://graph.facebook.com/v25.0/17841400008460056?fields=id,username,media_count&access_token=EAAB..."
 ```
 

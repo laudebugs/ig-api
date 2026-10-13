@@ -77,26 +77,16 @@ Full flows with responses: [INSTAGRAM_GRAPH_API.md](INSTAGRAM_GRAPH_API.md) and 
 - `{version}` = Graph API version (e.g. `v25.0`); `{ig-user-id}`, `{media-id}`, `{comment-id}` are numeric IDs (strings in JSON).
 - All examples use placeholder tokens/IDs. Never commit real tokens.
 - Dates in examples are illustrative. This bundle was generated 2026-10-13; re-check Meta changelogs for deprecations before relying on a version/metric.
-- Regenerate derived files after editing sources: `python scripts/build-llms-full.py` and `npm ci && npm run build` (Python 3 and Node.js 20+).
+- Regenerate derived files after editing sources: `python scripts/build-llms-full.py` and `python scripts/build-site.py`.
 
 ## Deploying the site (GitHub Pages)
 
 `site/index.html` deploys automatically via [.github/workflows/pages.yml](.github/workflows/pages.yml):
-push to `main` touching the Markdown sources, site builder, highlighting modules,
-or npm manifests rebuilds the site in CI and publishes it with the official
+push to `main` touching `README.md`, `INSTAGRAM_GRAPH_API.md`, `FORMATS.md`, or
+`scripts/build-site.py` rebuilds the site in CI and publishes it with the official
 `deploy-pages` action (or run the workflow manually from the Actions tab).
 
 One-time setup: in the GitHub repo go to **Settings → Pages → Source** and select
 **GitHub Actions**. The live URL is shown on the workflow run and in the
-`github-pages` environment. To preview locally instead: `npm ci && npm run build`
+`github-pages` environment. To preview locally instead: `python scripts/build-site.py`
 and open `site/index.html`.
-
-Code highlighting uses **TanStack Highlight**, with only shell/Bash, TypeScript,
-Python, and JSON registered; unknown languages remain escaped plain text.
-The static build and browser share the same synchronous highlighter. Generated
-pages already contain highlighted code, so no JavaScript or CDN is needed to
-read them. Locally served ES modules can highlight newly inserted code blocks
-via `highlightCodeBlocks()` using `data-language` and optional `data-meta`.
-Light/dark code themes use CSS semantic classes on a single markup tree.
-Code fences can include `title="First request"`, `highlight={1,3-5}`, and
-`lineNumbers`; the shared module also accepts exact character-range decorations.
