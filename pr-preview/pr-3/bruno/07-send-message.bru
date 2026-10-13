@@ -1,0 +1,22 @@
+meta {
+  name: Send text message
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{graph_host}}/{{graph_version}}/{{page_id}}/messages
+}
+
+headers {
+  Authorization: Bearer {{access_token}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "recipient": { "id": "{{igsid}}" },
+    "messaging_type": "RESPONSE",
+    "message": { "text": "Hi! Your order ships Friday." }
+  }
+}

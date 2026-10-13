@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Webhooks — Instagram Graph API — Instagram API Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+
+  --bg: #ffffff;
+  --bg-surface: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --bg-code: #f8fafc;
+  --bg-code-header: #f1f5f9;
+  --fg: #0f172a;
+  --fg-muted: #475569;
+  --fg-subtle: #94a3b8;
+  --border: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --accent: #2563eb;
+  --accent-subtle: #eff6ff;
+  --accent-fg: #1d4ed8;
+  --header-bg: rgba(255, 255, 255, 0.88);
+  --header-border: #e2e8f0;
+  --kbd-bg: #f1f5f9;
+  --kbd-border: #cbd5e1;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* TanStack Highlight tokens (light) */
+  --th-background: #f8fafc;
+  --th-token: #1e293b;
+  --th-attr: #0369a1;
+  --th-code-inline: #0f172a;
+  --th-command: #6d28d9;
+  --th-comment: #64748b;
+  --th-deleted: #b91c1c;
+  --th-function: #2563eb;
+  --th-heading: #0f172a;
+  --th-inserted: #15803d;
+  --th-keyword: #be185d;
+  --th-link: #2563eb;
+  --th-literal: #0369a1;
+  --th-meta: #64748b;
+  --th-number: #0284c7;
+  --th-operator: #64748b;
+  --th-property: #0369a1;
+  --th-selector: #15803d;
+  --th-string: #047857;
+  --th-tag: #2563eb;
+  --th-type: #be185d;
+  --th-variable: #c2410c;
+}
+
+[data-theme="dark"] {
+  --bg: #090d16;
+  --bg-surface: #0f172a;
+  --bg-subtle: #1e293b;
+  --bg-code: #0b1120;
+  --bg-code-header: #131c31;
+  --fg: #f1f5f9;
+  --fg-muted: #94a3b8;
+  --fg-subtle: #64748b;
+  --border: #1e293b;
+  --border-subtle: #172033;
+  --accent: #3b82f6;
+  --accent-subtle: #1e293b;
+  --accent-fg: #60a5fa;
+  --header-bg: rgba(9, 13, 22, 0.88);
+  --header-border: #1e293b;
+  --kbd-bg: #1e293b;
+  --kbd-border: #334155;
+
+  /* TanStack Highlight tokens (dark) */
+  --th-background: #0b1120;
+  --th-token: #e2e8f0;
+  --th-attr: #38bdf8;
+  --th-code-inline: #f1f5f9;
+  --th-command: #c084fc;
+  --th-comment: #64748b;
+  --th-deleted: #f87171;
+  --th-function: #60a5fa;
+  --th-heading: #f1f5f9;
+  --th-inserted: #4ade80;
+  --th-keyword: #f472b6;
+  --th-link: #60a5fa;
+  --th-literal: #38bdf8;
+  --th-meta: #94a3b8;
+  --th-number: #38bdf8;
+  --th-operator: #94a3b8;
+  --th-property: #38bdf8;
+  --th-selector: #4ade80;
+  --th-string: #34d399;
+  --th-tag: #60a5fa;
+  --th-type: #f472b6;
+  --th-variable: #fb923c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #090d16;
+    --bg-surface: #0f172a;
+    --bg-subtle: #1e293b;
+    --bg-code: #0b1120;
+    --bg-code-header: #131c31;
+    --fg: #f1f5f9;
+    --fg-muted: #94a3b8;
+    --fg-subtle: #64748b;
+    --border: #1e293b;
+    --border-subtle: #172033;
+    --accent: #3b82f6;
+    --accent-subtle: #1e293b;
+    --accent-fg: #60a5fa;
+    --header-bg: rgba(9, 13, 22, 0.88);
+    --header-border: #1e293b;
+    --kbd-bg: #1e293b;
+    --kbd-border: #334155;
+
+    --th-background: #0b1120;
+    --th-token: #e2e8f0;
+    --th-attr: #38bdf8;
+    --th-code-inline: #f1f5f9;
+    --th-command: #c084fc;
+    --th-comment: #64748b;
+    --th-deleted: #f87171;
+    --th-function: #60a5fa;
+    --th-heading: #f1f5f9;
+    --th-inserted: #4ade80;
+    --th-keyword: #f472b6;
+    --th-link: #60a5fa;
+    --th-literal: #38bdf8;
+    --th-meta: #94a3b8;
+    --th-number: #38bdf8;
+    --th-operator: #94a3b8;
+    --th-property: #38bdf8;
+    --th-selector: #4ade80;
+    --th-string: #34d399;
+    --th-tag: #60a5fa;
+    --th-type: #f472b6;
+    --th-variable: #fb923c;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header */
+header.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 56px;
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--header-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+}
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.brand-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.header-nav a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background-color 0.15s;
+}
+.header-nav a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  color: var(--fg);
+  cursor: pointer;
+  line-height: 0;
+}
+.theme-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 0;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+.theme-btn:hover {
+  color: var(--fg);
+  border-color: var(--fg-muted);
+  background: var(--bg-subtle);
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 56px);
+}
+.backdrop {
+  display: none;
+}
+
+/* Sidebar */
+aside.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  padding: 1rem 0.85rem 2rem;
+  background: var(--bg);
+  scrollbar-width: thin;
+}
+aside.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+aside.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.drawer-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+.drawer-close {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  line-height: 0;
+}
+.drawer-close:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.search-icon {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-subtle);
+  pointer-events: none;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.45rem 1.8rem 0.45rem 2rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--fg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-subtle);
+}
+.search-kbd {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fg-subtle);
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.sidebar .group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  margin: 1.1rem 0 0.4rem 0.5rem;
+}
+.sidebar .nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar .nav-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.12s, background-color 0.12s;
+  margin-bottom: 1px;
+}
+.sidebar .nav-list a:hover {
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+.sidebar .nav-list a.current {
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+.sidebar .nav-list a.h3 {
+  padding-left: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--fg-subtle);
+}
+.sidebar .nav-list a.h3:hover {
+  color: var(--fg-muted);
+}
+.badge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  background: var(--bg-subtle);
+  color: var(--fg-subtle);
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+/* Main Content */
+main.content {
+  flex: 1 1 0;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.25rem 3rem 4rem;
+  min-width: 0;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+  margin-bottom: 1rem;
+}
+.breadcrumbs a {
+  color: var(--fg-subtle);
+  text-decoration: none;
+}
+.breadcrumbs a:hover {
+  color: var(--accent);
+}
+.breadcrumbs span.sep {
+  color: var(--border);
+}
+
+/* Typography */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0 0 1rem;
+  color: var(--fg);
+}
+h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  margin: 2.5rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 1.75rem 0 0.5rem;
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.35rem;
+  color: var(--fg);
+  scroll-margin-top: 5rem;
+}
+p {
+  margin: 0 0 1rem;
+  color: var(--fg);
+  line-height: 1.68;
+}
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--accent-fg);
+  text-decoration: underline;
+}
+
+.header-anchor {
+  float: left;
+  margin-left: -0.9em;
+  padding-right: 0.25em;
+  color: var(--fg-subtle);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  font-weight: 400;
+  user-select: none;
+}
+h1:hover .header-anchor,
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+  opacity: 0.6;
+}
+.header-anchor:hover {
+  opacity: 1 !important;
+  color: var(--accent) !important;
+  text-decoration: none !important;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin: 0 0 1.25rem;
+}
+li {
+  margin-bottom: 0.35rem;
+}
+li::marker {
+  color: var(--fg-subtle);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--bg-surface);
+  margin: 1.25rem 0;
+  padding: 0.85rem 1.15rem;
+  color: var(--fg-muted);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 0.92rem;
+}
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+:not(pre) > code {
+  background: var(--bg-subtle);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.38em;
+  word-break: break-word;
+}
+
+/* Code Blocks */
+.code-block {
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-code);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.85rem;
+  background: var(--bg-code-header);
+  border-bottom: 1px solid var(--border);
+}
+.code-lang {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.copy-btn:hover {
+  background: var(--bg-surface);
+  color: var(--fg);
+  border-color: var(--border);
+}
+.copy-btn.copied {
+  color: #16a34a;
+}
+pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: var(--bg-code);
+  color: var(--fg);
+  -webkit-overflow-scrolling: touch;
+}
+pre code {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* TanStack Highlight tokens */
+pre.th-code {
+  background: var(--th-background);
+  color: var(--th-token);
+}
+.th-token { color: var(--th-token); }
+.th-attr { color: var(--th-attr); }
+.th-code-inline { color: var(--th-code-inline); }
+.th-command { color: var(--th-command); font-weight: 500; }
+.th-comment { color: var(--th-comment); font-style: italic; }
+.th-deleted { color: var(--th-deleted); }
+.th-function { color: var(--th-function); }
+.th-heading { color: var(--th-heading); }
+.th-inserted { color: var(--th-inserted); }
+.th-keyword { color: var(--th-keyword); font-weight: 500; }
+.th-link { color: var(--th-link); }
+.th-literal { color: var(--th-literal); }
+.th-meta { color: var(--th-meta); }
+.th-number { color: var(--th-number); }
+.th-operator { color: var(--th-operator); }
+.th-property { color: var(--th-property); }
+.th-selector { color: var(--th-selector); }
+.th-string { color: var(--th-string); }
+.th-tag { color: var(--th-tag); }
+.th-type { color: var(--th-type); }
+.th-variable { color: var(--th-variable); }
+
+/* Tables */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+  font-size: 0.88rem;
+  text-align: left;
+}
+th {
+  background: var(--bg-surface);
+  color: var(--fg);
+  font-weight: 600;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+th:last-child {
+  border-right: none;
+}
+td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--fg);
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+td:last-child {
+  border-right: none;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: var(--bg-surface);
+}
+
+/* Pagination */
+.pagination-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.page-link {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.page-link:hover {
+  border-color: var(--accent);
+  background: var(--bg-surface);
+  text-decoration: none;
+}
+.page-link.next {
+  text-align: right;
+  grid-column: 2;
+}
+.page-link.prev {
+  grid-column: 1;
+}
+.page-direction {
+  font-size: 0.75rem;
+  color: var(--fg-subtle);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+.page-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Right TOC Rail (Desktop) */
+aside.toc-sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: 2.25rem 1rem 2rem 0.5rem;
+  font-size: 0.82rem;
+}
+.toc-header {
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-subtle);
+  margin-bottom: 0.6rem;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--border);
+}
+.toc-list a {
+  display: block;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 0.25rem 0 0.25rem 0.85rem;
+  line-height: 1.45;
+  margin-left: -1px;
+  border-left: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-list a:hover {
+  color: var(--fg);
+  border-left-color: var(--fg-subtle);
+}
+.toc-list a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.toc-list a.h3 {
+  padding-left: 1.5rem;
+  font-size: 0.78rem;
+}
+
+/* Footer */
+footer.doc-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--fg-subtle);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Responsive & Mobile */
+@media (max-width: 1240px) {
+  aside.toc-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .mobile-toggle {
+    display: inline-flex;
+  }
+  .header-nav {
+    display: none;
+  }
+  .drawer-header {
+    display: flex;
+  }
+  aside.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 85vw;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none;
+    border-right: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  body.nav-open aside.sidebar {
+    transform: translateX(0);
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
+  }
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  body.nav-open .backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.nav-open {
+    overflow: hidden;
+  }
+  main.content {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+  h1 {
+    font-size: 1.65rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+  }
+  .pagination-nav {
+    grid-template-columns: 1fr;
+  }
+  .page-link.next {
+    grid-column: 1;
+  }
+}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <button class="mobile-toggle" aria-label="Toggle navigation menu" onclick="toggleNav()" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a class="brand" href="../index.html">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>Instagram API</span>
+        <span class="brand-badge">Docs</span>
+      </a>
+    </div>
+    <div class="header-right">
+      <nav class="header-nav">
+        <a href="../api-reference.html">API Reference</a>
+        <a href="../formats.html">Formats</a>
+        <a href="../openapi.yaml" target="_blank">OpenAPI</a>
+        <a href="../llms.txt" target="_blank">llms.txt</a>
+        <a href="https://github.com/laudebugs/ig-api" target="_blank" rel="noopener" aria-label="GitHub repository">GitHub</a>
+      </nav>
+      <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle dark mode" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+    </div>
+  </header>
+  <div class="backdrop" onclick="toggleNav(false)"></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="drawer-header"><div class="drawer-title">Navigation</div><button class="drawer-close" aria-label="Close navigation" onclick="toggleNav(false)" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="search-box"><svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="q" type="search" placeholder="Filter sections…" oninput="filterNav()" aria-label="Filter navigation"><span class="search-kbd">/</span></div><div class="group-title">Overview</div><ul class="nav-list"><li><a href="../index.html">Home</a></li><li><a href="../api-reference.html">API Reference</a></li><li><a href="../formats.html">Formats</a></li></ul><div class="group-title">Guides</div><ul class="nav-list"><li><a href="getting-started.html">Getting Started</a></li><li><a href="authentication.html">Authentication</a></li><li><a href="media-publishing.html">Media Publishing</a></li><li><a href="insights.html">Insights</a></li><li><a href="comments-moderation.html">Comments &amp; Moderation</a></li><li><a href="messaging.html">Messaging</a></li><li><a href="webhooks.html" class="current">Webhooks</a></li><li><a href="errors-and-rate-limits.html">Errors &amp; Rate Limits</a></li><li><a href="faq.html">FAQ</a></li></ul><div class="group-title">Resources</div><ul class="nav-list"><li><a href="../openapi.yaml" target="_blank" rel="noopener">OpenAPI Spec (3.1)<span class="badge-tag">contract</span></a></li><li><a href="../types/instagram-graph.d.ts" target="_blank" rel="noopener">TypeScript Types<span class="badge-tag">types</span></a></li><li><a href="../llms.txt" target="_blank" rel="noopener">llms.txt (Fast Index)<span class="badge-tag">llm</span></a></li><li><a href="../llms-full.txt" target="_blank" rel="noopener">llms-full.txt (Full Bundle)<span class="badge-tag">llm</span></a></li><li><a href="../data/chunks.jsonl" target="_blank" rel="noopener">RAG Chunks (JSONL)<span class="badge-tag">data</span></a></li><li><a href="../examples/" target="_blank" rel="noopener">Code Examples<span class="badge-tag">code</span></a></li><li><a href="../bruno/" target="_blank" rel="noopener">Bruno Collection<span class="badge-tag">api</span></a></li><li><a href="../postman/" target="_blank" rel="noopener">Postman Collection<span class="badge-tag">api</span></a></li></ul><div class="group-title on-this-page-sidebar">On This Page</div><ul class="nav-list on-this-page-list"><li><a class="h2" href="#setup">Setup</a></li><li><a class="h2" href="#verification-get">Verification (GET)</a></li><li><a class="h2" href="#events-post">Events (POST)</a></li><li><a class="h2" href="#agent-rules">Agent rules</a></li></ul>
+    </aside>
+    <main class="content">
+      <div class="breadcrumbs"><a href="../index.html">Docs</a><span class="sep">/</span><span>Guides</span><span class="sep">/</span><span>Webhooks</span></div>
+      <h1 id="webhooks-instagram-graph-api"><a class="header-anchor" href="#webhooks-instagram-graph-api" aria-label="Permalink to this section">#</a>Webhooks — Instagram Graph API</h1>
+<blockquote><p>Generated: 2026-10-13 · Base: <code>https://graph.facebook.com/v25.0</code></p></blockquote>
+<p>Webhooks push Instagram events to your HTTPS endpoint. Use them instead of polling for comments, messages, mentions, and story insights.</p>
+<h2 id="setup"><a class="header-anchor" href="#setup" aria-label="Permalink to this section">#</a>Setup</h2>
+<ul>
+<li>In your Meta app dashboard, add the Webhooks product and set a Callback URL (<code>https://your-app.example.com/webhooks/instagram</code>) and a Verify Token (a secret string you invent).</li>
+<li>Subscribe the app to the Instagram object fields you need: <code>comments</code>, <code>messages</code>, <code>messaging_postbacks</code>, <code>mentions</code>, <code>story_insights</code>, <code>live_comments</code>.</li>
+<li>Subscribe each Page/IG account: <code>POST /{page-id}/subscribed_apps?subscribed_fields=...</code> with a Page token, or use the dashboard&#x27;s per-object subscription.</li>
+</ul>
+<h2 id="verification-get"><a class="header-anchor" href="#verification-get" aria-label="Permalink to this section">#</a>Verification (GET)</h2>
+<p>Meta calls your callback with query params. Return <code>hub.challenge</code> verbatim as plain text with HTTP 200 only when the mode and token match:</p>
+<div class="code-block" data-lang="ts"><div class="code-header"><span class="code-lang">ts</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-ts">// Express-style handler
+app.get(&quot;/webhooks/instagram&quot;, (req, res) =&gt; {
+  const mode = req.query[&quot;hub.mode&quot;];
+  const token = req.query[&quot;hub.verify_token&quot;];
+  const challenge = req.query[&quot;hub.challenge&quot;];
+  if (mode === &quot;subscribe&quot; &amp;&amp; token === process.env.WEBHOOK_VERIFY_TOKEN) {
+    return res.status(200).send(challenge);
+  }
+  return res.sendStatus(403);
+});</code></pre></div>
+<h2 id="events-post"><a class="header-anchor" href="#events-post" aria-label="Permalink to this section">#</a>Events (POST)</h2>
+<p>Acknowledge with HTTP 200 immediately, then process asynchronously. Validate <code>X-Hub-Signature-256</code> against your App Secret before trusting the body.</p>
+<p>Comment event:</p>
+<div class="code-block" data-lang="json"><div class="code-header"><span class="code-lang">json</span><button class="copy-btn" type="button" aria-label="Copy code to clipboard" onclick="copyCode(this)"><svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy</span></button></div><pre tabindex="0"><code class="language-json">{
+  &quot;object&quot;: &quot;instagram&quot;,
+  &quot;entry&quot;: [{
+    &quot;id&quot;: &quot;17841400008460056&quot;,
+    &quot;time&quot;: 1720000000,
+    &quot;changes&quot;: [{
+      &quot;field&quot;: &quot;comments&quot;,
+      &quot;value&quot;: { &quot;id&quot;: &quot;178700001&quot;, &quot;text&quot;: &quot;Love this!&quot;, &quot;from&quot;: { &quot;id&quot;: &quot;98765&quot;, &quot;username&quot;: &quot;fan&quot; }, &quot;media&quot;: { &quot;id&quot;: &quot;17987654321098765&quot; } }
+    }]
+  }]
+}</code></pre></div>
+<p>Message event (entry uses <code>messaging[]</code> with <code>sender.id</code> = IGSID, <code>message.mid</code>, <code>message.text</code>) — see <a href="messaging.html">messaging.md</a>.</p>
+<h2 id="agent-rules"><a class="header-anchor" href="#agent-rules" aria-label="Permalink to this section">#</a>Agent rules</h2>
+<ul>
+<li>Respond 200 fast; heavy work goes to a queue. Non-200 responses trigger retries and duplicate events — dedupe by comment ID / message <code>mid</code>.</li>
+<li>Verify the signature header on every POST; never process unsigned bodies.</li>
+<li>Re-subscribe after token/app changes; check subscription state when events stop.</li>
+</ul>
+<p>Next: <a href="errors-and-rate-limits.html">errors-and-rate-limits.md</a> · <a href="faq.html">faq.md</a></p>
+      <nav class="pagination-nav" aria-label="Documentation navigation"><a class="page-link prev" href="messaging.html"><span class="page-direction">← Previous</span><span class="page-title">Messaging</span></a><a class="page-link next" href="errors-and-rate-limits.html"><span class="page-direction">Next →</span><span class="page-title">Errors &amp; Rate Limits</span></a></nav>
+      <footer class="doc-footer"><span>Instagram Graph API Documentation · Target Meta v25.0 / v26.0</span><span>Deployed to GitHub Pages</span></footer>
+    </main>
+    <aside class="toc-sidebar" aria-label="Table of contents"><div class="toc-header">On this page</div><ul class="toc-list"><li><a class="h2" href="#setup">Setup</a></li><li><a class="h2" href="#verification-get">Verification (GET)</a></li><li><a class="h2" href="#events-post">Events (POST)</a></li><li><a class="h2" href="#agent-rules">Agent rules</a></li></ul></aside>
+  </div>
+  <script>
+// Mobile navigation toggle
+function toggleNav(force) {
+  const body = document.body;
+  const isOpen = typeof force === 'boolean' ? force : !body.classList.contains('nav-open');
+  body.classList.toggle('nav-open', isOpen);
+  const btn = document.querySelector('.mobile-toggle');
+  if (btn) btn.setAttribute('aria-expanded', String(isOpen));
+}
+
+// Close mobile navigation when clicking links
+document.querySelectorAll('aside.sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (document.body.classList.contains('nav-open')) toggleNav(false);
+  });
+});
+
+// Escape key closes mobile nav
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+    toggleNav(false);
+  }
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    const q = document.getElementById('q');
+    if (q) { q.focus(); q.select(); }
+  }
+});
+
+// Sidebar search / filter
+function filterNav() {
+  const q = (document.getElementById('q').value || '').toLowerCase().trim();
+  document.querySelectorAll('aside.sidebar .nav-list li').forEach(li => {
+    const text = li.textContent.toLowerCase();
+    li.style.display = !q || text.includes(q) ? '' : 'none';
+  });
+  // Hide empty group headers when searching
+  document.querySelectorAll('aside.sidebar .group-title').forEach(title => {
+    let next = title.nextElementSibling;
+    let anyVisible = false;
+    if (next && next.classList.contains('nav-list')) {
+      next.querySelectorAll('li').forEach(li => {
+        if (li.style.display !== 'none') anyVisible = true;
+      });
+      title.style.display = anyVisible ? '' : 'none';
+      next.style.display = anyVisible ? '' : 'none';
+    }
+  });
+}
+
+// Dark / Light Mode Toggle
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+initTheme();
+
+// Copy Code Button
+function copyCode(btn) {
+  const block = btn.closest('.code-block');
+  const code = block ? block.querySelector('pre code') : null;
+  if (!code) return;
+  const text = code.innerText || code.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Copied!</span>`;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {});
+}
+
+// Active TOC Scrollspy
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        document.querySelectorAll('aside.toc-sidebar a').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '0px 0px -70% 0px' });
+  document.querySelectorAll('h2[id], h3[id]').forEach(h => observer.observe(h));
+}
+</script>
+  <script type="module">
+import { highlightToHtml } from 'https://cdn.jsdelivr.net/npm/@tanstack/highlight@1.1.0/+esm';
+
+const LANG_MAP = {
+  bash: 'shell', sh: 'shell', zsh: 'shell', curl: 'shell', console: 'shell',
+  py: 'python', python: 'python',
+  ts: 'ts', typescript: 'ts',
+  js: 'js', javascript: 'js',
+  json: 'json', jsonc: 'json',
+  yaml: 'yaml', yml: 'yaml',
+  http: 'http', https: 'http',
+  html: 'html', xml: 'html',
+  sql: 'sql',
+  md: 'markdown', markdown: 'markdown',
+  text: 'plaintext', txt: 'plaintext'
+};
+
+function highlightAll() {
+  document.querySelectorAll('.code-block pre').forEach((pre) => {
+    if (pre.dataset.highlighted) return;
+    const code = pre.querySelector('code');
+    if (!code) return;
+    const block = pre.closest('.code-block');
+    let rawLang = (block ? block.dataset.lang : '') || '';
+    if (!rawLang) {
+      const cls = code.className || '';
+      const m = cls.match(/language-([a-zA-Z0-9_-]+)/);
+      if (m) rawLang = m[1];
+    }
+    rawLang = rawLang.toLowerCase().trim();
+    const text = code.textContent || '';
+    let targetLang = LANG_MAP[rawLang] || rawLang;
+    if (!targetLang || targetLang === 'code') {
+      if (/^(GET|POST|DELETE|PUT|PATCH|HTTP\/)\s/m.test(text)) {
+        targetLang = 'http';
+      } else {
+        targetLang = 'plaintext';
+      }
+    }
+    try {
+      const resHtml = highlightToHtml(text, { lang: targetLang });
+      if (resHtml) {
+        const temp = document.createElement('template');
+        temp.innerHTML = resHtml;
+        const newPre = temp.content.querySelector('pre');
+        if (newPre) {
+          newPre.tabIndex = 0;
+          newPre.dataset.highlighted = 'true';
+          pre.replaceWith(newPre);
+        }
+      }
+    } catch (e) {
+      console.warn('TanStack Highlight error:', targetLang, e);
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', highlightAll);
+} else {
+  highlightAll();
+}
+</script>
+</body>
+</html>
